@@ -351,6 +351,7 @@ def main():
     print(f"Base CH4 purity (dry): {base['ch4_purity_dry_molpct']} mol pct, "
           f"cold gas efficiency: {base['cold_gas_efficiency_pct']} pct")
     print(f"Mass balance closure: {data['scenarios']['base']['mass_balance']['closure_pct']} pct")
+    __import__("build_advisor").main([])  # rebuild data/advisor_findings.json with the pipeline
 
 
 if __name__ == "__main__":

@@ -23,6 +23,7 @@
         <li><a href="#findings">Findings</a></li>
         <li><a href="#explorer">Data</a></li>
         <li><a href="#simulator">Simulator</a></li>
+        <li><a href="#advisor">Advisor</a></li>
         <li><a href="#limits">Limits</a></li>
       </ul>
     </nav>
@@ -152,6 +153,17 @@
       </div>
     </section>
 
+    <!-- advisor -->
+    <section class="container prose-block" id="advisor" aria-labelledby="advisor-heading">
+      <h2 class="df-h2" id="advisor-heading">Evidence and recommendations <span class="kpi-range">rule-based, recomputed from the data</span></h2>
+      <div class="prose">
+        <p>These checks run on the open data every time it rebuilds. Each one shows its evidence and names its source. Some advice here is for data publishers and researchers, because that is what the evidence supports. Nothing is a pre-written answer.</p>
+      </div>
+      <div class="advisor-list" id="advisor-list" aria-live="polite">
+        <p class="chart-note" id="advisor-loading">Loading findings…</p>
+      </div>
+    </section>
+
     <!-- counterarguments -->
     <section class="container prose-block" id="limits" aria-labelledby="limits-heading">
       <h2 class="df-h2" id="limits-heading">Counterarguments and limitations</h2>
@@ -194,5 +206,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/mobility.js"></script>
+  <script src="../js/advisor-render.js"></script>
 </body>
 </html>

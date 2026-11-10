@@ -23,6 +23,7 @@
         <li><a href="#pfd">Process</a></li>
         <li><a href="#balance">Balances</a></li>
         <li><a href="#sensitivity">Scenarios</a></li>
+        <li><a href="#advisor">Advisor</a></li>
         <li><a href="#docs">Notes</a></li>
       </ul>
     </nav>
@@ -218,6 +219,17 @@
       </div>
     </section>
 
+    <!-- advisor -->
+    <section class="container prose-block" id="advisor" aria-labelledby="advisor-heading">
+      <h2 class="df-h2" id="advisor-heading">Design Improvement Advisor <span class="kpi-range">rule-based, recomputed from the model</span></h2>
+      <div class="prose">
+        <p>These checks run on the model every time it rebuilds. Each one shows its evidence and its maths. If a check finds nothing wrong, it says so. Nothing here is a pre-written answer.</p>
+      </div>
+      <div class="advisor-list" id="advisor-list" aria-live="polite">
+        <p class="chart-note" id="advisor-loading">Loading findings…</p>
+      </div>
+    </section>
+
     <!-- docs -->
     <section class="container prose-block" id="docs" aria-labelledby="docs-heading">
       <h2 class="df-h2" id="docs-heading">Assumptions and documentation</h2>
@@ -237,5 +249,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/sng.js"></script>
+  <script src="../js/advisor-render.js"></script>
 </body>
 </html>

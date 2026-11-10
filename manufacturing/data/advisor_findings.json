@@ -1,0 +1,501 @@
+{
+  "meta": {
+    "generated_at": "2026-11-10T11:52:48+00:00",
+    "method": "deterministic rule-based analysis, rules documented in docs/ADVISOR_METHODOLOGY.md",
+    "scenario_analysed": "as-run exported rows (the what-if scenario is not applied)",
+    "period": {
+      "start": "2025-11-01",
+      "end": "2026-10-31",
+      "days": 365,
+      "rows_in_record": 2190
+    },
+    "thresholds": {
+      "R1": {
+        "dominant_share_pct": 25.0,
+        "high_severity_share_pct": 40.0,
+        "reduction_pct_low": 30.0,
+        "reduction_pct_base": 40.0,
+        "reduction_pct_high": 50.0
+      },
+      "R2": {
+        "gap_points": 2.0,
+        "high_severity_gap_points": 4.0,
+        "close_pct_low": 50.0,
+        "close_pct_base": 75.0,
+        "close_pct_high": 100.0
+      },
+      "R3": {
+        "gap_points": 1.5,
+        "high_severity_gap_points": 3.0,
+        "close_pct_low": 50.0,
+        "close_pct_base": 75.0,
+        "close_pct_high": 100.0
+      },
+      "R4": {
+        "programme_start": "2026-07-01",
+        "meaningful_reduction_pct": 15.0,
+        "z_score_floor": 2.0,
+        "sustain_pct_low": 50.0,
+        "sustain_pct_base": 75.0,
+        "sustain_pct_high": 100.0
+      },
+      "R5": {
+        "idle_kwh_per_downtime_h_floor": 5.0,
+        "t_stat_floor": 2.0,
+        "high_severity_share_of_total_pct": 2.0,
+        "avoidable_pct_low": 30.0,
+        "avoidable_pct_base": 50.0,
+        "avoidable_pct_high": 70.0
+      },
+      "R6": {
+        "excess_pp_floor": 0.3,
+        "ratio_floor": 1.1,
+        "high_severity_excess_pp": 1.0,
+        "min_rows_per_cell": 50,
+        "close_pct_low": 50.0,
+        "close_pct_base": 75.0,
+        "close_pct_high": 100.0
+      }
+    },
+    "note": "findings are computed from the data on every rebuild; with different data these findings change, including to no action justified"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "title": "Dominant downtime cause",
+      "status": "action_recommended",
+      "severity": "medium",
+      "problem": "Ranks downtime causes by lost hours (Pareto). Fires when one cause holds over 25 percent of lost hours. Micro stops with no recorded cause are excluded.",
+      "evidence": {
+        "summary": "Changeover is the biggest loss. It holds 26.8 percent of 1102.8 lost hours. The threshold is 25 percent.",
+        "details": [
+          "Changeover: 295.5 hours, 26.8 percent of lost time.",
+          "Equipment breakdown: 270.9 hours, 24.6 percent of lost time.",
+          "Cleaning: 228.8 hours, 20.7 percent of lost time.",
+          "Material shortage: 154.8 hours, 14.0 percent of lost time.",
+          "Quality stop: 152.8 hours, 13.9 percent of lost time.",
+          "579 shifts carry Changeover downtime.",
+          "Those shifts run at 965.0 units per hour on average (their own realised rates)."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "The lost hours are measured by cause. Changeover leads with 295.5 hours.",
+          "basis": "observed"
+        },
+        {
+          "cause": "Changeovers may lack standard steps and prepared kits. The data shows the hours, not the reason they are long.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "Run a focused changeover programme. Standardise the steps (SMED style). Prepare tools, materials and labels before the line stops. Time and film a few changeovers first.",
+      "expected_impact": {
+        "summary": "Cutting Changeover time by 30 to 50 percent frees 89.0 to 148.0 run hours a year. That is about 85298.0 to 142163.0 units a year, at the shifts' own rates. The base case lifts plan achievement by about 0.7 points.",
+        "calculations": [
+          {
+            "label": "Changeover hours in the record",
+            "value": 295.5,
+            "unit": "h"
+          },
+          {
+            "label": "share of all lost hours",
+            "value": 26.8,
+            "unit": "%"
+          },
+          {
+            "label": "recovered hours at base case",
+            "value": 118.0,
+            "unit": "h/yr"
+          },
+          {
+            "label": "extra units at base case",
+            "value": 113730.0,
+            "unit": "units/yr"
+          },
+          {
+            "label": "plan achievement gain at base case",
+            "value": 0.7,
+            "unit": "points"
+          }
+        ],
+        "assumptions": [
+          "Each affected shift restarts at its own measured speed (realised rate).",
+          "A 30 to 50 percent cut is assumed, not measured.",
+          "The period analysed repeats itself over a full year."
+        ],
+        "sensitivity": {
+          "low": 85298.0,
+          "base": 113730.0,
+          "high": 142163.0,
+          "unit": "units/yr",
+          "description": "Changeover time cut by 30 percent (low), 40 percent (base) and 50 percent (high)."
+        }
+      },
+      "tradeoffs": "Faster changeovers or repairs must not skip cleaning, checks or safety steps. Cutting corners moves the loss into quality.",
+      "quality_gate": {
+        "check": "Extra output is counted at each shift's own quality rate. The quality rate is not assumed to survive faster working.",
+        "outcome": "conditional",
+        "note": "Track the reject rate through the first weeks of the programme. Stop and review if rejects rise."
+      },
+      "validation_required": [
+        "Time and film several of the affected stops to map the steps.",
+        "Track reject rates while the new method beds in."
+      ]
+    },
+    {
+      "id": "R2",
+      "title": "Worst line availability gap",
+      "status": "no_action_justified",
+      "severity": null,
+      "problem": "Compares each line's availability with the best line on the same dates and shifts. Fires when a line trails by more than 2 percentage points. One-off crash weeks are reported separately from the chronic gap.",
+      "evidence": {
+        "summary": "No line trails the best by more than 2 points. Line C leads at 94.16 percent. Line B trails most, by 1.96 points. Set the one-off worst week aside and the chronic gap is 0.87 points.",
+        "details": [
+          "Every line ran the same dates and shifts, so the period mix is identical.",
+          "Line A: availability 93.23 percent.",
+          "Line B: availability 92.2 percent.",
+          "Line C: availability 94.16 percent.",
+          "Widest gap: Line B trails Line C by 1.96 points over the full period.",
+          "Line B's worst week is 2026-03-09/2026-03-15 (67.0 downtime hours). With that week set aside the chronic gap is 0.87 points."
+        ]
+      },
+      "possible_causes": [],
+      "recommendation": "No line-closing programme justified by this check. Keep watching the gap monthly, with crash weeks shown separately.",
+      "expected_impact": null,
+      "tradeoffs": null,
+      "quality_gate": null,
+      "validation_required": []
+    },
+    {
+      "id": "R3",
+      "title": "Day against night shift performance",
+      "status": "action_recommended",
+      "severity": "medium",
+      "problem": "Compares running speed (performance) between day and night shifts. The mix of lines and products is matched first (mix adjusted). Fires when the adjusted gap passes 1.5 percentage points.",
+      "evidence": {
+        "summary": "Night runs 2.07 points slower than day after mix adjustment. The raw gap is 2.06 points, so mix explains little of it. Night is slower in 6 of 6 cells.",
+        "details": [
+          "Raw gap: day runs 2.06 points faster than night, before mix adjustment.",
+          "Mix-adjusted gap: 2.07 points, weighted across 6 line and product cells present on both shifts.",
+          "Line A Premium: day minus night performance gap 2.97 points.",
+          "Line A Standard: day minus night performance gap 2.55 points.",
+          "Line B Premium: day minus night performance gap 2.52 points.",
+          "Line B Standard: day minus night performance gap 1.29 points.",
+          "Line C Premium: day minus night performance gap 2.27 points.",
+          "Line C Standard: day minus night performance gap 1.46 points.",
+          "Quality today: day 97.07 percent, night 97.07 percent."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "The gap survives mix adjustment and shows in 6 of 6 cells. It is a shift effect, not a product effect.",
+          "basis": "observed"
+        },
+        {
+          "cause": "Night staffing levels may be thinner. A hypothesis to check on site.",
+          "basis": "hypothesis"
+        },
+        {
+          "cause": "Supervision and support cover may be lighter at night. A hypothesis to check.",
+          "basis": "hypothesis"
+        },
+        {
+          "cause": "Training and experience may differ across crews. A hypothesis to check.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "Do not change staffing on this data alone. Observe night shifts directly (time and motion study). Compare crewing, supervision and call-out support against day shifts. Act on what the observation shows.",
+      "expected_impact": {
+        "summary": "Closing half to all of the adjusted gap adds about 85107.0 to 170215.0 units a year. Computed per cell from the night shifts' own run hours and nameplate rates.",
+        "calculations": [
+          {
+            "label": "raw day-to-night gap",
+            "value": 2.06,
+            "unit": "points"
+          },
+          {
+            "label": "mix-adjusted gap",
+            "value": 2.07,
+            "unit": "points"
+          },
+          {
+            "label": "extra units at base case",
+            "value": 127661.0,
+            "unit": "units/yr"
+          }
+        ],
+        "assumptions": [
+          "Only cells where day is faster contribute. Cells where night is faster are left alone.",
+          "Night lifts towards day speed at an unchanged quality rate; the gate below tests that.",
+          "The period analysed repeats itself over a full year."
+        ],
+        "sensitivity": {
+          "low": 85107.0,
+          "base": 127661.0,
+          "high": 170215.0,
+          "unit": "units/yr",
+          "description": "Adjusted gap closed by 50 percent (low), 75 percent (base) and 100 percent (high)."
+        }
+      },
+      "tradeoffs": "Pushing night crews to run faster without fixing the real cause risks fatigue, mistakes and rejects.",
+      "quality_gate": {
+        "check": "Night quality is 97.07 percent today against 97.07 on days. Quality at the higher speed must be measured, not assumed.",
+        "outcome": "conditional",
+        "note": "Any night speed trial must track rejects shift by shift."
+      },
+      "validation_required": [
+        "Time and motion observation on night shifts. Observation, not assumption.",
+        "Crewing, supervision and call-out records for both shifts."
+      ]
+    },
+    {
+      "id": "R4",
+      "title": "Maintenance programme check (before and after 2026-07-01)",
+      "status": "action_recommended",
+      "severity": "low",
+      "problem": "Checks whether breakdown downtime fell after the 2026-07-01 maintenance programme start. Compares breakdown hours per shift before and after, per line. Recommends extending only if the fall is clear.",
+      "evidence": {
+        "summary": "Breakdown time per shift fell 37.6 percent after 2026-07-01. The one-off crash week is set aside. The fall is clear of noise (z = 3.61). There is no control group, so the cause is likely but not proven.",
+        "details": [
+          "Line A: breakdown time 0.1 h per shift before, 0.072 h after. Totals: 48.4 h then 17.6 h.",
+          "Line B: breakdown time 0.269 h per shift before, 0.084 h after. Totals: 130.0 h then 20.6 h.",
+          "Line C: breakdown time 0.088 h per shift before, 0.047 h after. Totals: 42.7 h then 11.6 h.",
+          "The worst breakdown week, 2026-03-09/2026-03-15, is set aside for the decision (68.7 breakdown hours). A one-off crash must not be credited to the programme.",
+          "Plant level with that week included: 0.152 h per shift before, 0.067 after.",
+          "Plant level with that week set aside: 0.108 h per shift before, 0.067 after. That is a 37.6 percent fall.",
+          "Noise check: z = 3.61 (floor 2). Materiality floor: 15 percent.",
+          "This is a before-and-after comparison only. There is no control group."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "Breakdown hours fell on every line after the programme start.",
+          "basis": "observed"
+        },
+        {
+          "cause": "The programme is the likely cause. Other changes in the same period could also contribute. No control group exists.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "Continue the maintenance programme. Extend it to the worst remaining breakdown sources. Keep logging breakdowns by line and reason so the trend can be confirmed.",
+      "expected_impact": {
+        "summary": "If the fall holds, about 67.0 breakdown hours a year stay avoided (base case). At the current realised rate that protects about 64572.0 units a year.",
+        "calculations": [
+          {
+            "label": "breakdown h per shift, before (worst week aside)",
+            "value": 0.108,
+            "unit": "h"
+          },
+          {
+            "label": "breakdown h per shift, after",
+            "value": 0.067,
+            "unit": "h"
+          },
+          {
+            "label": "observed fall",
+            "value": 37.6,
+            "unit": "%"
+          },
+          {
+            "label": "noise check",
+            "value": 3.61,
+            "unit": "z score"
+          },
+          {
+            "label": "hours avoided per year at base case",
+            "value": 67.0,
+            "unit": "h/yr"
+          }
+        ],
+        "assumptions": [
+          "The observed fall is assumed to hold. The sensitivity varies how much of it holds.",
+          "Protected run time produces at the plant's current realised rate.",
+          "No control group exists; the comparison is before and after only."
+        ],
+        "sensitivity": {
+          "low": 44.0,
+          "base": 67.0,
+          "high": 89.0,
+          "unit": "h/yr",
+          "description": "The observed fall is sustained at 50 percent (low), 75 percent (base) and 100 percent (high)."
+        }
+      },
+      "tradeoffs": "Planned maintenance itself takes line time. Its slots must be scheduled, not stolen from production unplanned.",
+      "quality_gate": {
+        "check": "Protected run time is counted at current quality rates. Normal quality tracking must confirm that.",
+        "outcome": "conditional",
+        "note": "No speed-up is involved, so the risk is low. Tracking still applies."
+      },
+      "validation_required": [
+        "A breakdown log by line, reason and duration, which this dataset does not break down.",
+        "A rerun of this check after six more months of data."
+      ]
+    },
+    {
+      "id": "R5",
+      "title": "Energy used during downtime (idle energy)",
+      "status": "action_recommended",
+      "severity": "medium",
+      "problem": "Separates energy that follows output from energy that flows during stops. Fits energy on units made and downtime hours (a two-regressor fit). Fires when the downtime term passes 5 kWh per downtime hour and is clear of noise.",
+      "evidence": {
+        "summary": "Each downtime hour draws about 21.0 kWh while nothing is made. Across 1117.0 downtime hours a year, that is about 23491.0 kWh. That is 0.42 percent of all energy.",
+        "details": [
+          "Fitted on 2190 shifts: energy = 141.9 + 0.3505 x units + 21.03 x downtime hours.",
+          "Downtime term: 21.03 kWh per downtime hour (t = 32.1, floor 2). Fit R2 = 0.998.",
+          "Units made and downtime hours move together, so the two terms are read with care. The t statistic reports how clear the downtime term is.",
+          "Total downtime in the record: 1117.0 hours.",
+          "Annual idle energy at the fitted rate: 23491.0 kWh."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "Energy rises with downtime hours even at the same output. The fit measures this.",
+          "basis": "observed"
+        },
+        {
+          "cause": "Motors, heaters or compressed air may keep running during stops. A hypothesis to check.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "Write simple idle-state shutdown steps for each line. Switch defined equipment off or to standby during stops. Start with stops longer than one hour.",
+      "expected_impact": {
+        "summary": "Avoiding 30 to 70 percent of idle energy saves about 7047.0 to 16444.0 kWh a year.",
+        "calculations": [
+          {
+            "label": "fitted idle draw",
+            "value": 21.03,
+            "unit": "kWh per downtime hour"
+          },
+          {
+            "label": "annual downtime",
+            "value": 1117.0,
+            "unit": "h/yr"
+          },
+          {
+            "label": "annual idle energy",
+            "value": 23491.0,
+            "unit": "kWh/yr"
+          },
+          {
+            "label": "saving at base case",
+            "value": 11745.0,
+            "unit": "kWh/yr"
+          },
+          {
+            "label": "idle share of all energy",
+            "value": 0.42,
+            "unit": "%"
+          }
+        ],
+        "assumptions": [
+          "The fitted downtime term reflects real idle draw; submetering must confirm which equipment.",
+          "An assumed 30 to 70 percent of it can be switched off safely.",
+          "The period analysed repeats itself over a full year."
+        ],
+        "sensitivity": {
+          "low": 7047.0,
+          "base": 11745.0,
+          "high": 16444.0,
+          "unit": "kWh/yr",
+          "description": "Idle energy avoided at 30 percent (low), 50 percent (base) and 70 percent (high)."
+        }
+      },
+      "tradeoffs": "Some equipment must stay on for safety or product protection. The shutdown list must respect that.",
+      "quality_gate": {
+        "check": "Restarting after a shutdown can scrap the first units (restart scrap). Reject rates after restarts must be measured, not assumed.",
+        "outcome": "conditional",
+        "note": "Trial the steps on one line first and count rejects on every restart."
+      },
+      "validation_required": [
+        "Submetering on one line to confirm the fitted idle draw, which this dataset does not hold.",
+        "A shutdown trial on one line with rejects counted at every restart."
+      ]
+    },
+    {
+      "id": "R6",
+      "title": "Rejection concentration by line and product",
+      "status": "action_recommended",
+      "severity": "medium",
+      "problem": "Measures the reject rate for every line and product cell. Fires when one cell sits well above the rest. Well above means at least 0.3 points higher and at least 1.1 times the rest. Cells under 50 shifts are skipped as too small.",
+      "evidence": {
+        "summary": "Line A Premium rejects 3.37 percent of units. The rest of the plant rejects 2.91 percent. The gap is 0.47 points (1.16 times the rest).",
+        "details": [
+          "Line A Premium: reject rate 3.37 percent over 124 shifts.",
+          "Line C Premium: reject rate 3.17 percent over 620 shifts.",
+          "Line C Standard: reject rate 2.94 percent over 110 shifts.",
+          "Line B Premium: reject rate 2.86 percent over 100 shifts.",
+          "Line A Standard: reject rate 2.85 percent over 606 shifts.",
+          "Line B Standard: reject rate 2.73 percent over 630 shifts.",
+          "Premium overall: 3.17 percent. Standard overall: 2.81 percent."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "Line A Premium rejects 3.37 percent against 2.91 for the rest. Measured from the rows.",
+          "basis": "observed"
+        },
+        {
+          "cause": "Premium rejects more than Standard overall (3.17 against 2.81 percent). Measured across the whole record.",
+          "basis": "observed"
+        },
+        {
+          "cause": "The product may be harder to pack right in that cell. A hypothesis to check.",
+          "basis": "hypothesis"
+        },
+        {
+          "cause": "Set-up, materials or inspection standards may differ there. A hypothesis to check.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "Run a first-pass quality investigation on Line A Premium. Compare its set-up, materials and checks against the matching cells elsewhere.",
+      "expected_impact": {
+        "summary": "Bringing that cell down to the rest rate recovers about 3639.0 good units a year. Closing half the gap recovers about 1819.0.",
+        "calculations": [
+          {
+            "label": "cell reject rate",
+            "value": 3.37,
+            "unit": "%"
+          },
+          {
+            "label": "rest-of-plant reject rate",
+            "value": 2.91,
+            "unit": "%"
+          },
+          {
+            "label": "excess",
+            "value": 0.47,
+            "unit": "points"
+          },
+          {
+            "label": "cell output in the record",
+            "value": 782151.0,
+            "unit": "units"
+          },
+          {
+            "label": "good units recovered at base case",
+            "value": 2729.0,
+            "unit": "units/yr"
+          }
+        ],
+        "assumptions": [
+          "The cell's output volume stays as recorded.",
+          "The excess over the rest-of-plant rate is removable; the investigation must show how.",
+          "The period analysed repeats itself over a full year."
+        ],
+        "sensitivity": {
+          "low": 1819.0,
+          "base": 2729.0,
+          "high": 3639.0,
+          "unit": "units/yr",
+          "description": "Excess closed by 50 percent (low), 75 percent (base) and 100 percent (high)."
+        }
+      },
+      "tradeoffs": "Tighter checks must not just move rejects into rework. They must not slow the line without need.",
+      "quality_gate": null,
+      "validation_required": [
+        "First-pass quality investigation on the flagged cell.",
+        "Reject reasons by cell. This dataset counts rejects but does not say why."
+      ]
+    }
+  ]
+}

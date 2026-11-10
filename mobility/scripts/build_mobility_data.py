@@ -694,6 +694,7 @@ def main() -> None:
     print(f"Monthly ridership rows: {len(data['ridership']['monthly'])}")
     qr = built["query_results"]
     print(f"SQL queries run: {len(qr)} ({sum(1 for k in qr if k.startswith('qc_'))} qc, all empty)")
+    __import__("sys").path.insert(0, str(Path(__file__).resolve().parent)); print(f"Advisor: wrote {__import__('build_advisor').build(built=built)}")
 
 
 if __name__ == "__main__":

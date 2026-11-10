@@ -24,6 +24,10 @@ Integrity rules this module is built around:
    hypotheses that need further measurement; every possible cause is tagged
    with its basis.
 
+All user-facing strings are written to be understood at one glance: short
+sentences, one idea each, everyday words first with the technical term in
+brackets where needed.
+
 All public functions are pure: they take dataframes and return dicts, with
 no file or network access, so the engine is easy to test and reuse.
 """
@@ -200,33 +204,33 @@ def rule_r1_process_upsets(df: pd.DataFrame) -> dict:
     n = len(clean)
 
     problem = (
-        "Checks the cleaned baseline record for contiguous episodes of "
-        f"{t['min_episode_hours']} or more hours in which hourly COD removal "
-        f"falls below {t['removal_pct_floor']:.0f} percent."
+        "The plant sometimes stops cleaning properly. We flag any stretch of "
+        f"{t['min_episode_hours']} hours or more where COD removal stays below "
+        f"{t['removal_pct_floor']:.0f} percent. We use cleaned baseline data."
     )
 
     if not episodes:
         finite = removal[~np.isnan(removal)]
         return _finding(
             id="R1",
-            title="Process upsets: episodes of low COD removal",
+            title="Treatment upsets (hours of poor COD removal)",
             status="no_action_justified",
             severity=None,
             problem=problem,
             evidence={
                 "summary": (
-                    f"No episode of {t['min_episode_hours']} or more consecutive hours below "
-                    f"{t['removal_pct_floor']:.0f} percent COD removal was found in {n} cleaned hours."
+                    f"No upset found. We checked {n} cleaned hours. No stretch of "
+                    f"{t['min_episode_hours']} hours or more fell below "
+                    f"{t['removal_pct_floor']:.0f} percent COD removal."
                 ),
                 "details": [
-                    f"Median hourly COD removal over the period: {_r(reference, 1)} percent.",
-                    f"Lowest single-hour COD removal: {_r(float(np.min(finite)), 1) if len(finite) else None} percent.",
+                    f"Typical (median) hourly COD removal: {_r(reference, 1)} percent.",
+                    f"Worst single hour: {_r(float(np.min(finite)), 1) if len(finite) else None} percent removal.",
                 ],
             },
             possible_causes=[],
             recommendation=(
-                "No action justified by this check. Keep the hourly removal check in place so "
-                "future episodes are caught early."
+                "No action needed. Keep this check running so future upsets are caught early."
             ),
             expected_impact=None,
             tradeoffs=None,
@@ -236,7 +240,6 @@ def rule_r1_process_upsets(df: pd.DataFrame) -> dict:
 
     in_episode = np.zeros(n, dtype=bool)
     details = []
-    episode_rows = []
     total_excess = 0.0
     for s, e in episodes:
         in_episode[s : e + 1] = True
@@ -247,12 +250,12 @@ def rule_r1_process_upsets(df: pd.DataFrame) -> dict:
             ((seg["effluent_cod_mgl"].to_numpy() - expected_out) * seg["influent_flow_m3h"].to_numpy() / 1000.0).sum()
         )
         total_excess += excess
-        episode_rows.append(excess)
         details.append(
-            f"{seg['timestamp'].iloc[0]} to {seg['timestamp'].iloc[-1]}: {e - s + 1} h, "
-            f"minimum COD removal {_r(float(np.nanmin(seg_removal)), 1)} percent, "
-            f"excess COD discharged {_r(excess, 1)} kg against the episode-free median removal "
-            f"of {_r(reference, 1)} percent applied to the same influent."
+            f"{seg['timestamp'].iloc[0]} to {seg['timestamp'].iloc[-1]}: {e - s + 1} h. "
+            f"Removal fell to {_r(float(np.nanmin(seg_removal)), 1)} percent at worst. "
+            f"About {_r(excess, 1)} kg of extra COD left the plant. "
+            f"That is measured against the normal (median) removal of {_r(reference, 1)} percent, "
+            "applied to the same incoming water."
         )
 
     # Observed test: was the influent unusually strong during the episodes?
@@ -263,9 +266,9 @@ def rule_r1_process_upsets(df: pd.DataFrame) -> dict:
     strength_pct = (ep_med / free_med - 1.0) * 100.0 if free_med > 0 else float("nan")
     unusually_strong = strength_pct > t["influent_strength_band_pct"]
     details.append(
-        f"Influent strength comparison: median influent COD {_r(ep_med, 0)} mg/L during episodes "
-        f"against {_r(free_med, 0)} mg/L outside them ({_r(strength_pct, 1):+} percent difference, "
-        f"band for 'unusually strong' is +{t['influent_strength_band_pct']:.0f} percent)."
+        f"Incoming strength check: median influent COD was {_r(ep_med, 0)} mg/L during upsets. "
+        f"Outside upsets it was {_r(free_med, 0)} mg/L. The difference is {_r(strength_pct, 1):+} percent. "
+        f"We only call the influent 'unusually strong' above +{t['influent_strength_band_pct']:.0f} percent."
     )
 
     severity = "high" if total_excess > t["high_severity_excess_cod_kg"] else "medium"
@@ -273,58 +276,66 @@ def rule_r1_process_upsets(df: pd.DataFrame) -> dict:
     if unusually_strong:
         strength_cause = {
             "cause": (
-                f"Influent was unusually strong during the episodes (median COD "
-                f"{_r(strength_pct, 1):+} percent against normal), so load shocks are a "
-                "plausible contributor."
+                f"The incoming water was unusually strong during the upsets "
+                f"({_r(strength_pct, 1):+} percent against normal). Load shocks are a plausible contributor."
             ),
             "basis": "observed",
         }
     else:
         strength_cause = {
             "cause": (
-                f"Influent strength does not explain the episodes: median influent COD during "
-                f"episodes was within {t['influent_strength_band_pct']:.0f} percent of normal "
-                f"({_r(ep_med, 0)} against {_r(free_med, 0)} mg/L)."
+                "The incoming water was not unusually strong during the upsets. "
+                f"Median influent COD was {_r(ep_med, 0)} against {_r(free_med, 0)} mg/L. "
+                "So stronger influent does not explain them."
             ),
             "basis": "observed",
         }
 
     return _finding(
         id="R1",
-        title="Process upsets: episodes of low COD removal",
+        title="Treatment upsets (hours of poor COD removal)",
         status="action_recommended",
         severity=severity,
         problem=problem,
         evidence={
             "summary": (
-                f"{len(episodes)} episode(s) totalling {int(in_episode.sum())} hours below "
-                f"{t['removal_pct_floor']:.0f} percent COD removal; about {_r(total_excess, 0)} kg of "
-                f"excess COD discharged compared with the episode-free median removal of "
-                f"{_r(reference, 1)} percent (severity threshold "
-                f"{t['high_severity_excess_cod_kg']:.0f} kg)."
+                f"{len(episodes)} upsets, totalling {int(in_episode.sum())} hours below "
+                f"{t['removal_pct_floor']:.0f} percent COD removal. "
+                f"About {_r(total_excess, 0)} kg of extra COD was discharged. "
+                f"That is measured against the plant's own normal removal of {_r(reference, 1)} percent. "
+                f"The high-severity threshold is {t['high_severity_excess_cod_kg']:.0f} kg."
             ),
             "details": details,
         },
         possible_causes=[
             strength_cause,
-            {"cause": "Biological stress or toxic shock to the treatment biomass.", "basis": "hypothesis"},
-            {"cause": "Aeration or mechanical equipment failure during the episode hours.", "basis": "hypothesis"},
-            {"cause": "Short-lived inhibitory compounds in the influent that COD alone cannot identify.", "basis": "hypothesis"},
+            {
+                "cause": "The treatment microbes (biomass) may have been stressed or poisoned. This needs measurement.",
+                "basis": "hypothesis",
+            },
+            {
+                "cause": "Aeration or other equipment may have failed during those hours. This needs checking.",
+                "basis": "hypothesis",
+            },
+            {
+                "cause": "Short-lived toxic compounds may have entered with the influent. COD alone cannot show this.",
+                "basis": "hypothesis",
+            },
         ],
         recommendation=(
-            "Adopt a written upset response procedure triggered when hourly COD removal stays below "
-            f"{t['removal_pct_floor']:.0f} percent for {t['min_episode_hours']} hours: verify the readings "
-            "against a grab sample, inspect aeration and dosing equipment, and log the influent source at "
-            "the time. Carry out the validation measurements below before spending on equipment changes, "
-            "because this dataset cannot separate the candidate causes."
+            "Write a simple upset response procedure. Trigger it when COD removal stays below "
+            f"{t['removal_pct_floor']:.0f} percent for {t['min_episode_hours']} hours. "
+            "Steps: confirm the readings with a hand sample. Check aeration and dosing equipment. "
+            "Note the influent source at the time. Do the measurements listed below before buying anything. "
+            "The current data cannot tell the possible causes apart."
         ),
         expected_impact=None,
         tradeoffs=None,
         quality_gate=None,
         validation_required=[
-            "Dissolved oxygen profiling in the biological stage (not in the current dataset).",
-            "Microscopy of the biomass during and after an episode (not in the current dataset).",
-            "Influent screening for inhibitory or toxic compounds (not in the current dataset).",
+            "Measure dissolved oxygen in the biological stage. The dataset has none.",
+            "Examine the biomass under a microscope during and after an upset. The dataset has none.",
+            "Screen the influent for toxic or inhibiting compounds. The dataset has none.",
         ],
     )
 
@@ -332,9 +343,9 @@ def rule_r1_process_upsets(df: pd.DataFrame) -> dict:
 # --------------------------------------------------------------------- R2
 
 _R2_RECOMMENDATIONS = {
-    "stuck": "put the instrument on a preventive maintenance and cleaning schedule and alarm on repeated identical readings",
-    "spike_above_range": "apply signal filtering (for example a rolling median) and book a calibration check",
-    "missing": "investigate data logger and connectivity faults on the channel",
+    "stuck": "add it to a maintenance and cleaning schedule, with an alarm for repeated identical readings",
+    "spike_above_range": "filter the signal (rolling median) and book a calibration check",
+    "missing": "check the data logger and cable connectivity",
     "impossible_low": "book a zero-drift and calibration check",
 }
 
@@ -401,44 +412,43 @@ def rule_r2_sensor_reliability(df: pd.DataFrame) -> dict:
             continue
         parts = ", ".join(f"{k} {v}" for k, v in c["by_type"].items() if v)
         details.append(
-            f"{c['column']}: {c['count']} flagged of {n} readings ({_r(c['rate_pct'], 3)} percent; "
-            f"threshold {t['per_column_rate_pct']} percent), by check: {parts}; worst month "
-            f"{c['worst_month']}; example timestamps: {', '.join(c['examples'])}."
+            f"{c['column']}: {c['count']} bad readings out of {n} ({_r(c['rate_pct'], 3)} percent). "
+            f"The limit is {t['per_column_rate_pct']} percent. By check: {parts}. "
+            f"Worst month: {c['worst_month']}. Examples: {', '.join(c['examples'])}."
         )
     zero_cols = [c["column"] for c in columns if c["count"] == 0]
     if zero_cols:
-        details.append(f"No flagged readings in: {', '.join(zero_cols)}.")
+        details.append(f"No bad readings in: {', '.join(zero_cols)}.")
     details.append(
-        f"Cross-check against the record's own anomaly tags: {tag_counts if tag_counts else 'no tagged rows'} "
-        f"(tags and independent plausibility checks are counted separately; a reading can trip more than one check)."
+        f"The record's own tags show: {tag_counts if tag_counts else 'no tagged rows'}. "
+        "Our checks and the tags are counted separately. One reading can trip more than one check."
     )
 
     problem = (
-        "Checks each sensor column for unreliable readings using the record's anomaly tags plus "
-        "independent plausibility checks (missing values, readings outside the plausible range, "
-        f"and runs of {t['stuck_min_run_hours']} or more identical consecutive readings). A column "
-        f"fails when more than {t['per_column_rate_pct']} percent of its readings are flagged."
+        "Sensors can give bad readings. We check each sensor column with the record's tags plus our own checks. "
+        "We look for missing values, impossible values, and identical repeats "
+        f"of {t['stuck_min_run_hours']} hours or more (stuck sensor). "
+        f"A sensor fails when over {t['per_column_rate_pct']} percent of its readings are bad."
     )
 
     if not offending:
         return _finding(
             id="R2",
-            title="Sensor reliability per instrument",
+            title="Sensor health, per instrument",
             status="no_action_justified",
             severity=None,
             problem=problem,
             evidence={
                 "summary": (
-                    f"All {len(columns)} monitored sensor columns are below the "
-                    f"{t['per_column_rate_pct']} percent flagged-reading threshold "
-                    f"({total_flagged} flagged readings in total across {n} hours)."
+                    f"All {len(columns)} sensor columns are below the {t['per_column_rate_pct']} percent limit. "
+                    f"We found {total_flagged} bad readings in total across {n} hours."
                 ),
                 "details": details,
             },
             possible_causes=[],
             recommendation=(
-                "No instrument-specific action justified. Keep the plausibility checks running and "
-                "keep routine calibration in place; flagged readings are already removed before any KPI."
+                "No sensor needs attention now. Keep the checks and routine calibration running. "
+                "Bad readings are already removed before any KPI is computed."
             ),
             expected_impact=None,
             tradeoffs=None,
@@ -450,18 +460,18 @@ def rule_r2_sensor_reliability(df: pd.DataFrame) -> dict:
     severity = "high" if worst_rate > t["high_severity_rate_pct"] else "medium"
     actions = []
     for c in offending:
-        actions.append(f"{c['column']} (dominant fault: {c['dominant']}): {_R2_RECOMMENDATIONS[c['dominant']]}")
+        actions.append(f"{c['column']} (main fault: {c['dominant']}): {_R2_RECOMMENDATIONS[c['dominant']]}")
 
     return _finding(
         id="R2",
-        title="Sensor reliability per instrument",
+        title="Sensor health, per instrument",
         status="action_recommended",
         severity=severity,
         problem=problem,
         evidence={
             "summary": (
-                f"{len(offending)} of {len(columns)} sensor columns exceed the "
-                f"{t['per_column_rate_pct']} percent flagged-reading threshold: "
+                f"{len(offending)} of {len(columns)} sensors are above the "
+                f"{t['per_column_rate_pct']} percent bad-reading limit: "
                 + ", ".join(f"{c['column']} ({_r(c['rate_pct'], 3)} percent)" for c in offending)
                 + "."
             ),
@@ -469,17 +479,20 @@ def rule_r2_sensor_reliability(df: pd.DataFrame) -> dict:
         },
         possible_causes=[
             {
-                "cause": "Fault patterns computed per column above; the dominant check type points at the failure mode.",
+                "cause": "The fault pattern is measured per sensor above. The main check type points at the failure mode.",
                 "basis": "observed",
             },
-            {"cause": "Probe fouling, cabling or logger faults; which one needs a field inspection.", "basis": "hypothesis"},
+            {
+                "cause": "The root cause could be probe fouling, cabling or the logger. A field inspection is needed.",
+                "basis": "hypothesis",
+            },
         ],
         recommendation="Per instrument: " + "; ".join(actions) + ".",
         expected_impact=None,
         tradeoffs=None,
         quality_gate=None,
         validation_required=[
-            "Field inspection and calibration records for each offending instrument.",
+            "Inspect each offending instrument in the field. Pull its calibration records.",
         ],
     )
 
@@ -504,39 +517,41 @@ def rule_r3_energy_baseload(df: pd.DataFrame) -> dict:
     share_pct = a / mean_kwh * 100.0 if mean_kwh > 0 else float("nan")
 
     problem = (
-        "Fits hourly electricity against influent flow (kWh = a + b x flow) on cleaned normal-status "
-        "hours. The intercept a is consumption that does not scale with flow (base load). The check "
-        f"fires when the base-load share a / mean(kWh) exceeds {t['baseload_share_pct']:.0f} percent."
+        "Some electricity is used no matter how much water flows. "
+        "We fit a straight line: kWh = a + b x flow. "
+        "The intercept (a) is the always-on part, called base load. "
+        f"We flag it when base load is over {t['baseload_share_pct']:.0f} percent of average hourly use."
     )
     fit_details = [
-        f"Fitted on {len(normal)} cleaned normal-status hours.",
-        f"Intercept a = {_r(a, 2)} kWh per hour; slope b = {_r(b, 4)} kWh per m3; R2 = {_r(r2, 3)}.",
-        f"Mean hourly consumption {_r(mean_kwh, 1)} kWh; base-load share {_r(share_pct, 1)} percent "
-        f"(threshold {t['baseload_share_pct']:.0f} percent).",
+        f"Fitted on {len(normal)} cleaned normal hours.",
+        f"Always-on part (intercept a): {_r(a, 2)} kWh per hour.",
+        f"Flow-linked part (slope b): {_r(b, 4)} kWh per m3. Fit quality (R2): {_r(r2, 3)}.",
+        f"Average use: {_r(mean_kwh, 1)} kWh per hour. Base-load share: {_r(share_pct, 1)} percent. "
+        f"The limit is {t['baseload_share_pct']:.0f} percent.",
     ]
 
     if not (share_pct > t["baseload_share_pct"]):
         return _finding(
             id="R3",
-            title="Energy base load (flow-independent consumption)",
+            title="Always-on electricity use (base load)",
             status="no_action_justified",
             severity=None,
             problem=problem,
             evidence={
                 "summary": (
-                    f"Base-load share is {_r(share_pct, 1)} percent of mean hourly consumption, at or below "
-                    f"the {t['baseload_share_pct']:.0f} percent threshold; consumption tracks flow "
-                    f"(R2 = {_r(r2, 3)})."
+                    f"Base load is only {_r(share_pct, 1)} percent of average hourly use. "
+                    f"The limit is {t['baseload_share_pct']:.0f} percent. "
+                    f"Electricity tracks flow well (R2 = {_r(r2, 3)})."
                 ),
                 "details": fit_details
                 + [
-                    "An intercept near or below zero is statistically indistinct from no base load on this data."
+                    "An intercept near or below zero means effectively no base load in this data."
                 ],
             },
             possible_causes=[],
             recommendation=(
-                "No base-load investigation justified by this fit. Re-run the check when new data arrives, "
-                "and submeter major drives if a finer breakdown is ever needed."
+                "No investigation needed now. Re-run this check when new data arrives. "
+                "Submeter the big drives if a finer breakdown is ever wanted."
             ),
             expected_impact=None,
             tradeoffs=None,
@@ -554,53 +569,59 @@ def rule_r3_energy_baseload(df: pd.DataFrame) -> dict:
 
     return _finding(
         id="R3",
-        title="Energy base load (flow-independent consumption)",
+        title="Always-on electricity use (base load)",
         status="action_recommended",
         severity=severity,
         problem=problem,
         evidence={
             "summary": (
-                f"Base-load share is {_r(share_pct, 1)} percent of mean hourly consumption, above the "
-                f"{t['baseload_share_pct']:.0f} percent threshold: about {_r(a, 1)} kWh every hour is "
-                "consumed regardless of flow."
+                f"Base load is {_r(share_pct, 1)} percent of average hourly use. "
+                f"The limit is {t['baseload_share_pct']:.0f} percent. "
+                f"About {_r(a, 1)} kWh is used every hour regardless of flow."
             ),
             "details": fit_details,
         },
         possible_causes=[
             {
-                "cause": "A flow-independent component of consumption exists; the fit quantifies it but cannot name the equipment.",
+                "cause": "Part of the electricity use does not change with flow. The fit measures how much. It cannot name the equipment.",
                 "basis": "observed",
             },
-            {"cause": "Aeration running at a fixed minimum regardless of load.", "basis": "hypothesis"},
-            {"cause": "Lighting, HVAC, pumps or other auxiliaries left running continuously.", "basis": "hypothesis"},
+            {
+                "cause": "Aeration may be running at a fixed minimum regardless of load. This needs checking.",
+                "basis": "hypothesis",
+            },
+            {
+                "cause": "Lighting, HVAC, pumps or other auxiliaries may run all the time. This needs a site survey.",
+                "basis": "hypothesis",
+            },
         ],
         recommendation=(
-            "Survey constant consumers (idle aeration, lighting, auxiliaries) and submeter the largest "
-            "drives to attribute the fitted base load before changing any setpoint."
+            "Survey what runs all the time: idle aeration, lighting, auxiliaries. "
+            "Submeter the biggest drives. Attribute the base load before changing any setpoint."
         ),
         expected_impact={
             "summary": (
-                f"Reducing the fitted base load of {_r(a, 1)} kWh/h by "
-                f"{t['reduction_pct_low']:.0f} to {t['reduction_pct_high']:.0f} percent would save roughly "
-                f"{_r(saved(t['reduction_pct_low']), 0)} to {_r(saved(t['reduction_pct_high']), 0)} kWh per year."
+                f"Cutting the {_r(a, 1)} kWh per hour base load by "
+                f"{t['reduction_pct_low']:.0f} to {t['reduction_pct_high']:.0f} percent saves roughly "
+                f"{_r(saved(t['reduction_pct_low']), 0)} to {_r(saved(t['reduction_pct_high']), 0)} kWh a year."
             ),
             "calculations": [
-                {"label": "fitted base load a", "value": _r(a, 2), "unit": "kWh/h"},
-                {"label": "fitted slope b", "value": _r(b, 4), "unit": "kWh/m3"},
-                {"label": "fit quality R2", "value": _r(r2, 3), "unit": "dimensionless"},
-                {"label": "base-load share of mean consumption", "value": _r(share_pct, 1), "unit": "%"},
-                {"label": "annual saving at base assumption", "value": _r(base_saving, 0), "unit": "kWh/yr"},
+                {"label": "always-on base load (intercept a)", "value": _r(a, 2), "unit": "kWh/h"},
+                {"label": "flow-linked slope (b)", "value": _r(b, 4), "unit": "kWh/m3"},
+                {"label": "fit quality (R2)", "value": _r(r2, 3), "unit": "dimensionless"},
+                {"label": "base-load share of average use", "value": _r(share_pct, 1), "unit": "%"},
+                {"label": "yearly saving, base case", "value": _r(base_saving, 0), "unit": "kWh/yr"},
                 {
-                    "label": "annual saving as share of total consumption",
+                    "label": "saving as share of yearly use",
                     "value": _r(base_saving / annual_total_kwh * 100.0, 1),
                     "unit": "%",
                 },
             ],
             "assumptions": [
-                f"An assumed {t['reduction_pct_low']:.0f} to {t['reduction_pct_high']:.0f} percent of the fitted "
-                "intercept can be removed; the achievable share is unknown until the base load is attributed.",
-                "The fitted intercept represents real equipment, not a fitting artefact; submetering must confirm this.",
-                "Period behaviour scales to 8760 hours per year.",
+                f"We assume {t['reduction_pct_low']:.0f} to {t['reduction_pct_high']:.0f} percent of the base load "
+                "can be removed. The real share is unknown until the load is attributed.",
+                "We assume the intercept is real equipment, not a fitting artefact. Submetering must confirm this.",
+                "We assume this period scales to 8760 hours a year.",
             ],
             "sensitivity": {
                 "low": _r(saved(t["reduction_pct_low"]), 0),
@@ -608,26 +629,25 @@ def rule_r3_energy_baseload(df: pd.DataFrame) -> dict:
                 "high": _r(saved(t["reduction_pct_high"]), 0),
                 "unit": "kWh/yr",
                 "description": (
-                    f"Intercept reduction of {t['reduction_pct_low']:.0f} percent (low), "
+                    f"Base-load cut of {t['reduction_pct_low']:.0f} percent (low), "
                     f"{t['reduction_pct_base']:.0f} percent (base) and {t['reduction_pct_high']:.0f} percent (high)."
                 ),
             },
         },
         tradeoffs=(
-            "Base-load cuts must not touch loads that protect the process, such as minimum aeration, "
-            "mixing or instrumentation supplies."
+            "Never cut loads that protect the process. Minimum aeration, mixing and instruments must keep running."
         ),
         quality_gate={
-            "check": "Treatment performance is assumed unaffected because only flow-independent consumers would be cut.",
+            "check": "We assume treatment is unaffected because only flow-independent equipment would be cut.",
             "outcome": "conditional",
             "note": (
-                "This is an assumption, not a verified result: before any cut, confirm the targeted "
-                "consumers play no treatment role and watch removal KPIs during a trial switch-off."
+                "This is an assumption, not a verified result. Confirm the targeted equipment plays no "
+                "treatment role. Watch the removal KPIs during a trial switch-off."
             ),
         },
         validation_required=[
-            "Submetering of blowers and major drives to attribute the fitted base load (not in the current dataset).",
-            "A supervised trial switch-off with removal KPIs monitored.",
+            "Submeter the blowers and major drives to attribute the base load. The dataset has none.",
+            "Run a supervised trial switch-off while watching the removal KPIs.",
         ],
     )
 
@@ -661,44 +681,44 @@ def rule_r4_dose_response(df: pd.DataFrame) -> dict:
     period_days = _period_days(raw)
 
     problem = (
-        "Tests, on cleaned normal-status hours, whether TSS removal responds to coagulant dose (g/m3): "
-        "correlation plus a binned comparison of removal in the top against the bottom dose quartile. "
-        f"A quartile difference below {t['quartile_removal_diff_pp']} percentage point counts as "
-        "insensitive across the observed range."
+        "We test whether more coagulant actually buys better solids removal (TSS removal). "
+        "We use cleaned normal hours. "
+        "We compare removal at the highest doses against the lowest doses (top against bottom quartile). "
+        f"A difference under {t['quartile_removal_diff_pp']} percentage point counts as no visible response."
     )
     base_details = [
-        f"Computed on {len(dose)} cleaned normal-status hours over {period_days} days.",
-        f"Dose distribution: P25 {_r(q25, 1)}, median {_r(q50, 1)}, P75 {_r(q75, 1)} g/m3.",
-        f"Correlation between dose and TSS removal: {_r(corr, 3)}.",
-        f"Mean TSS removal in top dose quartile {_r(top, 2)} percent against {_r(bottom, 2)} percent in the "
-        f"bottom quartile: difference {_r(diff_pp, 2)} percentage points "
-        f"(insensitivity threshold {t['quartile_removal_diff_pp']} percentage point).",
+        f"Computed on {len(dose)} cleaned normal hours over {period_days} days.",
+        f"Dose spread: P25 {_r(q25, 1)}, median {_r(q50, 1)}, P75 {_r(q75, 1)} g/m3.",
+        f"Link (correlation) between dose and TSS removal: {_r(corr, 3)}.",
+        f"Top dose quarter: {_r(top, 2)} percent removal. Bottom quarter: {_r(bottom, 2)} percent. "
+        f"Difference: {_r(diff_pp, 2)} percentage points. "
+        f"The limit for 'no response' is {t['quartile_removal_diff_pp']} point.",
     ]
 
     if diff_pp >= t["quartile_removal_diff_pp"]:
         return _finding(
             id="R4",
-            title="Chemical dose response (coagulant against TSS removal)",
+            title="Coagulant dose and what it buys (dose response)",
             status="no_action_justified",
             severity=None,
             problem=problem,
             evidence={
                 "summary": (
-                    f"TSS removal responds positively to dose across the observed range "
-                    f"(top-minus-bottom quartile difference {_r(diff_pp, 2)} percentage points, "
-                    f"correlation {_r(corr, 3)}), so cutting dose would be expected to cost removal."
+                    "More dose buys more removal in this data. "
+                    f"Top-minus-bottom quartile difference: {_r(diff_pp, 2)} percentage points. "
+                    f"Correlation: {_r(corr, 3)}. Cutting the dose would likely cost removal."
                 ),
                 "details": base_details,
             },
             possible_causes=[
                 {
-                    "cause": "Higher doses are associated with measurably better TSS removal in this record.",
+                    "cause": "Higher doses go with measurably better TSS removal in this record.",
                     "basis": "observed",
                 }
             ],
             recommendation=(
-                "No dose reduction justified: the data shows removal still gains from dose across the "
-                "observed range. Revisit only if the dose range or coagulant changes."
+                "No dose reduction justified. The data shows removal still gains from dose. "
+                "Revisit only if the dose range or the coagulant changes."
             ),
             expected_impact=None,
             tradeoffs=None,
@@ -719,58 +739,63 @@ def rule_r4_dose_response(df: pd.DataFrame) -> dict:
     negative_note = []
     if diff_pp <= -t["quartile_removal_diff_pp"]:
         negative_note.append(
-            "The apparent negative association between dose and removal is more plausibly confounding "
-            "(for example both tracking flow) than a causal effect; the trial below resolves it."
+            "The slight negative link is more likely a shared driver (confounding) than a real effect. "
+            "The trial below settles it."
         )
 
     return _finding(
         id="R4",
-        title="Chemical dose response (coagulant against TSS removal)",
+        title="Coagulant dose and what it buys (dose response)",
         status="conditional",
         severity="medium",
         problem=problem,
         evidence={
             "summary": (
-                f"TSS removal is insensitive to dose across the observed range "
-                f"({_r(q25, 1)} to {_r(q75, 1)} g/m3 interquartile): quartile difference "
-                f"{_r(diff_pp, 2)} percentage points, correlation {_r(corr, 3)}. The data cannot say why."
+                "Solids removal does not change with dose in this data. "
+                f"Dose range tested: {_r(q25, 1)} to {_r(q75, 1)} g/m3 (middle half). "
+                f"Quartile difference: {_r(diff_pp, 2)} percentage points. Correlation: {_r(corr, 3)}. "
+                "The data cannot say why."
             ),
             "details": base_details + negative_note,
         },
         possible_causes=[
             {
-                "cause": "Removal does not vary with dose across the doses actually used in this record.",
+                "cause": "Removal does not vary with dose across the doses actually used.",
                 "basis": "observed",
             },
             {
-                "cause": "Dosing already sits above the saturation plateau, so the top of the range is wasted.",
+                "cause": (
+                    "Dosing may already be past the point of diminishing returns (saturation plateau). "
+                    "The top of the range would then be wasted."
+                ),
                 "basis": "hypothesis",
             },
             {
-                "cause": "A real dose response exists but is hidden by noise and the narrow operating range.",
+                "cause": "A real response may be hidden by noise and the narrow dose range.",
                 "basis": "hypothesis",
             },
         ],
         recommendation=(
-            "Run a controlled stepped-dose trial FIRST (deliberate dose steps with jar tests and effluent "
-            "TSS sampling) to distinguish a plateau from noise. No dose reduction is justified today; the "
-            "impact below applies only if the trial confirms the plateau."
+            "Run a controlled stepped-dose trial first. Vary the dose on purpose. "
+            "Sample the effluent at each step (jar tests plus TSS samples). "
+            "This separates a real plateau from noise. No dose reduction is justified today. "
+            "The saving below applies only if the trial confirms the plateau."
         ),
         expected_impact={
             "summary": (
-                f"IF the trial confirms a plateau, trimming doses above the median to the median would save "
-                f"about {_r(base_saving, 0)} kg of coagulant per year, computed from the actual dose "
-                "distribution in this record."
+                "If the trial confirms a plateau: trim doses above the median down to the median. "
+                f"That saves about {_r(base_saving, 0)} kg of coagulant a year. "
+                "The figure comes from the actual dose record."
             ),
             "calculations": [
-                {"label": "median dose (trim target, base case)", "value": _r(target_base, 1), "unit": "g/m3"},
-                {"label": "annual coagulant saving at base case", "value": _r(base_saving, 0), "unit": "kg/yr"},
+                {"label": "trim target: median dose, base case", "value": _r(target_base, 1), "unit": "g/m3"},
+                {"label": "yearly coagulant saving, base case", "value": _r(base_saving, 0), "unit": "kg/yr"},
             ],
             "assumptions": [
-                "The stepped-dose trial confirms no TSS removal loss at the trimmed doses; without that, no saving exists.",
-                "Savings are computed on cleaned normal-status hours and scaled to a year by calendar days "
+                "The trial must confirm no loss of TSS removal at the trimmed doses. Without that, there is no saving.",
+                "Savings use cleaned normal hours, scaled to a year by calendar days "
                 f"(x {ANNUAL_DAYS:.0f}/{period_days}).",
-                "The influent and dose distribution of this period are representative of a full year.",
+                "We assume this period's influent and dosing represent a full year.",
             ],
             "sensitivity": {
                 "low": _r(annual_saved_kg(target_low), 0),
@@ -778,23 +803,23 @@ def rule_r4_dose_response(df: pd.DataFrame) -> dict:
                 "high": _r(annual_saved_kg(target_high), 0),
                 "unit": "kg/yr",
                 "description": (
-                    f"Trim target at the P{p_high} (low), P{p_base} (base) and P{p_low} (high) dose percentile; "
-                    "a lower trim target removes more of the dose distribution and saves more."
+                    f"Trim target at the P{p_high} (low), P{p_base} (base) and P{p_low} (high) dose percentile. "
+                    "A lower target trims more and saves more."
                 ),
             },
         },
         tradeoffs=(
-            "Cutting coagulant without trial evidence risks losing TSS removal; the whole saving is "
-            "conditional on the trial outcome."
+            "Cutting coagulant without trial evidence risks losing solids removal. "
+            "The whole saving depends on the trial outcome."
         ),
         quality_gate={
-            "check": "TSS removal must be shown unaffected at the trimmed doses in a controlled stepped-dose trial.",
+            "check": "A stepped-dose trial must show TSS removal is unaffected at the trimmed doses.",
             "outcome": "conditional",
-            "note": "This gate cannot pass on the current data; no reduction is justified today.",
+            "note": "This gate cannot pass on the current data. No reduction is justified today.",
         },
         validation_required=[
-            "Controlled stepped-dose trial with jar tests and effluent TSS sampling (not in the current dataset).",
-            "Coagulant batch quality records for the trial period.",
+            "Run the stepped-dose trial with jar tests and effluent TSS samples. The dataset has none.",
+            "Keep coagulant batch quality records for the trial period.",
         ],
     )
 
@@ -819,8 +844,9 @@ def rule_r5_ph_control(df: pd.DataFrame, upset_timestamps: set | None = None) ->
     period_days = _period_days(raw)
 
     problem = (
-        f"Counts cleaned hours with effluent pH outside {t['ph_low']} to {t['ph_high']}. Below "
-        f"{t['cleared_below_hours']} such hours over the {period_days} day period the check is cleared."
+        "Treated water should leave at a near-neutral pH. "
+        f"We count cleaned hours outside pH {t['ph_low']} to {t['ph_high']}. "
+        f"Under {t['cleared_below_hours']} such hours in {period_days} days, the check is cleared."
     )
 
     if hours < t["cleared_below_hours"]:
@@ -832,16 +858,15 @@ def rule_r5_ph_control(df: pd.DataFrame, upset_timestamps: set | None = None) ->
             problem=problem,
             evidence={
                 "summary": (
-                    f"{hours} cleaned hour(s) outside pH {t['ph_low']} to {t['ph_high']} in {len(clean)} hours, "
-                    f"below the {t['cleared_below_hours']} hour threshold."
+                    f"{hours} hour(s) outside pH {t['ph_low']} to {t['ph_high']}, out of {len(clean)} cleaned hours. "
+                    f"That is below the {t['cleared_below_hours']} hour limit."
                 ),
                 "details": [
-                    f"Observed effluent pH range on cleaned data: {_r(float(np.min(ph)), 2)} to "
-                    f"{_r(float(np.max(ph)), 2)}."
+                    f"Observed effluent pH range: {_r(float(np.min(ph)), 2)} to {_r(float(np.max(ph)), 2)}."
                 ],
             },
             possible_causes=[],
-            recommendation="No action justified: effluent pH is well controlled over the period.",
+            recommendation="No action needed. Effluent pH is well controlled over this period.",
             expected_impact=None,
             tradeoffs=None,
             quality_gate=None,
@@ -864,37 +889,40 @@ def rule_r5_ph_control(df: pd.DataFrame, upset_timestamps: set | None = None) ->
         problem=problem,
         evidence={
             "summary": (
-                f"{hours} cleaned hours outside pH {t['ph_low']} to {t['ph_high']} over {period_days} days, "
-                f"maximum excursion depth {_r(depth, 2)} pH units; {overlap} of those hours fall inside the "
-                "low COD removal episodes found by R1."
+                f"{hours} cleaned hours outside pH {t['ph_low']} to {t['ph_high']} over {period_days} days. "
+                f"Worst excursion: {_r(depth, 2)} pH units beyond the band. "
+                f"{overlap} of those hours fall inside the upsets found by R1."
             ),
             "details": [
-                f"Excursion hours: {hours} ({_r(hours / max(len(clean), 1) * 100.0, 2)} percent of cleaned hours).",
-                f"Example timestamps: {', '.join(examples)}.",
-                f"Overlap with R1 upset episodes: {overlap} hour(s) (observed from the two checks' timestamps).",
+                f"Hours outside the band: {hours} ({_r(hours / max(len(clean), 1) * 100.0, 2)} percent of cleaned hours).",
+                f"Examples: {', '.join(examples)}.",
+                f"Overlap with R1 upsets: {overlap} hour(s). This is measured from the two checks' timestamps.",
             ],
         },
         possible_causes=[
             {
                 "cause": (
-                    f"{overlap} of {hours} excursion hours coincide with low removal episodes, "
-                    "measured directly from this record."
+                    f"{overlap} of {hours} excursion hours coincide with poor removal upsets. "
+                    "Measured directly from this record."
                 ),
                 "basis": "observed",
             },
-            {"cause": "Neutralisation dosing control loop drifting or saturating.", "basis": "hypothesis"},
-            {"cause": "pH probe drift (a measurement fault rather than a process fault).", "basis": "hypothesis"},
+            {"cause": "The neutralisation dosing loop may be drifting or saturating.", "basis": "hypothesis"},
+            {
+                "cause": "The pH probe may be drifting. That would be a measurement fault, not a process fault.",
+                "basis": "hypothesis",
+            },
         ],
         recommendation=(
-            "Review the neutralisation control loop tuning and alarm on sustained excursions; verify the "
-            "probe against a calibrated handheld meter before changing dosing."
+            "Review the neutralisation control loop tuning. Alarm on sustained excursions. "
+            "Verify the probe against a calibrated handheld meter before changing dosing."
         ),
         expected_impact=None,
         tradeoffs=None,
         quality_gate=None,
         validation_required=[
-            "pH probe calibration verification against a reference instrument.",
-            "Neutralisation reagent dosing records for the excursion hours (not in the current dataset).",
+            "Check the pH probe against a reference instrument.",
+            "Pull the neutralisation reagent dosing records for the excursion hours. The dataset has none.",
         ],
     )
 
@@ -914,60 +942,61 @@ def rule_r6_data_gaps(df: pd.DataFrame) -> dict:
         (
             "Dissolved oxygen in the biological stage",
             absent("dissolved", "oxygen", "do_"),
-            "Without it, low removal episodes (R1) cannot be attributed to aeration shortfall, overload or toxicity.",
-            "Log DO in the aeration basin at 15 minute resolution alongside the hourly record.",
+            "Without it, upsets (R1) cannot be traced to aeration, overload or poisoning.",
+            "Log dissolved oxygen in the aeration basin every 15 minutes.",
         ),
         (
             "Blower and aeration power submetering",
             absent("blower", "aeration"),
-            "The energy model (R3) sees one total meter, so the largest single consumer cannot be separated or verified.",
-            "Submeter the blowers and other major drives and log them hourly.",
+            "The energy check (R3) sees one total meter. The biggest consumer cannot be separated.",
+            "Submeter the blowers and other big drives. Log them hourly.",
         ),
         (
             "Controlled dose-response trial data",
             absent("trial", "jar_test"),
-            "R4 cannot distinguish a dosing plateau from noise without deliberately varied doses.",
-            "Run a stepped-dose trial with jar tests and effluent TSS sampling across a wider dose range.",
+            "The dose check (R4) cannot tell a plateau from noise without deliberately varied doses.",
+            "Run a stepped-dose trial with jar tests across a wider dose range.",
         ),
         (
             "Design capacity and equipment ratings",
             absent("design", "capacity", "rating"),
-            "Observed loads and flows cannot be judged against design limits, so headroom and overload risk are unknown.",
+            "Loads cannot be judged against design limits. Headroom and overload risk are unknown.",
             "Record nameplate capacities and design flows next to the operating data.",
         ),
         (
             "Laboratory-verified samples",
             absent("lab_", "laboratory"),
-            "Online COD, TSS and pH readings are not cross-checked against laboratory reference values in this record.",
-            "Schedule periodic lab samples paired to timestamps so online instruments can be audited.",
+            "Online COD, TSS and pH readings are never checked against lab values here.",
+            "Take periodic lab samples paired to timestamps. Use them to audit the online instruments.",
         ),
     ]
 
-    details = [f"{name}: why it matters: {why} What to measure: {what}" for name, is_absent, why, what in gaps if is_absent]
+    details = [f"{name}. Why it matters: {why} What to measure: {what}" for name, is_absent, why, what in gaps if is_absent]
     present = [name for name, is_absent, _, _ in gaps if not is_absent]
+    n_gaps = len(details)
     if present:
         details.append(f"Already present in the dataset: {', '.join(present)}.")
 
     return _finding(
         id="R6",
-        title="Data gaps limiting the analysis",
+        title="Missing measurements (data gaps)",
         status="informational",
         severity=None,
         problem=(
-            "Lists measurements absent from the dataset that limit how far the other rules can go. "
-            "Nothing is fabricated to fill these gaps and the simulation is not extended."
+            "Some measurements are missing from this dataset. The gaps limit how far the other checks can go. "
+            "Nothing is invented to fill them, and the simulation is not extended."
         ),
         evidence={
             "summary": (
-                f"{len(details) - (1 if present else 0)} measurement gaps identified by checking the dataset's "
-                "columns; several hypotheses in R1 to R4 stay hypotheses until these are measured."
+                f"{n_gaps} measurement gaps found by checking the dataset's columns. "
+                "Several causes in R1 to R4 stay unproven until these are measured."
             ),
             "details": details,
         },
         possible_causes=[],
         recommendation=(
-            "Add the listed measurements before committing to equipment or dosing changes; they convert the "
-            "hypotheses in the other findings into testable evidence."
+            "Add these measurements before committing to equipment or dosing changes. "
+            "They turn the hypotheses in the other findings into testable evidence."
         ),
         expected_impact=None,
         tradeoffs=None,

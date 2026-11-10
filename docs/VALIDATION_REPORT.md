@@ -1,4 +1,20 @@
-# Engineering validation report - Projects 02, 03 and 04
+# Engineering validation report
+
+## Update: Improvement Advisors on all four projects (10 Nov 2026)
+
+Each project now carries a deterministic, rule-based improvement advisor. An
+independent review re-derived the evidence numbers from the raw data and model
+runs (zero mismatches), probed every engine with misleading, incomplete and
+contradictory datasets (no unsupported recommendation appeared; cleared and
+conditional outcomes occur in practice), and re-ran all suites: **235 tests
+passed, 0 failed** (EcoFlow 49, SNG 59, Manufacturing 89, Mobility 38).
+Browser checks: all advisor sections render on desktop and mobile with no
+horizontal overflow and no console errors; pre-existing dashboards unchanged.
+Known robustness limits are documented per project in the methodology docs:
+pathological inputs (impossible plants, missing columns, fractions above one)
+fail loudly at build time rather than producing quiet wrong advice.
+
+# Earlier report - Projects 02, 03 and 04
 
 Date: 10 Nov 2026. Environment: Windows 11, Python 3.10 (pandas 2.3.3, numpy 2.2.6,
 pyarrow, pytest 9.1.1), site served with `python -m http.server`, browser checks in

@@ -407,6 +407,7 @@ def main():
               f"({entry['pct']}%, cumulative {entry['cum_pct']}%)")
     print(f"Database size: {summary['db_bytes']} bytes")
     print(f"JSON size: {summary['json_bytes']} bytes")
+    import build_advisor; build_advisor.main([])  # noqa: E702  (advisor findings rebuild with the pipeline)
 
 
 if __name__ == "__main__":

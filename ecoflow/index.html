@@ -140,7 +140,7 @@
     <section class="container prose-block" id="advisor" aria-labelledby="advisor-heading">
       <h2 class="df-h2" id="advisor-heading">Engineering Improvement Advisor <span class="kpi-range">rule-based, recomputed from the data</span></h2>
       <div class="prose">
-        <p>The advisor below is a set of deterministic engineering rules that run over the plant data on every rebuild. Each check either finds a problem with its evidence, finds nothing and says so, or finds something the data alone cannot settle and asks for a trial. Nothing here is a pre-written answer: regenerate the data differently and the findings change, including to "no action justified". Every threshold and formula is documented in <code>ecoflow/docs/ADVISOR_METHODOLOGY.md</code>.</p>
+        <p>These checks run on the plant data every time it rebuilds. Each one shows its evidence. Some find a problem. Some find nothing wrong, and say so. Some need a trial before anyone acts. Nothing here is a pre-written answer. Every rule and threshold is documented in <code>ecoflow/docs/ADVISOR_METHODOLOGY.md</code>.</p>
       </div>
       <div class="advisor-list" id="advisor-list" aria-live="polite">
         <p class="chart-note" id="advisor-loading">Loading findings…</p>

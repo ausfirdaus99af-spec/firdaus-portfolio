@@ -1,7 +1,9 @@
 # Release 2 readiness - Projects 02, 03 and 04
 
-State at 10 Nov 2026: built, tested and verified locally. NOT pushed or deployed;
-publication awaits explicit approval.
+State: PUBLISHED 10 Nov 2026 with owner approval (commit ccd6f7c, "Add SNG,
+manufacturing and mobility projects plus EcoFlow advisor"). All four dashboards
+verified on the live GitHub Pages site after deployment. The checklist below
+records the pre-publication state.
 
 ## What this release adds
 

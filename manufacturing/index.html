@@ -21,6 +21,7 @@
       <a class="nav-brand" href="../">← Firdaus<span class="brand-dot">.</span>Zakaria</a>
       <ul class="nav-menu nav-menu-static">
         <li><a href="#charts">Charts</a></li>
+        <li><a href="#advisor">Advisor</a></li>
         <li><a href="#scenario">What-if</a></li>
         <li><a href="#sql">SQL</a></li>
         <li><a href="#definitions">Definitions</a></li>
@@ -136,6 +137,17 @@
       </article>
     </section>
 
+    <!-- advisor -->
+    <section class="container prose-block" id="advisor" aria-labelledby="advisor-heading">
+      <h2 class="df-h2" id="advisor-heading">Operations Improvement Advisor <span class="kpi-range">rule-based, recomputed from the data</span></h2>
+      <div class="prose">
+        <p>These checks run on the production records every time they rebuild. Each one shows its evidence and its maths. If a check finds nothing wrong, it says so. Nothing here is a pre-written answer.</p>
+      </div>
+      <div class="advisor-list" id="advisor-list" aria-live="polite">
+        <p class="chart-note" id="advisor-loading">Loading findings…</p>
+      </div>
+    </section>
+
     <!-- scenario -->
     <section class="container prose-block" id="scenario" aria-labelledby="scenario-heading">
       <h2 class="df-h2" id="scenario-heading">Improvement scenario <span class="kpi-range">what-if, modelled</span></h2>
@@ -192,5 +204,6 @@ ORDER BY hours DESC;</code></pre>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/mfg.js"></script>
+  <script src="../js/advisor-render.js"></script>
 </body>
 </html>

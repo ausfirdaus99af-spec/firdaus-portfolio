@@ -1,0 +1,293 @@
+{
+  "meta": {
+    "generated_at": "2026-11-10T11:52:56+00:00",
+    "project": "KL Mobility Lab",
+    "method": "deterministic rule-based analysis, rules documented in docs/ADVISOR_METHODOLOGY.md",
+    "audience_note": "Some recommendations are addressed to data publishers and researchers rather than transport operators, because that is what the evidence supports.",
+    "od_period": {
+      "start": "2026-01-01",
+      "end": "2026-11-08",
+      "days_observed": 312
+    },
+    "ridership_months": 92,
+    "thresholds": {
+      "R1": {
+        "weekend_to_weekday_ratio_floor": 0.7
+      },
+      "R2": {
+        "top_n_destinations": 10,
+        "share_pct_floor": 25.0,
+        "high_severity_share_pct": 40.0
+      },
+      "R3": {},
+      "R4": {
+        "months_window": 12,
+        "consistently_above_pct": 100.0,
+        "baseline_year": "2019"
+      },
+      "R5": {
+        "channel_share_pct_floor": 50.0,
+        "high_severity_share_pct": 75.0,
+        "channel_column": "rakan_niaga"
+      },
+      "R6": {}
+    },
+    "note": "findings are computed from the data on every rebuild; with different data these findings change, including to no action justified"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "title": "Weekend service headroom",
+      "status": "conditional",
+      "severity": "medium",
+      "problem": "Compares average weekend rail trips with average weekday rail trips. Uses the observed 2026 day-of-week profile. The check fires when the weekend level is below 70 percent of the weekday level.",
+      "evidence": {
+        "summary": "Weekend days average 682,040 rail trips. Weekdays average 1,041,378. The weekend level is 65.5 percent of the weekday level. That is below the 70 percent threshold.",
+        "details": [
+          "Mon: 1,007,061 average daily rail trips.",
+          "Tue: 1,038,809 average daily rail trips.",
+          "Wed: 1,055,819 average daily rail trips.",
+          "Thu: 1,058,838 average daily rail trips.",
+          "Fri: 1,046,362 average daily rail trips.",
+          "Sat: 726,719 average daily rail trips.",
+          "Sun: 637,361 average daily rail trips.",
+          "The gap is an observed fact about demand, not about capacity.",
+          "Trips are counted, not people. One rider making two trips counts twice.",
+          "Source: data.gov.my ridership_headline (CC BY 4.0)."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "Weekend rail demand is about one third lower than weekday demand. This is measured from the 2026 daily record.",
+          "basis": "observed"
+        },
+        {
+          "cause": "The network may mainly serve work and school travel (a commuting-dominated network).",
+          "basis": "hypothesis"
+        },
+        {
+          "cause": "Weekend timetables or fares may hold demand down. This dataset cannot show that.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "Treat this as a research question, not a service change. Other cities have run off-peak fare and service trials. Evaluating one for KL needs cost and fare response (elasticity) data. This project does not hold that data. First step: gather weekend timetables, fare options and elasticity evidence.",
+      "expected_impact": null,
+      "tradeoffs": null,
+      "quality_gate": {
+        "check": "Any weekend trial must first show it covers its cost. That needs data this project lacks.",
+        "outcome": "conditional",
+        "note": "No trial is justified by ridership counts alone."
+      },
+      "validation_required": [
+        "Weekend timetable and delivered capacity data from the operator (not open data).",
+        "Fare elasticity estimates for Klang Valley riders (not open data).",
+        "Costs of extra weekend service (not open data)."
+      ]
+    },
+    {
+      "id": "R2",
+      "title": "Destination concentration on the rail network",
+      "status": "action_recommended",
+      "severity": "medium",
+      "problem": "Measures how concentrated rail alightings are. Takes the 10 busiest destination stations. Computes their share of all recorded alightings. The check fires above a 25 percent share.",
+      "evidence": {
+        "summary": "The top 10 destinations carry 34.5 percent of recorded alightings. That is above the 25 percent threshold. The busiest is Bukit Bintang.",
+        "details": [
+          "Bukit Bintang: 40,388 average daily alightings, 6.68 percent of the total.",
+          "KL Sentral: 26,100 average daily alightings, 4.32 percent of the total.",
+          "Tun Razak Exchange: 23,641 average daily alightings, 3.91 percent of the total.",
+          "Pasar Seni: 20,904 average daily alightings, 3.46 percent of the total.",
+          "KLCC: 20,512 average daily alightings, 3.39 percent of the total.",
+          "Maluri: 18,934 average daily alightings, 3.13 percent of the total.",
+          "Masjid Jamek: 16,909 average daily alightings, 2.8 percent of the total.",
+          "Bandar Utama: 14,375 average daily alightings, 2.38 percent of the total.",
+          "Abdullah Hukum: 13,905 average daily alightings, 2.3 percent of the total.",
+          "Ampang Park: 13,118 average daily alightings, 2.17 percent of the total.",
+          "All stations together recorded 188,708,443 trips over 312 days.",
+          "Trips are counted, not people.",
+          "Alightings at 28 stations are missing from the published file. Their trips cannot appear in destination counts. True shares may differ slightly.",
+          "Source: data.gov.my ridership_od_rapidrail_daily 2026 (CC BY 4.0)."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "A small set of mostly central stations receives a large share of trips. This is computed from the 2026 origin-destination records.",
+          "basis": "observed"
+        },
+        {
+          "cause": "Jobs and attractions probably cluster near these stations. Workplace location data would be needed to confirm this.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "Focus further study on these stations first: Bukit Bintang, KL Sentral, Tun Razak Exchange, Pasar Seni, KLCC, Maluri, Masjid Jamek, Bandar Utama, Abdullah Hukum, Ampang Park. Useful studies: last-mile access, crowding counts and interchange capacity. This evidence says where to look. It does not say which investment is right.",
+      "expected_impact": null,
+      "tradeoffs": null,
+      "quality_gate": null,
+      "validation_required": [
+        "Station-level crowding and capacity data (not open data).",
+        "Last-mile access surveys at the named stations (not open data)."
+      ]
+    },
+    {
+      "id": "R3",
+      "title": "Published data quality (for the data publisher)",
+      "status": "action_recommended",
+      "severity": "medium",
+      "problem": "Checks the published source files for quality issues. Three checks: hidden total rows, missing alighting records, and a reporting gap. This finding is addressed to the data publisher, not to transport operators. It fires when any check fails.",
+      "evidence": {
+        "summary": "3 of 3 published-data checks fail: marginal_rows, missing_destinations, reporting_gap. Every number here comes from the pipeline's reconciliation of the raw files. Anyone can rerun it and check.",
+        "details": [
+          "The OD file holds hidden 'All Stations' total rows (marginal rows).",
+          "Summing the raw file gives 566,125,329 trips.",
+          "The true station-level total is 188,708,443 trips.",
+          "A naive sum is 3.0 times too high.",
+          "Both sets of total rows reconcile exactly with the station rows.",
+          "28 stations never appear as destinations in the OD file.",
+          "Their boardings are recorded. Their alightings are not identified anywhere in the file.",
+          "Affected stations: 16 Sierra, Conlay, Cyberjaya City Centre, Cyberjaya Utara, Damansara Damai, Hospital Kuala Lumpur, Jalan Ipoh, Jinjang, Kampung Batu, Kentomen, Kepong Baru, Kuchai, Metro Prima, Persiaran KLCC, Putra Permai, Putrajaya Sentral, Raja Uda, Sentul Barat, Serdang Jaya, Serdang Raya Selatan, Serdang Raya Utara, Sri Damansara Barat, Sri Damansara Sentral, Sri Damansara Timur, Sri Delima, Taman Equine, Taman Naga Emas, UPM.",
+          "The LRT Shah Alam ridership column starts on 2026-04-01.",
+          "It is then missing for 59 of 153 days inside its own reporting span.",
+          "The gap runs from 2026-05-01 to 2026-06-28.",
+          "Source: data.gov.my ridership_od_rapidrail_daily 2026 (CC BY 4.0).",
+          "Source: data.gov.my ridership_headline (CC BY 4.0)."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "The listed issues are present in the files as published. They are reproduced on every pipeline run.",
+          "basis": "observed"
+        },
+        {
+          "cause": "The total rows are probably a publishing convenience. The file documentation does not mention them.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "For the data publisher: Publish the total rows in a separate file, or flag them clearly. Complete the missing alighting records, or state why they are absent. Document the reporting gap in the catalogue notes.",
+      "expected_impact": null,
+      "tradeoffs": null,
+      "quality_gate": null,
+      "validation_required": [
+        "Publisher confirmation of why the affected records are absent or unflagged."
+      ]
+    },
+    {
+      "id": "R4",
+      "title": "Ridership recovery against 2019",
+      "status": "conditional",
+      "severity": "medium",
+      "problem": "Tracks monthly rail trips against the same month of 2019. Uses the last 12 comparable months. The check reports when every month in the window stays above the baseline.",
+      "evidence": {
+        "summary": "Rail trips beat the 2019 same-month level in all of the last 12 months. The range is 131.9 to 153.9 percent of 2019. The average is 144.1 percent.",
+        "details": [
+          "2025-09: 26,539,567 trips, against 18,631,618 in 2019. That is 142.4 percent.",
+          "2025-10: 28,560,311 trips, against 21,429,132 in 2019. That is 133.3 percent.",
+          "2025-11: 27,620,825 trips, against 20,938,307 in 2019. That is 131.9 percent.",
+          "2025-12: 29,265,715 trips, against 21,107,563 in 2019. That is 138.7 percent.",
+          "2026-01: 29,059,678 trips, against 19,447,972 in 2019. That is 149.4 percent.",
+          "2026-02: 24,395,470 trips, against 16,154,104 in 2019. That is 151.0 percent.",
+          "2026-03: 27,462,240 trips, against 20,157,497 in 2019. That is 136.2 percent.",
+          "2026-04: 29,106,828 trips, against 20,055,305 in 2019. That is 145.1 percent.",
+          "2026-05: 27,922,061 trips, against 19,295,470 in 2019. That is 144.7 percent.",
+          "2026-06: 27,113,333 trips, against 17,619,475 in 2019. That is 153.9 percent.",
+          "2026-07: 32,341,954 trips, against 21,036,499 in 2019. That is 153.7 percent.",
+          "2026-08: 30,487,767 trips, against 20,420,797 in 2019. That is 149.3 percent.",
+          "Window: 2025-09 to 2026-08 (12 months).",
+          "Range: 131.9 to 153.9 percent of the 2019 level.",
+          "Average: 144.1 percent.",
+          "This measures rail demand only. It says nothing about car traffic.",
+          "Source: data.gov.my ridership_headline (CC BY 4.0)."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "Rail demand has outgrown pre-pandemic levels. This is computed from the published monthly series.",
+          "basis": "observed"
+        },
+        {
+          "cause": "New lines opened since 2022 likely carry part of the growth. Per-line attribution was not computed here.",
+          "basis": "hypothesis"
+        },
+        {
+          "cause": "Some growth may be people switching from cars. No open data measures that switch, so this stays unproven.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "Demand above 2019 makes capacity and reliability the next questions. No open data covers them today. The operator or ministry should publish peak load factors, delivered frequencies and delay statistics. This is a publication request, not a service change claim.",
+      "expected_impact": null,
+      "tradeoffs": null,
+      "quality_gate": {
+        "check": "Any stronger claim, such as mode shift from cars, needs road traffic data. None is open.",
+        "outcome": "conditional",
+        "note": "This finding states demand growth only."
+      },
+      "validation_required": [
+        "Published capacity and reliability monitoring data (not open today).",
+        "Road traffic counts to test any mode shift claim (not open today)."
+      ]
+    },
+    {
+      "id": "R5",
+      "title": "Car registration data limits",
+      "status": "action_recommended",
+      "severity": "high",
+      "problem": "Measures how many 2026 car registration transactions carry no usable geography. The Rakan Niaga channel is a sales channel, not a place. The check fires when its share passes 50 percent.",
+      "evidence": {
+        "summary": "The Rakan Niaga channel holds 87.3 percent of 2026 transactions (559,794 of 640,875). Those records name no state. State-level registration geography is unusable for Klang Valley analysis in 2026.",
+        "details": [
+          "Rakan Niaga: 559,794 of 640,875 transactions.",
+          "Selangor: 10,689 transactions.",
+          "Kuala Lumpur: 26,954 transactions.",
+          "All other states: 43,438 transactions.",
+          "Period: 2026-01 to 2026-09.",
+          "These are registration transactions, not vehicles in traffic.",
+          "Source: data.gov.my registration_transactions_car 2026, JPJ (CC BY 4.0)."
+        ]
+      },
+      "possible_causes": [
+        {
+          "cause": "Most 2026 transactions sit in a channel with no state attached. This is counted directly from the published file.",
+          "basis": "observed"
+        },
+        {
+          "cause": "Dealers probably moved to the partner portal for registrations. The publisher has not stated this.",
+          "basis": "hypothesis"
+        }
+      ],
+      "recommendation": "For analysts: do not use 2026 state registration counts as a traffic or demand proxy. For the publisher: publish a channel-to-state mapping, or add the buyer's state.",
+      "expected_impact": null,
+      "tradeoffs": null,
+      "quality_gate": null,
+      "validation_required": [
+        "A published channel-to-state mapping from JPJ (not open today)."
+      ]
+    },
+    {
+      "id": "R6",
+      "title": "What would settle the live-work hypothesis",
+      "status": "informational",
+      "severity": null,
+      "problem": "Lists the datasets that would let the live-work hypothesis be tested properly. Nothing here is a finding about the network. The list comes from the documented gaps in the pipeline output.",
+      "evidence": {
+        "summary": "4 missing datasets stand between this project and a real test. With open data alone the hypothesis can be explored, not settled. The gaps list in data/mobility_data.json records each one.",
+        "details": [
+          "A commuting origin-destination survey, all modes, door to door. How it would be used: It would measure home-to-work flows directly. It would test the live-work question head on.",
+          "Workplace geography: jobs counted by district. How it would be used: Paired with district population, it would measure live-work separation on both sides.",
+          "Road traffic counts and speeds as open time series. How it would be used: They would give a congestion outcome to test against. Today only TomTom headline numbers exist.",
+          "A bus origin-destination matrix and realised bus travel times. How it would be used: They would cover the non-rail public transport side of commuting.",
+          "Source: the documented gaps list in data/mobility_data.json (meta.gaps)."
+        ]
+      },
+      "possible_causes": [],
+      "recommendation": "Anyone pursuing the question should seek these datasets first. Until then, findings stay descriptive evidence, not proof.",
+      "expected_impact": null,
+      "tradeoffs": null,
+      "quality_gate": null,
+      "validation_required": [
+        "A commuting origin-destination survey, all modes, door to door.",
+        "Workplace geography: jobs counted by district.",
+        "Road traffic counts and speeds as open time series.",
+        "A bus origin-destination matrix and realised bus travel times."
+      ]
+    }
+  ]
+}

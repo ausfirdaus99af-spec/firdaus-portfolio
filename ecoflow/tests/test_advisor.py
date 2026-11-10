@@ -107,7 +107,7 @@ def test_r1_excess_cod_positive_and_summed():
     df.loc[30:35, "effluent_cod_mgl"] = df.loc[30:35, "influent_cod_mgl"] * 0.40
     finding = advisor.rule_r1_process_upsets(df)
     # Excess mass appears as a real number in the evidence text.
-    assert "excess COD discharged" in finding["evidence"]["details"][0]
+    assert "extra COD left the plant" in finding["evidence"]["details"][0]
 
 
 # ------------------------------------------------------------------- R2
@@ -156,7 +156,7 @@ def test_r3_large_intercept_fires_with_sensitivity_and_gate():
     assert finding["quality_gate"] is not None
     assert finding["quality_gate"]["outcome"] != "passes"
     # Fitted intercept is reported close to the constructed 100 kWh/h.
-    a = next(c["value"] for c in impact["calculations"] if c["label"] == "fitted base load a")
+    a = next(c["value"] for c in impact["calculations"] if c["label"] == "always-on base load (intercept a)")
     assert 90.0 < a < 110.0
 
 
