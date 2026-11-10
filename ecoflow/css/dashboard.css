@@ -1,0 +1,231 @@
+/* EcoFlow dashboard - extends the main portfolio stylesheet. */
+
+.synthetic-banner {
+  background: var(--lime);
+  color: var(--bg);
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.55rem 1.25rem;
+}
+
+.nav-menu-static { display: flex !important; position: static !important; }
+.nav .nav-brand { white-space: nowrap; }
+@media (max-width: 720px) {
+  .nav { flex-wrap: wrap; row-gap: 0.1rem; }
+  .nav-menu-static {
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: none;
+    border: none;
+    padding: 0;
+    gap: 0.2rem 1rem;
+    width: 100%;
+  }
+  .nav-menu-static a { font-size: 0.9rem; padding: 0.3rem 0; }
+}
+
+.df-hero { padding: clamp(2.2rem, 5vw, 3.8rem) 0 1rem; }
+.df-hero h1 { font-size: clamp(1.9rem, 4vw, 3rem); max-width: 22em; }
+.df-sub { color: var(--text-2); max-width: 46em; font-size: 1.05rem; }
+
+.df-h2 {
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  margin: 2.6rem 0 1.2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.kpi-range {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+}
+
+/* controls */
+.controls-row {
+  display: flex;
+  gap: 1rem 1.4rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  padding-top: 1rem;
+}
+
+.control { display: flex; flex-direction: column; gap: 0.3rem; }
+.control label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-2);
+  font-weight: 600;
+}
+.control select,
+.control input[type="date"] {
+  background: var(--bg-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.5rem 0.7rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  min-height: 42px;
+  color-scheme: dark;
+}
+.control select:focus-visible,
+.control input:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+.control-presets { flex-direction: row; gap: 0.5rem; align-items: flex-end; }
+.preset-btn, .param-btn {
+  white-space: nowrap;
+  background: var(--bg-2);
+  color: var(--text-2);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+.preset-btn:hover, .param-btn:hover { color: var(--text); border-color: var(--border); }
+.preset-btn.is-active, .param-btn.is-active {
+  background: var(--lime);
+  color: var(--bg);
+  border-color: var(--lime);
+}
+
+/* error */
+.error-box {
+  margin-top: 1.5rem;
+  background: rgba(255, 120, 90, 0.12);
+  border: 1px solid rgba(255, 140, 110, 0.5);
+  border-radius: var(--radius);
+  padding: 1rem 1.3rem;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+}
+.error-box code { color: var(--lime); }
+
+/* KPIs */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+}
+.kpi-card, .sust-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.kpi-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-2);
+  font-weight: 600;
+}
+.kpi-value {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--lime);
+}
+.kpi-unit { font-size: 0.8rem; color: var(--text-2); }
+
+/* charts */
+.charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-top: 2.2rem;
+}
+.chart-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 1.3rem 1.4rem 1.1rem;
+  min-width: 0;
+}
+.chart-wide { grid-column: 1 / -1; }
+.chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.2rem;
+}
+.chart-head h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.02rem;
+  margin: 0;
+}
+.chart-note { color: var(--text-2); font-size: 0.84rem; margin-bottom: 0.9rem; }
+.param-tabs { display: flex; gap: 0.4rem; }
+.param-btn { padding: 0.35rem 0.85rem; }
+.chart-box { position: relative; height: 320px; }
+.chart-wide .chart-box { height: 360px; }
+
+/* prose sections */
+.prose-block { max-width: var(--maxw); }
+.prose p { color: var(--text-2); max-width: 52em; }
+.prose p strong { color: var(--text); }
+
+.assumptions {
+  margin: 0.6rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--text-2);
+  max-width: 52em;
+}
+.assumptions li { margin-bottom: 0.4rem; }
+
+/* sustainability */
+.sust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+/* definitions */
+.def-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.1rem;
+}
+.def-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.3rem;
+}
+.def-card h3 {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--lime);
+  margin-bottom: 0.4rem;
+}
+.def-card p { color: var(--text-2); font-size: 0.9rem; margin: 0; }
+
+.method-link { color: var(--text-2); font-size: 0.9rem; margin-top: 1.4rem; }
+.method-link code { color: var(--lime); font-size: 0.85em; }
+
+main > .container:last-of-type { padding-bottom: 3.5rem; }
+
+@media (max-width: 860px) {
+  .charts { grid-template-columns: 1fr; }
+  .chart-box, .chart-wide .chart-box { height: 280px; }
+}

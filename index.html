@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firdaus Zakaria - Chemical Engineering Graduate</title>
+  <meta name="description" content="Portfolio of Firdaus Zakaria, a Chemical Engineering graduate from UiTM exploring process engineering, environmental solutions and data-driven improvement.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav-brand" href="#top">Firdaus<span class="brand-dot">.</span>Zakaria</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#resume">Resume</a></li>
+        <li><a class="nav-cta" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top" aria-labelledby="hero-heading">
+      <div class="hero-grid">
+        <div class="hero-art" aria-hidden="true">
+          <!-- Industrial process plant over blueprint grid, drawn as SVG -->
+          <svg viewBox="0 0 520 420" role="img" aria-label="" focusable="false" class="plant-svg">
+            <defs>
+              <pattern id="bpgrid" width="26" height="26" patternUnits="userSpaceOnUse">
+                <path d="M 26 0 L 0 0 0 26" fill="none" stroke="rgba(217,255,139,0.10)" stroke-width="1"/>
+              </pattern>
+              <pattern id="bpgrid-major" width="130" height="130" patternUnits="userSpaceOnUse">
+                <path d="M 130 0 L 0 0 0 130" fill="none" stroke="rgba(217,255,139,0.18)" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="520" height="420" fill="url(#bpgrid)"/>
+            <rect width="520" height="420" fill="url(#bpgrid-major)"/>
+            <g stroke="#D9FF8B" stroke-width="1.6" fill="none" opacity="0.95">
+              <!-- distillation column -->
+              <rect x="70" y="90" width="44" height="220" rx="20"/>
+              <line x1="70" y1="140" x2="114" y2="140"/>
+              <line x1="70" y1="180" x2="114" y2="180"/>
+              <line x1="70" y1="220" x2="114" y2="220"/>
+              <line x1="70" y1="260" x2="114" y2="260"/>
+              <!-- reactor vessel -->
+              <circle cx="220" cy="230" r="46"/>
+              <path d="M 220 184 L 220 160"/>
+              <path d="M 200 266 q 20 18 40 0"/>
+              <!-- clarifier / settling tank -->
+              <path d="M 310 250 h 120 l -14 56 h -92 z"/>
+              <line x1="370" y1="250" x2="370" y2="220"/>
+              <!-- storage tank -->
+              <rect x="400" y="110" width="66" height="86" rx="8"/>
+              <ellipse cx="433" cy="110" rx="33" ry="10"/>
+              <!-- piping -->
+              <path d="M 114 160 H 180 V 200"/>
+              <path d="M 266 230 H 310 V 250"/>
+              <path d="M 433 196 V 230 H 430"/>
+              <path d="M 92 310 V 348 H 360 V 306"/>
+              <!-- valves -->
+              <path d="M 150 152 l 12 8 l -12 8 z M 174 168 l -12 -8 l 12 -8 z"/>
+              <path d="M 286 222 l 12 8 l -12 8 z M 310 238 l -12 -8 l 12 -8 z"/>
+              <!-- stack -->
+              <path d="M 160 90 h 14 V 30 l 8 -10"/>
+              <path d="M 186 16 q 8 -6 14 2" opacity="0.6"/>
+              <path d="M 196 6 q 8 -6 14 2" opacity="0.35"/>
+              <!-- flow arrows -->
+              <path d="M 140 348 l -10 -6 v 12 z" fill="#D9FF8B"/>
+              <path d="M 250 348 l -10 -6 v 12 z" fill="#D9FF8B"/>
+            </g>
+            <g fill="rgba(217,255,139,0.55)" font-family="monospace" font-size="9">
+              <text x="60" y="340">FD-101</text>
+              <text x="196" y="296">RX-201</text>
+              <text x="330" y="322">CL-301</text>
+              <text x="404" y="214">TK-401</text>
+            </g>
+          </svg>
+        </div>
+        <div class="hero-copy">
+          <p class="hero-eyebrow">Chemical Engineering · UiTM</p>
+          <h1 id="hero-heading">Engineering a more <em>sustainable</em> future.</h1>
+          <p class="hero-sub">Chemical Engineering graduate exploring process engineering, environmental solutions, and data-driven improvement.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="ecoflow/">View featured project</a>
+            <a class="btn btn-ghost" href="#contact">Get in touch</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-strip" aria-hidden="true">
+        <span>Wastewater analytics</span><span class="strip-dot"></span>
+        <span>Process monitoring</span><span class="strip-dot"></span>
+        <span>Environmental engineering</span><span class="strip-dot"></span>
+        <span>Data visualisation</span>
+      </div>
+    </section>
+
+    <!-- ============ FEATURED PROJECT ============ -->
+    <section class="section section-alt" id="projects" aria-labelledby="projects-heading">
+      <div class="container">
+        <p class="section-eyebrow">01 · Projects</p>
+        <h2 id="projects-heading">Featured project</h2>
+
+        <article class="feature-card">
+          <div class="feature-body">
+            <p class="feature-tag">Demo project · made-up data</p>
+            <h3>EcoFlow - Industrial Wastewater Treatment Analytics</h3>
+            <p>A monitoring dashboard for an imaginary wastewater treatment plant. The data is made up (synthetic) and created by a Python script, but the engineering behind it is real: the dashboard tracks how much pollution the plant removes from the water, and how much electricity and chemicals it uses to do it.</p>
+            <ul class="feature-points">
+              <li>How well the plant removes COD, BOD and suspended solids, the standard measures of how dirty water is</li>
+              <li>Electricity and chemical use for every cubic metre of water treated</li>
+              <li>Days when the process goes wrong, and sensor readings that cannot be trusted</li>
+              <li>A what-if comparison: normal running against improved pump and dosing settings</li>
+            </ul>
+            <p class="feature-note">All the data is clearly labelled as made up. The notes in the repository explain every calculation in plain language, so I can stand behind each number.</p>
+            <div class="feature-actions">
+              <a class="btn btn-primary" href="ecoflow/">Open the live dashboard</a>
+              <a class="btn btn-ghost" href="ecoflow/#definitions">Metric definitions</a>
+            </div>
+          </div>
+          <div class="feature-side" aria-hidden="true">
+            <div class="mini-kpi"><span class="mini-kpi-label">Dataset</span><span class="mini-kpi-value">120 days</span></div>
+            <div class="mini-kpi"><span class="mini-kpi-label">Interval</span><span class="mini-kpi-value">Hourly</span></div>
+            <div class="mini-kpi"><span class="mini-kpi-label">Parameters</span><span class="mini-kpi-value">COD · BOD · TSS · pH</span></div>
+            <div class="mini-kpi"><span class="mini-kpi-label">Scenarios</span><span class="mini-kpi-value">Normal / Improved</span></div>
+          </div>
+        </article>
+
+        <h2 class="subheading">Academic projects</h2>
+        <div class="card-grid">
+          <article class="card">
+            <p class="card-kicker">Final year design · group project</p>
+            <h3>Production of 22,000 MT Synthetic Natural Gas</h3>
+            <p>Group design project for a plant making 22,000 metric tonnes of synthetic natural gas a year: working out the mass and energy balances, recovering heat between process streams, and sizing the main equipment.</p>
+          </article>
+          <article class="card">
+            <p class="card-kicker">Research · 2022 to 2023</p>
+            <h3>Reusing spent activated carbon</h3>
+            <p>Activated carbon is a cleaning material that eventually gets used up. I studied carbon that had been used to purify glycerine: could it be regenerated with NaOH and used again? I compared its properties before and after, and identified the best NaOH concentration.</p>
+          </article>
+          <article class="card">
+            <p class="card-kicker">Research · Sep to Dec 2019</p>
+            <h3>Waste coffee grounds as candle material</h3>
+            <p>A small diploma study on whether used coffee grounds could work as a raw material for scented candles, instead of being thrown away.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about" aria-labelledby="about-heading">
+      <div class="container about-grid">
+        <div>
+          <p class="section-eyebrow">02 · About</p>
+          <h2 id="about-heading">About me</h2>
+          <p>I am Firdaus Zakaria, a Chemical Engineering graduate based in Kuala Lumpur. My degree projects were about process design and the environment, from designing a synthetic natural gas plant to research on giving used activated carbon a second life.</p>
+          <p>During my internships with Malaysia's Department of Irrigation and Drainage (JPS) and the National Solid Waste Management Department (JPSPN), I serviced and calibrated the equipment used at river monitoring stations, and inspected landfills and leachate treatment plants. I am now adding data skills on top of that foundation, with recent certificates in Excel and Power BI.</p>
+          <p class="about-langs"><strong>Languages:</strong> Malay (native), English</p>
+        </div>
+        <div class="edu-stack">
+          <h3 class="edu-title">Education</h3>
+          <div class="edu-card">
+            <p class="edu-years">2020 – 2023</p>
+            <h4>Bachelor of Chemical Engineering</h4>
+            <p>UiTM Shah Alam</p>
+          </div>
+          <div class="edu-card">
+            <p class="edu-years">2017 – 2020</p>
+            <h4>Diploma in Chemical Engineering</h4>
+            <p>UiTM Pasir Gudang</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section class="section section-alt" id="skills" aria-labelledby="skills-heading">
+      <div class="container">
+        <p class="section-eyebrow">03 · Skills</p>
+        <h2 id="skills-heading">Technical skills</h2>
+        <div class="skills-grid">
+          <div class="skill-group">
+            <h3>Data and reporting</h3>
+            <ul>
+              <li>Microsoft Excel <span class="skill-cert">Data Analytics Masterclass, 2026</span></li>
+              <li>Power BI <span class="skill-cert">Data Analytics and Visualisation Masterclass, 2026</span></li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Engineering tools</h3>
+            <ul>
+              <li>AutoCAD 2D and 3D <span class="skill-cert">Essentials webinar, 2022</span></li>
+              <li>Microsoft Visio</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>General</h3>
+            <ul>
+              <li>Microsoft Office</li>
+              <li>Canva</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cert-list">
+          <h3>Certifications</h3>
+          <ul>
+            <li><span>Data Analytics and Data Visualisation with Power BI Masterclass</span><span class="cert-meta">New Wave Op Solutions · 2026</span></li>
+            <li><span>Data Analytics Masterclass with Excel</span><span class="cert-meta">New Wave Op Solutions · 2026</span></li>
+            <li><span>AutoCAD 2D and 3D Essential Webinar</span><span class="cert-meta">NF Design and Engineering · 2022</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section class="section" id="experience" aria-labelledby="experience-heading">
+      <div class="container">
+        <p class="section-eyebrow">04 · Experience</p>
+        <h2 id="experience-heading">Experience</h2>
+        <ol class="timeline">
+          <li class="timeline-item">
+            <p class="tl-dates">Oct 2025 – Nov 2025</p>
+            <h3>Academic Teacher (Guru Akademik)</h3>
+            <p class="tl-org">Personel MySTEP</p>
+            <p>Delivered scheduled lessons according to the curriculum, prepared lesson plans and carried out supporting administrative duties.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="tl-dates">2024 – 2026 · completed engagements</p>
+            <h3>Data Entry (Freelance)</h3>
+            <p class="tl-org">Independent</p>
+            <p>Organised digital receipts and invoice files, input operational expenses into Excel spreadsheets and categorised expenses against predefined criteria such as travel, supplies and utilities.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="tl-dates">Aug 2024 – Dec 2024</p>
+            <h3>Assistant Valuer</h3>
+            <p class="tl-org">Kumpulan Jurunilai Sdn Bhd</p>
+            <p>Organised land titles, building plans and tenancy agreements, maintained organised records of valuation reports and supporting documents, and prepared report drafts.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="tl-dates">Aug 2022 – Oct 2022 · Internship</p>
+            <h3>Maintenance and Calibration Intern</h3>
+            <p class="tl-org">Jabatan Pengairan dan Saliran Malaysia (JPS), Ampang</p>
+            <p>Maintenance, servicing and calibration of hydrological equipment, testing and commissioning at hydrological stations, and assisting in generating calibration certificates.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="tl-dates">Feb 2020 – Jul 2020 · Internship</p>
+            <h3>Planning and Technical Intern</h3>
+            <p class="tl-org">Jabatan Pengurusan Sisa Pepejal Negara (JPSPN), Putrajaya</p>
+            <p>Updated planning and inventory data in coordination with local authorities, inspected waste facilities including landfills and leachate treatment plants, and prepared a comparative report on solid waste management systems in Malaysia and abroad.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ RESUME ============ -->
+    <section class="section section-alt" id="resume" aria-labelledby="resume-heading">
+      <div class="container resume-block">
+        <div>
+          <p class="section-eyebrow">05 · Resume</p>
+          <h2 id="resume-heading">Resume</h2>
+          <p>A full resume with complete work history and references is available on request.</p>
+        </div>
+        <a class="btn btn-primary" href="mailto:ausfirdaus99af@gmail.com?subject=Resume%20request%20%E2%80%93%20portfolio%20site">Request resume by email</a>
+        <!-- TODO (owner): when a final PDF is chosen, place it at assets/Firdaus_Zakaria_Resume.pdf
+             and replace the mailto button above with:
+             <a class="btn btn-primary" href="assets/Firdaus_Zakaria_Resume.pdf" download>Download resume (PDF)</a> -->
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact" aria-labelledby="contact-heading">
+      <div class="container">
+        <p class="section-eyebrow">06 · Contact</p>
+        <h2 id="contact-heading">Let's talk.</h2>
+        <p class="contact-sub">Open to opportunities in process engineering, environmental work, documentation and data reporting across the Klang Valley.</p>
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:ausfirdaus99af@gmail.com">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">ausfirdaus99af@gmail.com</span>
+          </a>
+          <a class="contact-link" href="https://www.linkedin.com/in/firdaus-z-5aaa74202" rel="noopener" target="_blank">
+            <span class="contact-label">LinkedIn</span>
+            <span class="contact-value">linkedin.com/in/firdaus-z-5aaa74202</span>
+          </a>
+          <a class="contact-link" href="https://github.com/ausfirdaus99af-spec" rel="noopener" target="_blank">
+            <span class="contact-label">GitHub</span>
+            <span class="contact-value">github.com/ausfirdaus99af-spec</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 Firdaus Zakaria · Kuala Lumpur</p>
+      <p class="footer-note">EcoFlow uses synthetic data only. No confidential or real plant data appears on this site.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
