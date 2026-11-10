@@ -1,0 +1,1224 @@
+{
+  "meta": {
+    "project": "SNG Plant Design",
+    "synthetic": true,
+    "basis": "22,000 MT per year educational case study",
+    "generated_at": "2026-11-10",
+    "units": {
+      "flow": "kmol/h",
+      "mass_flow": "kg/h",
+      "duty": "kW",
+      "temperature": "C",
+      "pressure": "bar"
+    },
+    "assumptions": [
+      "All numbers are illustrative values chosen for an educational case study, not measured plant data.",
+      "Steady state operation for 8,000 hours per year with no start-up or shutdown effects.",
+      "Ideal gas behaviour and perfect mixing are assumed in every unit.",
+      "Gas cleaning removes trace contaminants only and does not change the bulk composition.",
+      "Shift steam is dosed at the reaction requirement plus 5 percent excess, and the excess leaves with the shifted gas.",
+      "The amine unit removes carbon dioxide only; solvent losses and reboiler duty are not modelled.",
+      "Standard heats of reaction at 298 K are treated as constant over the operating range.",
+      "Sensible heat uses a fixed average molar heat capacity per species over the whole temperature range.",
+      "The latent heat of the condensed water is not included in the condenser cooling duty.",
+      "Compressor power is estimated at 0.03 kWh per kg of feed gas, an illustrative figure for a rough electrical load.",
+      "Pressure drops across units are ignored.",
+      "When hydrogen runs short in the methanation step, CO reacts first and CO2 conversion is limited by the hydrogen that remains."
+    ],
+    "references": [
+      "Perry's Chemical Engineers' Handbook, McGraw-Hill: standard heats of reaction and physical property data.",
+      "Smith, Van Ness and Abbott, Introduction to Chemical Engineering Thermodynamics, McGraw-Hill: extent of reaction and energy balance methods.",
+      "Kopyscinski, Schildhauer and Biollaz, Production of synthetic natural gas (SNG) from coal and dry biomass, Fuel (2010): general SNG process background."
+    ]
+  },
+  "process": {
+    "units": [
+      {
+        "id": "U1",
+        "name": "Feed compressor",
+        "description": "Raises the cleaned syngas from near atmospheric pressure to 15 bar for the downstream reactors. The gas composition does not change here."
+      },
+      {
+        "id": "U2",
+        "name": "Gas cleaning",
+        "description": "Removes trace contaminants such as sulphur compounds that would poison the catalysts. The bulk composition passes through unchanged in this simplified model."
+      },
+      {
+        "id": "U3",
+        "name": "Water gas shift reactor",
+        "description": "Reacts CO with steam to make more hydrogen until the gas reaches a H2 to CO molar ratio of 3. Steam is added at the reaction requirement plus 5 percent excess."
+      },
+      {
+        "id": "U4",
+        "name": "CO2 removal",
+        "description": "An amine absorption unit that removes 90 percent of the CO2 in the base case. The removed CO2 leaves as a by-product stream for vent or use."
+      },
+      {
+        "id": "U5",
+        "name": "Methanation reactor",
+        "description": "Converts CO and CO2 with hydrogen into methane and water over a nickel catalyst. The reactions are strongly exothermic, so the reactor is cooled to hold a 350 C outlet."
+      },
+      {
+        "id": "U6",
+        "name": "Condenser and dryer",
+        "description": "Cools the product gas to 40 C and knocks out 99 percent of the water as condensate. The remaining gas is the SNG product."
+      }
+    ]
+  },
+  "scenarios": {
+    "base": {
+      "label": "Base case",
+      "description": "Design feed and design conversions for the 22,000 MT per year educational basis.",
+      "feed": {
+        "flow_kmol_h": 416.67,
+        "flow_kg_h": 8131.61,
+        "composition_molpct": {
+          "H2": 40.0,
+          "CO": 25.0,
+          "CO2": 20.0,
+          "CH4": 10.0,
+          "N2": 4.0,
+          "H2O": 1.0
+        }
+      },
+      "steam_kg_h": 689.64,
+      "streams": [
+        {
+          "id": "S1",
+          "name": "Syngas feed",
+          "after_unit": null,
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S2",
+          "name": "Compressed syngas",
+          "after_unit": "U1",
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S3",
+          "name": "Clean syngas",
+          "after_unit": "U2",
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S4",
+          "name": "Shifted gas",
+          "after_unit": "U3",
+          "flow_kmol_h": 454.95,
+          "flow_kg_h": 8821.28,
+          "composition_molpct": {
+            "H2": 44.65,
+            "CO": 14.88,
+            "CO2": 26.33,
+            "CH4": 9.16,
+            "N2": 3.66,
+            "H2O": 1.32
+          }
+        },
+        {
+          "id": "S5",
+          "name": "CO2 lean gas",
+          "after_unit": "U4",
+          "flow_kmol_h": 347.13,
+          "flow_kg_h": 4076.46,
+          "composition_molpct": {
+            "H2": 58.51,
+            "CO": 19.5,
+            "CO2": 3.45,
+            "CH4": 12.0,
+            "N2": 4.8,
+            "H2O": 1.73
+          }
+        },
+        {
+          "id": "S6",
+          "name": "Methanation outlet",
+          "after_unit": "U5",
+          "flow_kmol_h": 212.4,
+          "flow_kg_h": 4076.46,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.64,
+            "CO2": 5.16,
+            "CH4": 51.34,
+            "N2": 7.85,
+            "H2O": 35.02
+          }
+        },
+        {
+          "id": "S7",
+          "name": "SNG product",
+          "after_unit": "U6",
+          "flow_kmol_h": 138.76,
+          "flow_kg_h": 2750.0,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.98,
+            "CO2": 7.9,
+            "CH4": 78.58,
+            "N2": 12.01,
+            "H2O": 0.54
+          }
+        },
+        {
+          "id": "BP1",
+          "name": "CO2 to vent/use",
+          "after_unit": "U4",
+          "flow_kmol_h": 107.81,
+          "flow_kg_h": 4744.82,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.0,
+            "CO2": 100.0,
+            "CH4": 0.0,
+            "N2": 0.0,
+            "H2O": 0.0
+          }
+        },
+        {
+          "id": "BP2",
+          "name": "Process condensate",
+          "after_unit": "U6",
+          "flow_kmol_h": 73.63,
+          "flow_kg_h": 1326.46,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.0,
+            "CO2": 0.0,
+            "CH4": 0.0,
+            "N2": 0.0,
+            "H2O": 100.0
+          }
+        }
+      ],
+      "mass_balance": {
+        "in_kg_h": 8821.25,
+        "out_kg_h": 8821.28,
+        "closure_pct": 100.0,
+        "by_species_kg_h": [
+          {
+            "species": "C",
+            "in": 2752.51,
+            "out": 2752.51
+          },
+          {
+            "species": "H",
+            "in": 589.57,
+            "out": 589.57
+          },
+          {
+            "species": "O",
+            "in": 5012.18,
+            "out": 5012.18
+          },
+          {
+            "species": "N",
+            "in": 466.9,
+            "out": 466.9
+          }
+        ]
+      },
+      "energy": {
+        "duties": [
+          {
+            "unit": "U1",
+            "label": "Feed compression",
+            "duty_kw": 243.9,
+            "kind": "electrical"
+          },
+          {
+            "unit": "U3",
+            "label": "Feed preheat 40 to 300 C",
+            "duty_kw": 940.2,
+            "kind": "heating"
+          },
+          {
+            "unit": "U3",
+            "label": "Shift reactor heat removal",
+            "duty_kw": 417.2,
+            "kind": "cooling"
+          },
+          {
+            "unit": "U5",
+            "label": "Methanation reactor cooling",
+            "duty_kw": 3847.2,
+            "kind": "cooling"
+          },
+          {
+            "unit": "U6",
+            "label": "Product cooling 350 to 40 C",
+            "duty_kw": 626.8,
+            "kind": "cooling"
+          }
+        ],
+        "total_heating_kw": 940.2,
+        "total_cooling_kw": 4891.2,
+        "total_electrical_kw": 243.9
+      },
+      "kpis": {
+        "co_conversion_pct": 98.0,
+        "ch4_yield_pct": 35.93,
+        "ch4_purity_dry_molpct": 79.0,
+        "sng_kg_h": 2750.0,
+        "annual_mt": 22000.0,
+        "cold_gas_efficiency_pct": 85.13,
+        "specific_cooling_kwh_kg": 1.78
+      }
+    },
+    "h2_rich": {
+      "label": "Hydrogen rich feed",
+      "description": "Hydrogen rich syngas with the same conversions, showing how feed quality changes the product.",
+      "feed": {
+        "flow_kmol_h": 416.67,
+        "flow_kg_h": 7281.76,
+        "composition_molpct": {
+          "H2": 46.0,
+          "CO": 22.0,
+          "CO2": 17.0,
+          "CH4": 10.0,
+          "N2": 4.0,
+          "H2O": 1.0
+        }
+      },
+      "steam_kg_h": 394.08,
+      "streams": [
+        {
+          "id": "S1",
+          "name": "Syngas feed",
+          "after_unit": null,
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 7281.76,
+          "composition_molpct": {
+            "H2": 46.0,
+            "CO": 22.0,
+            "CO2": 17.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S2",
+          "name": "Compressed syngas",
+          "after_unit": "U1",
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 7281.76,
+          "composition_molpct": {
+            "H2": 46.0,
+            "CO": 22.0,
+            "CO2": 17.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S3",
+          "name": "Clean syngas",
+          "after_unit": "U2",
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 7281.76,
+          "composition_molpct": {
+            "H2": 46.0,
+            "CO": 22.0,
+            "CO2": 17.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S4",
+          "name": "Shifted gas",
+          "after_unit": "U3",
+          "flow_kmol_h": 438.54,
+          "flow_kg_h": 7675.86,
+          "composition_molpct": {
+            "H2": 48.46,
+            "CO": 16.15,
+            "CO2": 20.9,
+            "CH4": 9.5,
+            "N2": 3.8,
+            "H2O": 1.19
+          }
+        },
+        {
+          "id": "S5",
+          "name": "CO2 lean gas",
+          "after_unit": "U4",
+          "flow_kmol_h": 356.04,
+          "flow_kg_h": 4045.04,
+          "composition_molpct": {
+            "H2": 59.68,
+            "CO": 19.89,
+            "CO2": 2.57,
+            "CH4": 11.7,
+            "N2": 4.68,
+            "H2O": 1.46
+          }
+        },
+        {
+          "id": "S6",
+          "name": "Methanation outlet",
+          "after_unit": "U5",
+          "flow_kmol_h": 215.08,
+          "flow_kg_h": 4045.04,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.66,
+            "CO2": 3.77,
+            "CH4": 52.14,
+            "N2": 7.75,
+            "H2O": 35.68
+          }
+        },
+        {
+          "id": "S7",
+          "name": "SNG product",
+          "after_unit": "U6",
+          "flow_kmol_h": 139.1,
+          "flow_kg_h": 2676.22,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 1.02,
+            "CO2": 5.83,
+            "CH4": 80.62,
+            "N2": 11.98,
+            "H2O": 0.55
+          }
+        },
+        {
+          "id": "BP1",
+          "name": "CO2 to vent/use",
+          "after_unit": "U4",
+          "flow_kmol_h": 82.5,
+          "flow_kg_h": 3630.82,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.0,
+            "CO2": 100.0,
+            "CH4": 0.0,
+            "N2": 0.0,
+            "H2O": 0.0
+          }
+        },
+        {
+          "id": "BP2",
+          "name": "Process condensate",
+          "after_unit": "U6",
+          "flow_kmol_h": 75.98,
+          "flow_kg_h": 1368.82,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.0,
+            "CO2": 0.0,
+            "CH4": 0.0,
+            "N2": 0.0,
+            "H2O": 100.0
+          }
+        }
+      ],
+      "mass_balance": {
+        "in_kg_h": 7675.84,
+        "out_kg_h": 7675.86,
+        "closure_pct": 100.0,
+        "by_species_kg_h": [
+          {
+            "species": "C",
+            "in": 2452.24,
+            "out": 2452.24
+          },
+          {
+            "species": "H",
+            "in": 606.9,
+            "out": 606.9
+          },
+          {
+            "species": "O",
+            "in": 4149.73,
+            "out": 4149.73
+          },
+          {
+            "species": "N",
+            "in": 466.9,
+            "out": 466.9
+          }
+        ]
+      },
+      "energy": {
+        "duties": [
+          {
+            "unit": "U1",
+            "label": "Feed compression",
+            "duty_kw": 218.5,
+            "kind": "electrical"
+          },
+          {
+            "unit": "U3",
+            "label": "Feed preheat 40 to 300 C",
+            "duty_kw": 932.5,
+            "kind": "heating"
+          },
+          {
+            "unit": "U3",
+            "label": "Shift reactor heat removal",
+            "duty_kw": 238.4,
+            "kind": "cooling"
+          },
+          {
+            "unit": "U5",
+            "label": "Methanation reactor cooling",
+            "duty_kw": 4024.7,
+            "kind": "cooling"
+          },
+          {
+            "unit": "U6",
+            "label": "Product cooling 350 to 40 C",
+            "duty_kw": 634.2,
+            "kind": "cooling"
+          }
+        ],
+        "total_heating_kw": 932.5,
+        "total_cooling_kw": 4897.3,
+        "total_electrical_kw": 218.5
+      },
+      "kpis": {
+        "co_conversion_pct": 98.0,
+        "ch4_yield_pct": 43.37,
+        "ch4_purity_dry_molpct": 81.07,
+        "sng_kg_h": 2676.22,
+        "annual_mt": 21409.77,
+        "cold_gas_efficiency_pct": 85.49,
+        "specific_cooling_kwh_kg": 1.83
+      }
+    },
+    "aged_catalyst": {
+      "label": "Aged catalyst",
+      "description": "Base feed with lower methanation conversions to mimic an aged catalyst bed.",
+      "feed": {
+        "flow_kmol_h": 416.67,
+        "flow_kg_h": 8131.61,
+        "composition_molpct": {
+          "H2": 40.0,
+          "CO": 25.0,
+          "CO2": 20.0,
+          "CH4": 10.0,
+          "N2": 4.0,
+          "H2O": 1.0
+        }
+      },
+      "steam_kg_h": 689.64,
+      "streams": [
+        {
+          "id": "S1",
+          "name": "Syngas feed",
+          "after_unit": null,
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S2",
+          "name": "Compressed syngas",
+          "after_unit": "U1",
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S3",
+          "name": "Clean syngas",
+          "after_unit": "U2",
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S4",
+          "name": "Shifted gas",
+          "after_unit": "U3",
+          "flow_kmol_h": 454.95,
+          "flow_kg_h": 8821.28,
+          "composition_molpct": {
+            "H2": 44.65,
+            "CO": 14.88,
+            "CO2": 26.33,
+            "CH4": 9.16,
+            "N2": 3.66,
+            "H2O": 1.32
+          }
+        },
+        {
+          "id": "S5",
+          "name": "CO2 lean gas",
+          "after_unit": "U4",
+          "flow_kmol_h": 347.13,
+          "flow_kg_h": 4076.46,
+          "composition_molpct": {
+            "H2": 58.51,
+            "CO": 19.5,
+            "CO2": 3.45,
+            "CH4": 12.0,
+            "N2": 4.8,
+            "H2O": 1.73
+          }
+        },
+        {
+          "id": "S6",
+          "name": "Methanation outlet",
+          "after_unit": "U5",
+          "flow_kmol_h": 215.1,
+          "flow_kg_h": 4076.46,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 3.15,
+            "CO2": 3.21,
+            "CH4": 50.06,
+            "N2": 7.75,
+            "H2O": 35.84
+          }
+        },
+        {
+          "id": "S7",
+          "name": "SNG product",
+          "after_unit": "U6",
+          "flow_kmol_h": 138.79,
+          "flow_kg_h": 2701.69,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 4.88,
+            "CO2": 4.97,
+            "CH4": 77.59,
+            "N2": 12.01,
+            "H2O": 0.56
+          }
+        },
+        {
+          "id": "BP1",
+          "name": "CO2 to vent/use",
+          "after_unit": "U4",
+          "flow_kmol_h": 107.81,
+          "flow_kg_h": 4744.82,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.0,
+            "CO2": 100.0,
+            "CH4": 0.0,
+            "N2": 0.0,
+            "H2O": 0.0
+          }
+        },
+        {
+          "id": "BP2",
+          "name": "Process condensate",
+          "after_unit": "U6",
+          "flow_kmol_h": 76.31,
+          "flow_kg_h": 1374.77,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.0,
+            "CO2": 0.0,
+            "CH4": 0.0,
+            "N2": 0.0,
+            "H2O": 100.0
+          }
+        }
+      ],
+      "mass_balance": {
+        "in_kg_h": 8821.25,
+        "out_kg_h": 8821.28,
+        "closure_pct": 100.0,
+        "by_species_kg_h": [
+          {
+            "species": "C",
+            "in": 2752.51,
+            "out": 2752.51
+          },
+          {
+            "species": "H",
+            "in": 589.57,
+            "out": 589.57
+          },
+          {
+            "species": "O",
+            "in": 5012.18,
+            "out": 5012.18
+          },
+          {
+            "species": "N",
+            "in": 466.9,
+            "out": 466.9
+          }
+        ]
+      },
+      "energy": {
+        "duties": [
+          {
+            "unit": "U1",
+            "label": "Feed compression",
+            "duty_kw": 243.9,
+            "kind": "electrical"
+          },
+          {
+            "unit": "U3",
+            "label": "Feed preheat 40 to 300 C",
+            "duty_kw": 940.2,
+            "kind": "heating"
+          },
+          {
+            "unit": "U3",
+            "label": "Shift reactor heat removal",
+            "duty_kw": 417.2,
+            "kind": "cooling"
+          },
+          {
+            "unit": "U5",
+            "label": "Methanation reactor cooling",
+            "duty_kw": 3723.1,
+            "kind": "cooling"
+          },
+          {
+            "unit": "U6",
+            "label": "Product cooling 350 to 40 C",
+            "duty_kw": 631.1,
+            "kind": "cooling"
+          }
+        ],
+        "total_heating_kw": 940.2,
+        "total_cooling_kw": 4771.5,
+        "total_electrical_kw": 243.9
+      },
+      "kpis": {
+        "co_conversion_pct": 90.0,
+        "ch4_yield_pct": 35.21,
+        "ch4_purity_dry_molpct": 78.02,
+        "sng_kg_h": 2701.69,
+        "annual_mt": 21613.55,
+        "cold_gas_efficiency_pct": 85.56,
+        "specific_cooling_kwh_kg": 1.77
+      }
+    },
+    "balanced_ratio": {
+      "label": "Balanced H2 ratio (improved design)",
+      "description": "The shift step is retargeted so there is enough hydrogen for the carbon dioxide as well, the fix for the hydrogen shortfall seen in the design case.",
+      "feed": {
+        "flow_kmol_h": 416.67,
+        "flow_kg_h": 8131.61,
+        "composition_molpct": {
+          "H2": 40.0,
+          "CO": 25.0,
+          "CO2": 20.0,
+          "CH4": 10.0,
+          "N2": 4.0,
+          "H2O": 1.0
+        }
+      },
+      "steam_kg_h": 941.41,
+      "streams": [
+        {
+          "id": "S1",
+          "name": "Syngas feed",
+          "after_unit": null,
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S2",
+          "name": "Compressed syngas",
+          "after_unit": "U1",
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S3",
+          "name": "Clean syngas",
+          "after_unit": "U2",
+          "flow_kmol_h": 416.67,
+          "flow_kg_h": 8131.61,
+          "composition_molpct": {
+            "H2": 40.0,
+            "CO": 25.0,
+            "CO2": 20.0,
+            "CH4": 10.0,
+            "N2": 4.0,
+            "H2O": 1.0
+          }
+        },
+        {
+          "id": "S4",
+          "name": "Shifted gas",
+          "after_unit": "U3",
+          "flow_kmol_h": 468.92,
+          "flow_kg_h": 9073.07,
+          "composition_molpct": {
+            "H2": 46.16,
+            "CO": 11.6,
+            "CO2": 28.38,
+            "CH4": 8.89,
+            "N2": 3.55,
+            "H2O": 1.42
+          }
+        },
+        {
+          "id": "S5",
+          "name": "CO2 lean gas",
+          "after_unit": "U4",
+          "flow_kmol_h": 349.13,
+          "flow_kg_h": 3801.05,
+          "composition_molpct": {
+            "H2": 61.99,
+            "CO": 15.58,
+            "CO2": 3.81,
+            "CH4": 11.93,
+            "N2": 4.77,
+            "H2O": 1.91
+          }
+        },
+        {
+          "id": "S6",
+          "name": "Methanation outlet",
+          "after_unit": "U5",
+          "flow_kmol_h": 218.55,
+          "flow_kg_h": 3801.04,
+          "composition_molpct": {
+            "H2": 3.93,
+            "CO": 0.5,
+            "CO2": 0.61,
+            "CH4": 48.94,
+            "N2": 7.63,
+            "H2O": 38.4
+          }
+        },
+        {
+          "id": "S7",
+          "name": "SNG product",
+          "after_unit": "U6",
+          "flow_kmol_h": 135.47,
+          "flow_kg_h": 2304.27,
+          "composition_molpct": {
+            "H2": 6.34,
+            "CO": 0.8,
+            "CO2": 0.98,
+            "CH4": 78.95,
+            "N2": 12.3,
+            "H2O": 0.62
+          }
+        },
+        {
+          "id": "BP1",
+          "name": "CO2 to vent/use",
+          "after_unit": "U4",
+          "flow_kmol_h": 119.79,
+          "flow_kg_h": 5272.02,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.0,
+            "CO2": 100.0,
+            "CH4": 0.0,
+            "N2": 0.0,
+            "H2O": 0.0
+          }
+        },
+        {
+          "id": "BP2",
+          "name": "Process condensate",
+          "after_unit": "U6",
+          "flow_kmol_h": 83.08,
+          "flow_kg_h": 1496.76,
+          "composition_molpct": {
+            "H2": 0.0,
+            "CO": 0.0,
+            "CO2": 0.0,
+            "CH4": 0.0,
+            "N2": 0.0,
+            "H2O": 100.0
+          }
+        }
+      ],
+      "mass_balance": {
+        "in_kg_h": 9073.02,
+        "out_kg_h": 9073.06,
+        "closure_pct": 100.0,
+        "by_species_kg_h": [
+          {
+            "species": "C",
+            "in": 2752.51,
+            "out": 2752.51
+          },
+          {
+            "species": "H",
+            "in": 617.75,
+            "out": 617.75
+          },
+          {
+            "species": "O",
+            "in": 5235.77,
+            "out": 5235.77
+          },
+          {
+            "species": "N",
+            "in": 466.9,
+            "out": 466.9
+          }
+        ]
+      },
+      "energy": {
+        "duties": [
+          {
+            "unit": "U1",
+            "label": "Feed compression",
+            "duty_kw": 243.9,
+            "kind": "electrical"
+          },
+          {
+            "unit": "U3",
+            "label": "Feed preheat 40 to 300 C",
+            "duty_kw": 940.2,
+            "kind": "heating"
+          },
+          {
+            "unit": "U3",
+            "label": "Shift reactor heat removal",
+            "duty_kw": 569.6,
+            "kind": "cooling"
+          },
+          {
+            "unit": "U5",
+            "label": "Methanation reactor cooling",
+            "duty_kw": 3602.5,
+            "kind": "cooling"
+          },
+          {
+            "unit": "U6",
+            "label": "Product cooling 350 to 40 C",
+            "duty_kw": 638.0,
+            "kind": "cooling"
+          }
+        ],
+        "total_heating_kw": 940.2,
+        "total_cooling_kw": 4810.1,
+        "total_electrical_kw": 243.9
+      },
+      "kpis": {
+        "co_conversion_pct": 98.0,
+        "ch4_yield_pct": 34.82,
+        "ch4_purity_dry_molpct": 79.44,
+        "sng_kg_h": 2304.27,
+        "annual_mt": 18434.19,
+        "cold_gas_efficiency_pct": 85.45,
+        "specific_cooling_kwh_kg": 2.09
+      }
+    }
+  },
+  "sensitivity": {
+    "co_conversion": [
+      {
+        "x": 85.0,
+        "ch4_purity_dry_pct": 77.41,
+        "sng_kg_h": 2671.5,
+        "co_in_product_molpct": 7.32
+      },
+      {
+        "x": 85.5,
+        "ch4_purity_dry_pct": 77.47,
+        "sng_kg_h": 2674.52,
+        "co_in_product_molpct": 7.07
+      },
+      {
+        "x": 86.0,
+        "ch4_purity_dry_pct": 77.53,
+        "sng_kg_h": 2677.54,
+        "co_in_product_molpct": 6.83
+      },
+      {
+        "x": 86.5,
+        "ch4_purity_dry_pct": 77.59,
+        "sng_kg_h": 2680.56,
+        "co_in_product_molpct": 6.59
+      },
+      {
+        "x": 87.0,
+        "ch4_purity_dry_pct": 77.65,
+        "sng_kg_h": 2683.58,
+        "co_in_product_molpct": 6.34
+      },
+      {
+        "x": 87.5,
+        "ch4_purity_dry_pct": 77.71,
+        "sng_kg_h": 2686.6,
+        "co_in_product_molpct": 6.1
+      },
+      {
+        "x": 88.0,
+        "ch4_purity_dry_pct": 77.77,
+        "sng_kg_h": 2689.62,
+        "co_in_product_molpct": 5.85
+      },
+      {
+        "x": 88.5,
+        "ch4_purity_dry_pct": 77.83,
+        "sng_kg_h": 2692.64,
+        "co_in_product_molpct": 5.61
+      },
+      {
+        "x": 89.0,
+        "ch4_purity_dry_pct": 77.9,
+        "sng_kg_h": 2695.65,
+        "co_in_product_molpct": 5.37
+      },
+      {
+        "x": 89.5,
+        "ch4_purity_dry_pct": 77.96,
+        "sng_kg_h": 2698.67,
+        "co_in_product_molpct": 5.12
+      },
+      {
+        "x": 90.0,
+        "ch4_purity_dry_pct": 78.02,
+        "sng_kg_h": 2701.69,
+        "co_in_product_molpct": 4.88
+      },
+      {
+        "x": 90.5,
+        "ch4_purity_dry_pct": 78.08,
+        "sng_kg_h": 2704.71,
+        "co_in_product_molpct": 4.63
+      },
+      {
+        "x": 91.0,
+        "ch4_purity_dry_pct": 78.14,
+        "sng_kg_h": 2707.73,
+        "co_in_product_molpct": 4.39
+      },
+      {
+        "x": 91.5,
+        "ch4_purity_dry_pct": 78.2,
+        "sng_kg_h": 2710.75,
+        "co_in_product_molpct": 4.15
+      },
+      {
+        "x": 92.0,
+        "ch4_purity_dry_pct": 78.26,
+        "sng_kg_h": 2713.77,
+        "co_in_product_molpct": 3.9
+      },
+      {
+        "x": 92.5,
+        "ch4_purity_dry_pct": 78.33,
+        "sng_kg_h": 2716.79,
+        "co_in_product_molpct": 3.66
+      },
+      {
+        "x": 93.0,
+        "ch4_purity_dry_pct": 78.39,
+        "sng_kg_h": 2719.81,
+        "co_in_product_molpct": 3.42
+      },
+      {
+        "x": 93.5,
+        "ch4_purity_dry_pct": 78.45,
+        "sng_kg_h": 2722.83,
+        "co_in_product_molpct": 3.17
+      },
+      {
+        "x": 94.0,
+        "ch4_purity_dry_pct": 78.51,
+        "sng_kg_h": 2725.85,
+        "co_in_product_molpct": 2.93
+      },
+      {
+        "x": 94.5,
+        "ch4_purity_dry_pct": 78.57,
+        "sng_kg_h": 2728.87,
+        "co_in_product_molpct": 2.68
+      },
+      {
+        "x": 95.0,
+        "ch4_purity_dry_pct": 78.63,
+        "sng_kg_h": 2731.88,
+        "co_in_product_molpct": 2.44
+      },
+      {
+        "x": 95.5,
+        "ch4_purity_dry_pct": 78.69,
+        "sng_kg_h": 2734.9,
+        "co_in_product_molpct": 2.2
+      },
+      {
+        "x": 96.0,
+        "ch4_purity_dry_pct": 78.75,
+        "sng_kg_h": 2737.92,
+        "co_in_product_molpct": 1.95
+      },
+      {
+        "x": 96.5,
+        "ch4_purity_dry_pct": 78.82,
+        "sng_kg_h": 2740.94,
+        "co_in_product_molpct": 1.71
+      },
+      {
+        "x": 97.0,
+        "ch4_purity_dry_pct": 78.88,
+        "sng_kg_h": 2743.96,
+        "co_in_product_molpct": 1.46
+      },
+      {
+        "x": 97.5,
+        "ch4_purity_dry_pct": 78.94,
+        "sng_kg_h": 2746.98,
+        "co_in_product_molpct": 1.22
+      },
+      {
+        "x": 98.0,
+        "ch4_purity_dry_pct": 79.0,
+        "sng_kg_h": 2750.0,
+        "co_in_product_molpct": 0.98
+      },
+      {
+        "x": 98.5,
+        "ch4_purity_dry_pct": 79.06,
+        "sng_kg_h": 2753.02,
+        "co_in_product_molpct": 0.73
+      },
+      {
+        "x": 99.0,
+        "ch4_purity_dry_pct": 79.12,
+        "sng_kg_h": 2756.04,
+        "co_in_product_molpct": 0.49
+      },
+      {
+        "x": 99.5,
+        "ch4_purity_dry_pct": 79.18,
+        "sng_kg_h": 2759.06,
+        "co_in_product_molpct": 0.24
+      }
+    ],
+    "co2_removal": [
+      {
+        "x": 50.0,
+        "ch4_purity_dry_pct": 58.64,
+        "sng_kg_h": 4858.81,
+        "specific_cooling_kwh_kg": 1.04
+      },
+      {
+        "x": 55.0,
+        "ch4_purity_dry_pct": 60.59,
+        "sng_kg_h": 4595.21,
+        "specific_cooling_kwh_kg": 1.09
+      },
+      {
+        "x": 60.0,
+        "ch4_purity_dry_pct": 62.68,
+        "sng_kg_h": 4331.61,
+        "specific_cooling_kwh_kg": 1.16
+      },
+      {
+        "x": 65.0,
+        "ch4_purity_dry_pct": 64.91,
+        "sng_kg_h": 4068.0,
+        "specific_cooling_kwh_kg": 1.23
+      },
+      {
+        "x": 70.0,
+        "ch4_purity_dry_pct": 67.32,
+        "sng_kg_h": 3804.4,
+        "specific_cooling_kwh_kg": 1.31
+      },
+      {
+        "x": 75.0,
+        "ch4_purity_dry_pct": 69.9,
+        "sng_kg_h": 3540.8,
+        "specific_cooling_kwh_kg": 1.4
+      },
+      {
+        "x": 80.0,
+        "ch4_purity_dry_pct": 72.69,
+        "sng_kg_h": 3277.2,
+        "specific_cooling_kwh_kg": 1.5
+      },
+      {
+        "x": 85.0,
+        "ch4_purity_dry_pct": 75.71,
+        "sng_kg_h": 3013.6,
+        "specific_cooling_kwh_kg": 1.63
+      },
+      {
+        "x": 90.0,
+        "ch4_purity_dry_pct": 79.0,
+        "sng_kg_h": 2750.0,
+        "specific_cooling_kwh_kg": 1.78
+      },
+      {
+        "x": 95.0,
+        "ch4_purity_dry_pct": 82.58,
+        "sng_kg_h": 2486.4,
+        "specific_cooling_kwh_kg": 1.96
+      }
+    ]
+  }
+}

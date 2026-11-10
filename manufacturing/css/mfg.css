@@ -1,0 +1,21 @@
+/* Manufacturing dashboard page-specific styles. */
+
+.kpi-card.kpi-hero { border-color: rgba(217, 255, 139, 0.4); }
+.kpi-card.kpi-hero .kpi-value { font-size: 2.1rem; }
+
+.sql-sample {
+  background: var(--bg-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-2);
+  max-width: 52em;
+}
+.sql-sample code { color: var(--text-2); }
+
+.sust-grid .sust-delta { font-size: 0.85rem; }
+.delta-good { color: var(--lime); }
+.delta-neutral { color: var(--text-2); }

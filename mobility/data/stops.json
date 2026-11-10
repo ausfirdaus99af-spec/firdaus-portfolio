@@ -1,0 +1,937 @@
+[
+{
+"name": "AMPANG",
+"lat": 3.150318,
+"lon": 101.760049
+},
+{
+"name": "CAHAYA",
+"lat": 3.140575,
+"lon": 101.756677
+},
+{
+"name": "CEMPAKA",
+"lat": 3.138324,
+"lon": 101.752979
+},
+{
+"name": "PANDAN INDAH",
+"lat": 3.134581,
+"lon": 101.746509
+},
+{
+"name": "PANDAN JAYA",
+"lat": 3.130141,
+"lon": 101.739122
+},
+{
+"name": "MALURI",
+"lat": 3.12329,
+"lon": 101.727283
+},
+{
+"name": "MIHARJA",
+"lat": 3.120973,
+"lon": 101.717922
+},
+{
+"name": "CHAN SOW LIN",
+"lat": 3.128105,
+"lon": 101.715637
+},
+{
+"name": "PUDU",
+"lat": 3.134879,
+"lon": 101.711957
+},
+{
+"name": "HANG TUAH",
+"lat": 3.140012,
+"lon": 101.705984
+},
+{
+"name": "PLAZA RAKYAT",
+"lat": 3.144049,
+"lon": 101.702105
+},
+{
+"name": "MASJID JAMEK",
+"lat": 3.14927,
+"lon": 101.696377
+},
+{
+"name": "BANDARAYA - UOB",
+"lat": 3.155567,
+"lon": 101.694485
+},
+{
+"name": "SULTAN ISMAIL",
+"lat": 3.161245,
+"lon": 101.694109
+},
+{
+"name": "PWTC",
+"lat": 3.166333,
+"lon": 101.693586
+},
+{
+"name": "TITIWANGSA",
+"lat": 3.173497,
+"lon": 101.695367
+},
+{
+"name": "SENTUL",
+"lat": 3.178484,
+"lon": 101.695542
+},
+{
+"name": "SENTUL TIMUR",
+"lat": 3.185897,
+"lon": 101.695217
+},
+{
+"name": "PUTRA HEIGHTS",
+"lat": 2.996227,
+"lon": 101.575462
+},
+{
+"name": "SUBANG ALAM",
+"lat": 3.009421,
+"lon": 101.572281
+},
+{
+"name": "ALAM MEGAH",
+"lat": 3.023151,
+"lon": 101.572029
+},
+{
+"name": "USJ 21",
+"lat": 3.029881,
+"lon": 101.581711
+},
+{
+"name": "WAWASAN",
+"lat": 3.035062,
+"lon": 101.588348
+},
+{
+"name": "TAIPAN",
+"lat": 3.04815,
+"lon": 101.590233
+},
+{
+"name": "USJ 7",
+"lat": 3.054956,
+"lon": 101.592194
+},
+{
+"name": "SS 18",
+"lat": 3.067182,
+"lon": 101.585945
+},
+{
+"name": "SS 15",
+"lat": 3.075972,
+"lon": 101.585983
+},
+{
+"name": "SUBANG JAYA",
+"lat": 3.08466,
+"lon": 101.588127
+},
+{
+"name": "GLENMARIE",
+"lat": 3.094732,
+"lon": 101.590622
+},
+{
+"name": "ARA DAMANSARA",
+"lat": 3.108643,
+"lon": 101.586372
+},
+{
+"name": "LEMBAH SUBANG",
+"lat": 3.112094,
+"lon": 101.591034
+},
+{
+"name": "KELANA JAYA",
+"lat": 3.112497,
+"lon": 101.6043
+},
+{
+"name": "TAMAN BAHAGIA",
+"lat": 3.11079,
+"lon": 101.612856
+},
+{
+"name": "TAMAN PARAMOUNT",
+"lat": 3.104716,
+"lon": 101.623192
+},
+{
+"name": "ASIA JAYA",
+"lat": 3.104343,
+"lon": 101.637695
+},
+{
+"name": "TAMAN JAYA",
+"lat": 3.104086,
+"lon": 101.645248
+},
+{
+"name": "UNIVERSITI",
+"lat": 3.114616,
+"lon": 101.661639
+},
+{
+"name": "KERINCHI",
+"lat": 3.115506,
+"lon": 101.668572
+},
+{
+"name": "ABDULLAH HUKUM",
+"lat": 3.118735,
+"lon": 101.672897
+},
+{
+"name": "BANGSAR - BANK RAKYAT",
+"lat": 3.127588,
+"lon": 101.679062
+},
+{
+"name": "KL SENTRAL - REDONE",
+"lat": 3.13442,
+"lon": 101.68625
+},
+{
+"name": "PASAR SENI",
+"lat": 3.142439,
+"lon": 101.69531
+},
+{
+"name": "MASJID JAMEK",
+"lat": 3.149714,
+"lon": 101.696815
+},
+{
+"name": "DANG WANGI",
+"lat": 3.156942,
+"lon": 101.701975
+},
+{
+"name": "KAMPUNG BARU - CBP COOPBANK PERTAMA",
+"lat": 3.161386,
+"lon": 101.706608
+},
+{
+"name": "KLCC",
+"lat": 3.158935,
+"lon": 101.713287
+},
+{
+"name": "AMPANG PARK",
+"lat": 3.159894,
+"lon": 101.719017
+},
+{
+"name": "DAMAI",
+"lat": 3.164406,
+"lon": 101.724489
+},
+{
+"name": "DATO' KERAMAT",
+"lat": 3.16509,
+"lon": 101.73184
+},
+{
+"name": "JELATEK",
+"lat": 3.167204,
+"lon": 101.735344
+},
+{
+"name": "SETIAWANGSA",
+"lat": 3.17576,
+"lon": 101.73584
+},
+{
+"name": "SRI RAMPAI",
+"lat": 3.199176,
+"lon": 101.73747
+},
+{
+"name": "WANGSA MAJU",
+"lat": 3.205751,
+"lon": 101.731796
+},
+{
+"name": "TAMAN MELATI",
+"lat": 3.219558,
+"lon": 101.72197
+},
+{
+"name": "GOMBAK",
+"lat": 3.231793,
+"lon": 101.724427
+},
+{
+"name": "PUTRA HEIGHTS",
+"lat": 2.996016,
+"lon": 101.575521
+},
+{
+"name": "PUCHONG PRIMA",
+"lat": 2.999808,
+"lon": 101.596692
+},
+{
+"name": "PUCHONG PERDANA",
+"lat": 3.007913,
+"lon": 101.605021
+},
+{
+"name": "BANDAR PUTERI",
+"lat": 3.017111,
+"lon": 101.612855
+},
+{
+"name": "TAMAN PERINDUSTRIAN PUCHONG",
+"lat": 3.022814,
+"lon": 101.613514
+},
+{
+"name": "PUSAT BANDAR PUCHONG",
+"lat": 3.033194,
+"lon": 101.616057
+},
+{
+"name": "IOI PUCHONG JAYA",
+"lat": 3.048101,
+"lon": 101.62095
+},
+{
+"name": "KINRARA BK5",
+"lat": 3.050506,
+"lon": 101.644294
+},
+{
+"name": "ALAM SUTERA",
+"lat": 3.0547,
+"lon": 101.656468
+},
+{
+"name": "MUHIBBAH",
+"lat": 3.062229,
+"lon": 101.662552
+},
+{
+"name": "AWAN BESAR",
+"lat": 3.062131,
+"lon": 101.670555
+},
+{
+"name": "SRI PETALING",
+"lat": 3.061445,
+"lon": 101.687074
+},
+{
+"name": "BUKIT JALIL",
+"lat": 3.058196,
+"lon": 101.692125
+},
+{
+"name": "SUNGAI BESI",
+"lat": 3.063842,
+"lon": 101.708062
+},
+{
+"name": "BANDAR TASIK SELATAN",
+"lat": 3.076058,
+"lon": 101.711107
+},
+{
+"name": "BANDAR TUN RAZAK",
+"lat": 3.089576,
+"lon": 101.712466
+},
+{
+"name": "SALAK SELATAN",
+"lat": 3.102201,
+"lon": 101.706179
+},
+{
+"name": "CHERAS",
+"lat": 3.112609,
+"lon": 101.714178
+},
+{
+"name": "CHAN SOW LIN",
+"lat": 3.128105,
+"lon": 101.715637
+},
+{
+"name": "PUDU",
+"lat": 3.134879,
+"lon": 101.711957
+},
+{
+"name": "HANG TUAH",
+"lat": 3.140012,
+"lon": 101.705984
+},
+{
+"name": "PLAZA RAKYAT",
+"lat": 3.144049,
+"lon": 101.702105
+},
+{
+"name": "MASJID JAMEK",
+"lat": 3.14927,
+"lon": 101.696377
+},
+{
+"name": "BANDARAYA - UOB",
+"lat": 3.155567,
+"lon": 101.694485
+},
+{
+"name": "SULTAN ISMAIL",
+"lat": 3.161245,
+"lon": 101.694109
+},
+{
+"name": "PWTC",
+"lat": 3.166333,
+"lon": 101.693586
+},
+{
+"name": "TITIWANGSA",
+"lat": 3.173497,
+"lon": 101.695367
+},
+{
+"name": "SENTUL",
+"lat": 3.178484,
+"lon": 101.695542
+},
+{
+"name": "SENTUL TIMUR",
+"lat": 3.185897,
+"lon": 101.695217
+},
+{
+"name": "KWASA DAMANSARA",
+"lat": 3.176146,
+"lon": 101.572052
+},
+{
+"name": "KWASA SENTRAL",
+"lat": 3.170112,
+"lon": 101.564651
+},
+{
+"name": "KOTA DAMANSARA",
+"lat": 3.150134,
+"lon": 101.57869
+},
+{
+"name": "SURIAN",
+"lat": 3.14948,
+"lon": 101.593925
+},
+{
+"name": "MUTIARA DAMANSARA",
+"lat": 3.155301,
+"lon": 101.609077
+},
+{
+"name": "BANDAR UTAMA",
+"lat": 3.14671,
+"lon": 101.618599
+},
+{
+"name": "TAMAN TUN DR ISMAIL",
+"lat": 3.13613,
+"lon": 101.630539
+},
+{
+"name": "PHILEO DAMANSARA",
+"lat": 3.129864,
+"lon": 101.642471
+},
+{
+"name": "PUSAT BANDAR DAMANSARA",
+"lat": 3.143444,
+"lon": 101.662857
+},
+{
+"name": "SEMANTAN",
+"lat": 3.150977,
+"lon": 101.665497
+},
+{
+"name": "MUZIUM NEGARA",
+"lat": 3.137317,
+"lon": 101.687336
+},
+{
+"name": "PASAR SENI",
+"lat": 3.142293265,
+"lon": 101.6955642
+},
+{
+"name": "MERDEKA",
+"lat": 3.141969,
+"lon": 101.70205
+},
+{
+"name": "BUKIT BINTANG ",
+"lat": 3.146503,
+"lon": 101.710947
+},
+{
+"name": "TUN RAZAK EXCHANGE",
+"lat": 3.142403,
+"lon": 101.720156
+},
+{
+"name": "COCHRANE",
+"lat": 3.132829,
+"lon": 101.722962
+},
+{
+"name": "MALURI",
+"lat": 3.123623,
+"lon": 101.727809
+},
+{
+"name": "TAMAN PERTAMA",
+"lat": 3.112547,
+"lon": 101.729371
+},
+{
+"name": "TAMAN MIDAH",
+"lat": 3.104505,
+"lon": 101.732186
+},
+{
+"name": "TAMAN MUTIARA",
+"lat": 3.090989,
+"lon": 101.740453
+},
+{
+"name": "TAMAN CONNAUGHT",
+"lat": 3.079172,
+"lon": 101.74522
+},
+{
+"name": "TAMAN SUNTEX",
+"lat": 3.071578,
+"lon": 101.763552
+},
+{
+"name": "SRI RAYA",
+"lat": 3.062273,
+"lon": 101.772899
+},
+{
+"name": "BANDAR TUN HUSSEIN ONN",
+"lat": 3.048223,
+"lon": 101.775109
+},
+{
+"name": "BATU 11 CHERAS",
+"lat": 3.041339,
+"lon": 101.773383
+},
+{
+"name": "BUKIT DUKUNG",
+"lat": 3.026413,
+"lon": 101.771072
+},
+{
+"name": "SUNGAI JERNIH",
+"lat": 3.000948,
+"lon": 101.783857
+},
+{
+"name": "STADIUM KAJANG",
+"lat": 2.994514,
+"lon": 101.786338
+},
+{
+"name": "KAJANG",
+"lat": 2.982778,
+"lon": 101.790278
+},
+{
+"name": "KWASA DAMANSARA",
+"lat": 3.1763324,
+"lon": 101.5721456
+},
+{
+"name": "KAMPUNG SELAMAT",
+"lat": 3.197266,
+"lon": 101.578499
+},
+{
+"name": "SUNGAI BULOH",
+"lat": 3.206429,
+"lon": 101.581779
+},
+{
+"name": "DAMANSARA DAMAI",
+"lat": 3.199892,
+"lon": 101.592623
+},
+{
+"name": "SRI DAMANSARA BARAT",
+"lat": 3.198197,
+"lon": 101.608302
+},
+{
+"name": "SRI DAMANSARA SENTRAL",
+"lat": 3.198815,
+"lon": 101.621396
+},
+{
+"name": "SRI DAMANSARA TIMUR",
+"lat": 3.207832,
+"lon": 101.628716
+},
+{
+"name": "METRO PRIMA",
+"lat": 3.214438,
+"lon": 101.639402
+},
+{
+"name": "KEPONG BARU",
+"lat": 3.211663,
+"lon": 101.648193
+},
+{
+"name": "JINJANG",
+"lat": 3.209544,
+"lon": 101.655829
+},
+{
+"name": "SRI DELIMA",
+"lat": 3.207108,
+"lon": 101.665749
+},
+{
+"name": "KAMPUNG BATU",
+"lat": 3.205521,
+"lon": 101.675473
+},
+{
+"name": "KENTOMEN",
+"lat": 3.19563,
+"lon": 101.6797
+},
+{
+"name": "JALAN IPOH",
+"lat": 3.189319,
+"lon": 101.681145
+},
+{
+"name": "SENTUL BARAT",
+"lat": 3.179369,
+"lon": 101.684742
+},
+{
+"name": "TITIWANGSA",
+"lat": 3.17408,
+"lon": 101.69581
+},
+{
+"name": "HOSPITAL KUALA LUMPUR",
+"lat": 3.17405,
+"lon": 101.70239
+},
+{
+"name": "RAJA UDA",
+"lat": 3.16794,
+"lon": 101.71017
+},
+{
+"name": "AMPANG PARK",
+"lat": 3.16225,
+"lon": 101.71781
+},
+{
+"name": "PERSIARAN KLCC",
+"lat": 3.15712,
+"lon": 101.71834
+},
+{
+"name": "CONLAY",
+"lat": 3.15145,
+"lon": 101.71801
+},
+{
+"name": "TUN RAZAK EXCHANGE",
+"lat": 3.14289,
+"lon": 101.72034
+},
+{
+"name": "CHAN SOW LIN",
+"lat": 3.12839,
+"lon": 101.71663
+},
+{
+"name": "KUCHAI",
+"lat": 3.089546,
+"lon": 101.694124
+},
+{
+"name": "TAMAN NAGA EMAS",
+"lat": 3.077688,
+"lon": 101.699867
+},
+{
+"name": "SUNGAI BESI",
+"lat": 3.063737,
+"lon": 101.7084
+},
+{
+"name": "SERDANG RAYA UTARA",
+"lat": 3.041674,
+"lon": 101.704928
+},
+{
+"name": "SERDANG RAYA SELATAN",
+"lat": 3.028463,
+"lon": 101.707514
+},
+{
+"name": "SERDANG JAYA",
+"lat": 3.0216,
+"lon": 101.709
+},
+{
+"name": "UPM",
+"lat": 3.008489,
+"lon": 101.705396
+},
+{
+"name": "TAMAN EQUINE",
+"lat": 2.98942,
+"lon": 101.67244
+},
+{
+"name": "PUTRA PERMAI",
+"lat": 2.98339,
+"lon": 101.66099
+},
+{
+"name": "16 SIERRA",
+"lat": 2.964974,
+"lon": 101.654812
+},
+{
+"name": "CYBERJAYA UTARA",
+"lat": 2.95,
+"lon": 101.6573
+},
+{
+"name": "CYBERJAYA CITY CENTRE",
+"lat": 2.9384,
+"lon": 101.6659
+},
+{
+"name": "PUTRAJAYA SENTRAL",
+"lat": 2.9313,
+"lon": 101.6715
+},
+{
+"name": "KL SENTRAL",
+"lat": 3.132852,
+"lon": 101.687817
+},
+{
+"name": "TUN SAMBANTHAN",
+"lat": 3.13132,
+"lon": 101.69085
+},
+{
+"name": "MAHARAJALELA",
+"lat": 3.138743,
+"lon": 101.699268
+},
+{
+"name": "HANG TUAH",
+"lat": 3.140511,
+"lon": 101.706029
+},
+{
+"name": "IMBI",
+"lat": 3.14283,
+"lon": 101.70945
+},
+{
+"name": "BUKIT BINTANG ",
+"lat": 3.146022,
+"lon": 101.7115
+},
+{
+"name": "RAJA CHULAN",
+"lat": 3.150878,
+"lon": 101.710432
+},
+{
+"name": "BUKIT NANAS",
+"lat": 3.156214,
+"lon": 101.704809
+},
+{
+"name": "MEDAN TUANKU",
+"lat": 3.15935,
+"lon": 101.69888
+},
+{
+"name": "CHOW KIT",
+"lat": 3.167358,
+"lon": 101.698379
+},
+{
+"name": "TITIWANGSA",
+"lat": 3.173192,
+"lon": 101.696022
+},
+{
+"name": "SUNWAY-SETIA JAYA",
+"lat": 3.0828,
+"lon": 101.6123
+},
+{
+"name": "MENTARI",
+"lat": 3.0761,
+"lon": 101.6101
+},
+{
+"name": "SUNWAY LAGOON ",
+"lat": 3.0706,
+"lon": 101.6107
+},
+{
+"name": "SUNMED",
+"lat": 3.0656,
+"lon": 101.6087
+},
+{
+"name": "SunU-Monash",
+"lat": 3.0654,
+"lon": 101.6016
+},
+{
+"name": "SOUTH QUAY-USJ 1",
+"lat": 3.0617,
+"lon": 101.5969
+},
+{
+"name": "USJ7",
+"lat": 3.0553,
+"lon": 101.5919
+},
+{
+"name": "BANDAR UTAMA",
+"lat": 3.144722,
+"lon": 101.618611
+},
+{
+"name": "KAYU ARA",
+"lat": 3.134722,
+"lon": 101.616667
+},
+{
+"name": "BANDAR UTAMA 11",
+"lat": 3.133333,
+"lon": 101.604444
+},
+{
+"name": "DAMANSARA IDAMAN",
+"lat": 3.122778,
+"lon": 101.594167
+},
+{
+"name": "SUBANG",
+"lat": 3.106111,
+"lon": 101.591111
+},
+{
+"name": "GLENMARIE 2",
+"lat": 3.095278,
+"lon": 101.588611
+},
+{
+"name": "KERJAYA",
+"lat": 3.082222,
+"lon": 101.561944
+},
+{
+"name": "STADIUM SHAH ALAM",
+"lat": 3.079722,
+"lon": 101.548889
+},
+{
+"name": "DATO' MENTERI - SA SENTRAL",
+"lat": 3.069722,
+"lon": 101.521111
+},
+{
+"name": "UITM SHAH ALAM",
+"lat": 3.0625,
+"lon": 101.501111
+},
+{
+"name": "SEKSYEN 7",
+"lat": 3.067222,
+"lon": 101.486667
+},
+{
+"name": "BANDAR BARU KLANG",
+"lat": 3.0625,
+"lon": 101.465556
+},
+{
+"name": "PASAR KLANG",
+"lat": 3.067778,
+"lon": 101.450833
+},
+{
+"name": "JALAN MERU",
+"lat": 3.058889,
+"lon": 101.451944
+},
+{
+"name": "JAMBATAN KOTA",
+"lat": 3.047222,
+"lon": 101.4475
+},
+{
+"name": "TAMAN SELATAN",
+"lat": 3.026667,
+"lon": 101.442222
+},
+{
+"name": "SERI ANDALAS",
+"lat": 3.015833,
+"lon": 101.440556
+},
+{
+"name": "KLANG JAYA",
+"lat": 3.005278,
+"lon": 101.441667
+},
+{
+"name": "BANDAR BUKIT TINGGI",
+"lat": 2.993056,
+"lon": 101.445833
+},
+{
+"name": "JOHAN SETIA",
+"lat": 2.976111,
+"lon": 101.459167
+}
+]

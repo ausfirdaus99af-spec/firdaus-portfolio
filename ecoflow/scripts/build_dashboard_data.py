@@ -176,6 +176,7 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
     json_path = build(seed=args.seed, out_dir=args.out)
     print(f"Pipeline complete. Wrote {json_path.parent / 'ecoflow_hourly.csv'} and {json_path}")
+    __import__("build_advisor").build(out_dir=args.out)  # rebuild data/advisor_findings.json with the pipeline
 
 
 if __name__ == "__main__":

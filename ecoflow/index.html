@@ -20,6 +20,7 @@
       <a class="nav-brand" href="../">← Firdaus<span class="brand-dot">.</span>Zakaria</a>
       <ul class="nav-menu nav-menu-static">
         <li><a href="#insights">Insights</a></li>
+        <li><a href="#advisor">Advisor</a></li>
         <li><a href="#sustainability">Sustainability</a></li>
         <li><a href="#definitions">Definitions</a></li>
       </ul>
@@ -135,6 +136,20 @@
       </div>
     </section>
 
+    <!-- advisor -->
+    <section class="container prose-block" id="advisor" aria-labelledby="advisor-heading">
+      <h2 class="df-h2" id="advisor-heading">Engineering Improvement Advisor <span class="kpi-range">rule-based, recomputed from the data</span></h2>
+      <div class="prose">
+        <p>The advisor below is a set of deterministic engineering rules that run over the plant data on every rebuild. Each check either finds a problem with its evidence, finds nothing and says so, or finds something the data alone cannot settle and asks for a trial. Nothing here is a pre-written answer: regenerate the data differently and the findings change, including to "no action justified". Every threshold and formula is documented in <code>ecoflow/docs/ADVISOR_METHODOLOGY.md</code>.</p>
+      </div>
+      <div class="advisor-list" id="advisor-list" aria-live="polite">
+        <p class="chart-note" id="advisor-loading">Loading findings…</p>
+      </div>
+      <div class="prose">
+        <ul class="assumptions" id="advisor-gaps" aria-label="Data gaps"></ul>
+      </div>
+    </section>
+
     <!-- sustainability -->
     <section class="container prose-block" id="sustainability" aria-labelledby="sust-heading">
       <h2 class="df-h2" id="sust-heading">Sustainability comparison <span class="kpi-range">normal vs improved settings, what-if</span></h2>
@@ -176,5 +191,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/advisor.js"></script>
 </body>
 </html>

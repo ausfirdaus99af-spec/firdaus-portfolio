@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KL Mobility Lab - What if we worked closer to home?</title>
+  <meta name="description" content="An evidence-based investigation into Kuala Lumpur's congestion, commuting patterns and sustainable mobility alternatives, built on Malaysian open data.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dash.css">
+  <link rel="stylesheet" href="css/mobility.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav-brand" href="../">← Firdaus<span class="brand-dot">.</span>Zakaria</a>
+      <ul class="nav-menu nav-menu-static">
+        <li><a href="#findings">Findings</a></li>
+        <li><a href="#explorer">Data</a></li>
+        <li><a href="#simulator">Simulator</a></li>
+        <li><a href="#limits">Limits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="synthetic-banner" role="note">
+      This page shows observed Malaysian open data, each chart with its source, plus one clearly marked what-if simulator whose outputs are modelled estimates, not observations.
+    </div>
+
+    <section class="df-hero">
+      <div class="container">
+        <p class="section-eyebrow">Project 04 · Urban mobility · Data analytics · Sustainability</p>
+        <h1>What if we worked closer to home?</h1>
+        <p class="df-sub">An evidence-based investigation into Kuala Lumpur's congestion, commuting patterns and sustainable mobility alternatives. The starting question is a hypothesis, not a conclusion: would traffic improve if more people lived and worked in the same region?</p>
+      </div>
+    </section>
+
+    <!-- overview -->
+    <section class="container prose-block" aria-labelledby="overview-heading">
+      <h2 class="df-h2" id="overview-heading">Research overview</h2>
+      <div class="prose">
+        <p>Greater Kuala Lumpur concentrates jobs while much of its workforce lives further and further out, and the region keeps adding cars. This project asks whether the congestion that follows is mainly a geography problem (where people live versus where they work), a transport problem (what the alternatives to driving are like), or both, and what the open data can and cannot say about it.</p>
+        <p>The evidence base is deliberately public and reproducible: daily public transport ridership since 2019, a full year of rail station origin-destination counts, car registration transactions, population and employment series, the national migration survey, and cited congestion metrics. Where the data runs out, the gaps are stated rather than filled in. A separate simulator explores what-if scenarios under adjustable assumptions, and its outputs are always labelled as modelled.</p>
+      </div>
+    </section>
+
+    <div class="container" id="load-error" hidden>
+      <div class="error-box" role="alert">
+        <strong>Data could not be loaded.</strong>
+        <span id="load-error-detail">If you opened this file directly from disk, please serve the site over HTTP (for example <code>python -m http.server</code> in the repository folder) so the browser can fetch the dataset.</span>
+      </div>
+    </div>
+
+    <!-- key findings -->
+    <section class="container" id="findings" aria-labelledby="findings-heading">
+      <h2 class="df-h2" id="findings-heading">Key figures from the evidence</h2>
+      <div class="finding-grid" id="finding-grid"></div>
+      <p class="chart-note finding-note">Each card names its publisher. TomTom figures are quoted under attribution from their published index; DOSM figures are quoted from the 2024 Migration Survey.</p>
+    </section>
+
+    <!-- explorer -->
+    <section class="container charts" id="explorer" aria-label="Data explorer">
+      <article class="chart-card chart-wide">
+        <div class="chart-head"><h3>Public transport ridership, monthly</h3><span class="src-tag" data-src="ridership"></span></div>
+        <p class="chart-note">Trips per month by mode group. The pandemic collapse and the recovery since are the dominant story; these are trips, not unique people.</p>
+        <div class="chart-box"><canvas id="chart-ridership" role="img" aria-label="Monthly ridership chart"></canvas></div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-head"><h3>Rail trips by day of week, 2026</h3></div>
+        <p class="chart-note">Average daily rail trips. The weekday peak against the weekend dip is the commuting signature.</p>
+        <div class="chart-box"><canvas id="chart-weekday" role="img" aria-label="Weekday profile chart"></canvas></div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-head"><h3>Busiest rail station pairs, 2026</h3><span class="src-tag" data-src="od"></span></div>
+        <p class="chart-note">Average daily trips on the top origin-destination pairs. Rail users only; the bus network is not captured.</p>
+        <div class="chart-box"><canvas id="chart-od" role="img" aria-label="Top origin destination pairs chart"></canvas></div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-head"><h3>Rail network coverage</h3><span class="src-tag">GTFS static, data.gov.my, CC BY 4.0</span></div>
+        <p class="chart-note">The 187 Rapid Rail stations plotted by coordinates. Coverage is dense in the centre and thins fast moving outward, which is where the car takes over.</p>
+        <div class="map-box" id="stops-map" role="img" aria-label="Scatter map of rail stations"></div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-head"><h3>New car registrations, 2026</h3><span class="src-tag" data-src="registrations"></span></div>
+        <p class="chart-note">Registration transactions per month. These are sales events, not vehicles on any particular road, and the partner-channel bucket has no geography.</p>
+        <div class="chart-box"><canvas id="chart-reg" role="img" aria-label="Car registrations chart"></canvas></div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-head"><h3>People and jobs, Selangor vs KL</h3><span class="src-tag" data-src="population"></span></div>
+        <p class="chart-note">Population (lines, left axis) and employed residents (dashed, right axis). Selangor keeps growing; KL is flat, yet the jobs and the rail flows still point at the centre.</p>
+        <div class="chart-box"><canvas id="chart-popemp" role="img" aria-label="Population and employment chart"></canvas></div>
+      </article>
+    </section>
+
+    <!-- simulator -->
+    <section class="container" id="simulator" aria-labelledby="sim-heading">
+      <h2 class="df-h2" id="sim-heading">What-if simulator <span class="kpi-range">modelled estimates, not observations</span></h2>
+      <div class="sim-wrap">
+        <div class="sim-controls">
+          <div class="sim-presets" role="group" aria-label="Scenario presets">
+            <button type="button" class="preset-btn is-active" data-preset="A">A · Today</button>
+            <button type="button" class="preset-btn" data-preset="B">B · Local jobs</button>
+            <button type="button" class="preset-btn" data-preset="C">C · Transit shift</button>
+            <button type="button" class="preset-btn" data-preset="D">D · Hybrid work</button>
+            <button type="button" class="preset-btn" data-preset="E">E · Combined</button>
+          </div>
+          <p class="sim-preset-desc" id="sim-preset-desc"></p>
+
+          <div class="sim-sliders">
+            <label>Car commuters considered <output id="out-commuters"></output>
+              <input type="range" id="in-commuters" min="100000" max="3000000" step="100000"></label>
+            <label>Share affected by the change <output id="out-share"></output>
+              <input type="range" id="in-share" min="0" max="100" step="5"></label>
+            <label>Average one-way commute today <output id="out-basekm"></output>
+              <input type="range" id="in-basekm" min="5" max="60" step="1"></label>
+            <label>One-way commute after the change <output id="out-newkm"></output>
+              <input type="range" id="in-newkm" min="2" max="60" step="1"></label>
+            <label>Working days per week <output id="out-days"></output>
+              <input type="range" id="in-days" min="3" max="6" step="1"></label>
+            <label>Remote days per week (affected group) <output id="out-remote"></output>
+              <input type="range" id="in-remote" min="0" max="5" step="1"></label>
+            <label>Shift to public transport (affected group) <output id="out-pt"></output>
+              <input type="range" id="in-pt" min="0" max="100" step="5"></label>
+            <label>Average car occupancy <output id="out-occ"></output>
+              <input type="range" id="in-occ" min="1" max="2" step="0.1"></label>
+            <label>Fuel use, litres per 100 km <output id="out-fuel"></output>
+              <input type="range" id="in-fuel" min="5" max="12" step="0.5"></label>
+            <label>Emissions, kg CO₂ per litre <output id="out-ef"></output>
+              <input type="range" id="in-ef" min="2.2" max="2.7" step="0.01"></label>
+          </div>
+        </div>
+
+        <div class="sim-results">
+          <div class="kpi-card"><span class="kpi-label">Car trips avoided</span><span class="kpi-value" id="sim-trips">–</span><span class="kpi-unit">per week, modelled</span></div>
+          <div class="kpi-card"><span class="kpi-label">Distance avoided</span><span class="kpi-value" id="sim-vkt">–</span><span class="kpi-unit">vehicle-km per year, modelled</span></div>
+          <div class="kpi-card"><span class="kpi-label">Fuel avoided</span><span class="kpi-value" id="sim-fuel">–</span><span class="kpi-unit">litres per year, modelled</span></div>
+          <div class="kpi-card"><span class="kpi-label">CO₂ avoided</span><span class="kpi-value" id="sim-co2">–</span><span class="kpi-unit">tonnes per year, modelled</span></div>
+          <p class="sim-range" id="sim-uncertainty"></p>
+          <p class="sim-caveat">No figure for minutes saved in traffic is shown because estimating congestion relief needs a validated traffic model, which this project does not have. These outputs are arithmetic on the stated assumptions, with a ±30% band to make the uncertainty visible. They are not observed Malaysian outcomes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- counterarguments -->
+    <section class="container prose-block" id="limits" aria-labelledby="limits-heading">
+      <h2 class="df-h2" id="limits-heading">Counterarguments and limitations</h2>
+      <div class="prose">
+        <p><strong>What the evidence supports.</strong> Rail flows point strongly at the city centre, the weekday-weekend gap shows commuting dominates rail use, Selangor keeps growing while KL's resident population is flat, and KL's published congestion metrics worsened year on year. Together these are consistent with long inward commutes being a real feature of the region.</p>
+        <p><strong>What it does not support.</strong> None of this proves that moving jobs closer to homes would cut congestion by any particular amount. Induced demand is the classic counterargument: road space freed by one driver tends to be taken by another. Decentralising jobs can also lengthen some commutes (people do not relocate neatly), and remote work can increase non-work driving. The migration survey measures where people move house, not where they commute, and most stated reasons for moving are family-related, not career-related.</p>
+        <p><strong>Competing explanations for congestion</strong> include fuel and parking prices, vehicle affordability, land-use rules, the quality and reliability of buses (for which no open travel-time data exists), and simple population growth. The data here cannot rank these causes.</p>
+        <p><strong>The decisive gaps.</strong> Malaysia publishes no open door-to-door commuting matrix, no jobs-by-workplace geography at useful detail, and no open road traffic counts. Until those exist, the honest verdict on the hypothesis is: plausible, partially supported, unproven.</p>
+      </div>
+    </section>
+
+    <!-- verdict -->
+    <section class="container prose-block" aria-labelledby="verdict-heading">
+      <h2 class="df-h2" id="verdict-heading">Where the question stands</h2>
+      <div class="verdict-grid">
+        <div class="def-card"><h3>Supported</h3><p>Commuting dominates rail use; flows point at the centre; the region's population grows outward while KL's is flat; published congestion metrics worsened.</p></div>
+        <div class="def-card"><h3>Inconclusive</h3><p>Whether shorter home-to-work distances would reduce congestion, and by how much. The commuting and traffic data needed to test this are not open.</p></div>
+        <div class="def-card"><h3>Contradicts the simple story</h3><p>Most residential moves are family-driven, not job-driven, and KL is a net sender of residents even while it remains the destination of rail flows.</p></div>
+        <div class="def-card"><h3>Hypothetical only</h3><p>Every simulator output. They show the arithmetic scale of the levers, not predicted outcomes.</p></div>
+        <div class="def-card"><h3>Open questions</h3><p>Actual commute origin-destination patterns, bus travel times, workplace geography, and the effect of the new rail lines opening since 2026.</p></div>
+      </div>
+    </section>
+
+    <!-- methodology -->
+    <section class="container prose-block" id="methodology" aria-labelledby="method-heading">
+      <h2 class="df-h2" id="method-heading">Methodology and sources</h2>
+      <div class="prose">
+        <ul class="assumptions" id="sources-list" aria-label="Data sources and licences"></ul>
+        <p class="method-link">Full methodology and cleaning rules: <code>mobility/docs/METHODOLOGY.md</code>. Source catalogue with licences and limitations: <code>mobility/docs/SOURCE_CATALOGUE.md</code>. Pipeline, SQL and tests: <code>mobility/scripts/</code>, <code>mobility/sql/</code>, <code>mobility/tests/</code>. Raw files are not stored in the repository; <code>mobility/scripts/fetch_sources.py</code> re-downloads them from the original publishers.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>KL Mobility Lab · open data investigation · © 2026 Firdaus Zakaria</p>
+      <p class="footer-note">Observed data from the publishers credited above; what-if outputs are modelled. Analysis reproducible from the repository.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/mobility.js"></script>
+</body>
+</html>

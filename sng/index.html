@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNG Plant Design - Process Case Study</title>
+  <meta name="description" content="An educational synthetic natural gas process-design case study: mass and energy balances, KPIs and scenario analysis on an interactive dashboard.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dash.css">
+  <link rel="stylesheet" href="css/sng.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav-brand" href="../">← Firdaus<span class="brand-dot">.</span>Zakaria</a>
+      <ul class="nav-menu nav-menu-static">
+        <li><a href="#pfd">Process</a></li>
+        <li><a href="#balance">Balances</a></li>
+        <li><a href="#sensitivity">Scenarios</a></li>
+        <li><a href="#docs">Notes</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="synthetic-banner" role="note">
+      Educational case study: every number on this page comes from a simplified model with stated assumptions. It is not a validated plant design.
+    </div>
+
+    <section class="df-hero">
+      <div class="container">
+        <p class="section-eyebrow">Project 02 · Chemical process engineering</p>
+        <h1>Synthetic Natural Gas Plant Design</h1>
+        <p class="df-sub">A process-design case study for a plant making 22,000 tonnes of synthetic natural gas a year from biomass-derived syngas. My final-year group project was on this topic; this study is rebuilt from scratch as an educational exercise, with every assumption written down and every calculation tested.</p>
+      </div>
+    </section>
+
+    <!-- controls -->
+    <section class="container controls-row" aria-label="Scenario controls">
+      <div class="control">
+        <label for="scenario-select">Operating scenario</label>
+        <select id="scenario-select">
+          <option value="base" selected>Design case</option>
+          <option value="balanced_ratio">Balanced H₂ ratio (improved design)</option>
+          <option value="h2_rich">Hydrogen-rich feed</option>
+          <option value="aged_catalyst">Aged catalyst (what-if)</option>
+        </select>
+      </div>
+      <p class="control-note" id="scenario-note"></p>
+    </section>
+
+    <div class="container" id="load-error" hidden>
+      <div class="error-box" role="alert">
+        <strong>Data could not be loaded.</strong>
+        <span id="load-error-detail">If you opened this file directly from disk, please serve the site over HTTP (for example <code>python -m http.server</code> in the repository folder) so the browser can fetch the dataset.</span>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <section class="container" aria-labelledby="kpi-heading">
+      <h2 class="df-h2" id="kpi-heading">Process performance <span class="kpi-range" id="kpi-scenario"></span></h2>
+      <div class="kpi-grid">
+        <div class="kpi-card"><span class="kpi-label">SNG production</span><span class="kpi-value" id="kpi-sng">–</span><span class="kpi-unit">kg of product gas per hour</span></div>
+        <div class="kpi-card"><span class="kpi-label">Annual output</span><span class="kpi-value" id="kpi-annual">–</span><span class="kpi-unit">tonnes per year at 8,000 h</span></div>
+        <div class="kpi-card"><span class="kpi-label">Methane purity</span><span class="kpi-value" id="kpi-purity">–</span><span class="kpi-unit">mol% CH₄ in dry product</span></div>
+        <div class="kpi-card"><span class="kpi-label">CO conversion</span><span class="kpi-value" id="kpi-conv">–</span><span class="kpi-unit">of carbon monoxide reacted</span></div>
+        <div class="kpi-card"><span class="kpi-label">Methane yield</span><span class="kpi-value" id="kpi-yield">–</span><span class="kpi-unit">CH₄ made per CO + CO₂ fed</span></div>
+        <div class="kpi-card"><span class="kpi-label">Cold gas efficiency</span><span class="kpi-value" id="kpi-cge">–</span><span class="kpi-unit">heating value out vs in</span></div>
+        <div class="kpi-card"><span class="kpi-label">Mass balance closure</span><span class="kpi-value" id="kpi-closure">–</span><span class="kpi-unit">mass out vs mass in</span></div>
+        <div class="kpi-card"><span class="kpi-label">Cooling demand</span><span class="kpi-value" id="kpi-cool">–</span><span class="kpi-unit">kWh removed per kg of SNG</span></div>
+      </div>
+    </section>
+
+    <!-- PFD -->
+    <section class="container" id="pfd" aria-labelledby="pfd-heading">
+      <h2 class="df-h2" id="pfd-heading">Process flow diagram <span class="kpi-range">click a unit to inspect it</span></h2>
+      <div class="pfd-wrap">
+        <div class="pfd-canvas">
+          <svg id="pfd-svg" viewBox="0 0 960 330" role="group" aria-label="Process flow diagram with six units">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#D9FF8B"/>
+              </marker>
+              <pattern id="pfdgrid" width="24" height="24" patternUnits="userSpaceOnUse">
+                <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(217,255,139,0.07)" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="960" height="330" fill="url(#pfdgrid)"/>
+            <!-- main line -->
+            <g stroke="#D9FF8B" stroke-width="1.6" fill="none">
+              <line x1="10" y1="140" x2="70" y2="140" marker-end="url(#arrow)"/>
+              <line x1="170" y1="140" x2="215" y2="140" marker-end="url(#arrow)"/>
+              <line x1="315" y1="140" x2="360" y2="140" marker-end="url(#arrow)"/>
+              <line x1="460" y1="140" x2="505" y2="140" marker-end="url(#arrow)"/>
+              <line x1="605" y1="140" x2="650" y2="140" marker-end="url(#arrow)"/>
+              <line x1="750" y1="140" x2="795" y2="140" marker-end="url(#arrow)"/>
+              <line x1="895" y1="140" x2="945" y2="140" marker-end="url(#arrow)"/>
+              <!-- steam into WGS -->
+              <line x1="410" y1="60" x2="410" y2="105" marker-end="url(#arrow)"/>
+              <!-- CO2 out of U4 -->
+              <line x1="555" y1="175" x2="555" y2="235" marker-end="url(#arrow)"/>
+              <!-- condensate out of U6 -->
+              <line x1="845" y1="175" x2="845" y2="235" marker-end="url(#arrow)"/>
+            </g>
+            <!-- units: each is a button-like group -->
+            <g class="pfd-unit" data-unit="U1" tabindex="0" role="button" aria-label="Feed compressor">
+              <rect x="70" y="105" width="100" height="70" rx="10"/>
+              <text x="120" y="135">U1</text>
+              <text class="pfd-sub" x="120" y="155">Compressor</text>
+            </g>
+            <g class="pfd-unit" data-unit="U2" tabindex="0" role="button" aria-label="Gas cleaning">
+              <rect x="215" y="105" width="100" height="70" rx="10"/>
+              <text x="265" y="135">U2</text>
+              <text class="pfd-sub" x="265" y="155">Gas cleaning</text>
+            </g>
+            <g class="pfd-unit" data-unit="U3" tabindex="0" role="button" aria-label="Water gas shift reactor">
+              <rect x="360" y="105" width="100" height="70" rx="10"/>
+              <text x="410" y="135">U3</text>
+              <text class="pfd-sub" x="410" y="155">Shift reactor</text>
+            </g>
+            <g class="pfd-unit" data-unit="U4" tabindex="0" role="button" aria-label="Carbon dioxide removal">
+              <rect x="505" y="105" width="100" height="70" rx="10"/>
+              <text x="555" y="135">U4</text>
+              <text class="pfd-sub" x="555" y="155">CO₂ removal</text>
+            </g>
+            <g class="pfd-unit" data-unit="U5" tabindex="0" role="button" aria-label="Methanation reactor">
+              <rect x="650" y="105" width="100" height="70" rx="10"/>
+              <text x="700" y="135">U5</text>
+              <text class="pfd-sub" x="700" y="155">Methanation</text>
+            </g>
+            <g class="pfd-unit" data-unit="U6" tabindex="0" role="button" aria-label="Condenser and dryer">
+              <rect x="795" y="105" width="100" height="70" rx="10"/>
+              <text x="845" y="135">U6</text>
+              <text class="pfd-sub" x="845" y="155">Dryer</text>
+            </g>
+            <!-- labels -->
+            <g class="pfd-label">
+              <text x="12" y="128">Syngas feed</text>
+              <text x="418" y="55">Steam</text>
+              <text x="563" y="252">CO₂ by-product</text>
+              <text x="853" y="252">Condensate</text>
+              <text x="947" y="128" text-anchor="end">SNG product</text>
+            </g>
+          </svg>
+        </div>
+        <aside class="pfd-panel" id="pfd-panel" aria-live="polite">
+          <h3 id="pfd-panel-title">Select a unit</h3>
+          <p id="pfd-panel-desc">Click or tab to any unit in the diagram to see what it does, its duty and the stream leaving it.</p>
+          <dl class="pfd-facts" id="pfd-facts" hidden>
+            <div><dt>Duty</dt><dd id="pfd-duty">–</dd></div>
+            <div><dt>Outlet flow</dt><dd id="pfd-outflow">–</dd></div>
+            <div><dt>Outlet composition (mol%)</dt><dd id="pfd-outcomp">–</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- balances -->
+    <section class="container" id="balance" aria-labelledby="balance-heading">
+      <h2 class="df-h2" id="balance-heading">Mass balance</h2>
+      <p class="chart-note">Everything that enters the plant must leave it. The table follows the gas through each unit; the summary checks that total mass in equals total mass out.</p>
+      <div class="table-wrap">
+        <table class="data-table" id="stream-table">
+          <caption class="sr-only">Stream table for the selected scenario</caption>
+          <thead>
+            <tr><th scope="col">Stream</th><th scope="col">kmol/h</th><th scope="col">kg/h</th><th scope="col">H₂</th><th scope="col">CO</th><th scope="col">CO₂</th><th scope="col">CH₄</th><th scope="col">N₂</th><th scope="col">H₂O</th></tr>
+          </thead>
+          <tbody id="stream-tbody"></tbody>
+        </table>
+      </div>
+      <div class="balance-summary" id="balance-summary"></div>
+
+      <div class="charts charts-pair">
+        <article class="chart-card">
+          <div class="chart-head"><h3>Feed vs product composition</h3></div>
+          <p class="chart-note">Mol%, water included. The product is almost all methane.</p>
+          <div class="chart-box"><canvas id="chart-comp" role="img" aria-label="Feed versus product composition chart"></canvas></div>
+        </article>
+        <article class="chart-card">
+          <div class="chart-head"><h3>Energy balance by unit</h3></div>
+          <p class="chart-note">Heating is positive, cooling negative, kW. Methanation gives off the most heat.</p>
+          <div class="chart-box"><canvas id="chart-energy" role="img" aria-label="Energy duties by unit chart"></canvas></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- sensitivity -->
+    <section class="container" id="sensitivity" aria-labelledby="sens-heading">
+      <h2 class="df-h2" id="sens-heading">Sensitivity analysis <span class="kpi-range">design case feed</span></h2>
+      <div class="charts charts-pair">
+        <article class="chart-card">
+          <div class="chart-head"><h3>Effect of CO conversion</h3></div>
+          <p class="chart-note">Lower conversion (an aged catalyst) means less methane and more unreacted CO in the product.</p>
+          <div class="chart-box"><canvas id="chart-sens-conv" role="img" aria-label="CO conversion sensitivity chart"></canvas></div>
+        </article>
+        <article class="chart-card">
+          <div class="chart-head"><h3>Effect of CO₂ removal</h3></div>
+          <p class="chart-note">Removing more CO₂ upstream gives a purer product but means less gas is converted to methane.</p>
+          <div class="chart-box"><canvas id="chart-sens-co2" role="img" aria-label="CO2 removal sensitivity chart"></canvas></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- insights -->
+    <section class="container prose-block" id="insights" aria-labelledby="insights-heading">
+      <h2 class="df-h2" id="insights-heading">Engineering insights</h2>
+      <div class="prose" id="insights-prose">
+        <p>Methanation is strongly exothermic: most of the engineering effort in a real SNG plant goes into removing that heat safely and using it well. In this model the methanation cooling duty dwarfs every other duty, which is why the energy chart is dominated by one bar.</p>
+        <p>The shift reactor is the lever that sets everything downstream, and the design case deliberately shows what happens when it is set naively. Targeting three hydrogen molecules per carbon monoxide molecule sounds right, but it leaves nothing for the carbon dioxide also in the gas, so CO₂ passes through unconverted. The balanced-ratio scenario retargets the shift so hydrogen covers both reactions, and the CO₂ in the product falls from about 8 to 1 mol%. The twist is that overall purity barely moves, because leftover hydrogen and inert nitrogen take CO₂'s place. Finding the shortfall, fixing it, and then seeing why the fix alone is not enough (a real plant adds a recycle or membrane step) is the main lesson of this study.</p>
+        <p>The aged-catalyst scenario shows why plants monitor conversion closely: a drop from 98% to 90% CO conversion cuts both the production rate and the product purity, and unreacted CO in the product is a quality and safety problem for a gas grid.</p>
+        <p>What this model leaves out matters as much as what it includes: no reaction kinetics or reactor sizing, no recycle streams, no pressure-drop or compressor staging calculations, and no costs. The documentation lists every simplification.</p>
+      </div>
+    </section>
+
+    <!-- docs -->
+    <section class="container prose-block" id="docs" aria-labelledby="docs-heading">
+      <h2 class="df-h2" id="docs-heading">Assumptions and documentation</h2>
+      <div class="prose">
+        <ul class="assumptions" id="assumptions-list" aria-label="Model assumptions"></ul>
+        <p class="method-link">Full write-up: <code>sng/docs/DESIGN_BASIS.md</code> and <code>sng/docs/CALCULATIONS_AND_VALIDATION.md</code> in the repository. The model and every calculation live in <code>sng/scripts/</code> with automated tests in <code>sng/tests/</code>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>SNG Plant Design · educational case study · © 2026 Firdaus Zakaria</p>
+      <p class="footer-note">A learning project by Firdaus Zakaria. All figures regenerate from the Python model in the repository.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/sng.js"></script>
+</body>
+</html>

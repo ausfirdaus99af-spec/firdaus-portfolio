@@ -49,3 +49,10 @@ Status below reflects the state at hand-off on 10 Nov 2026.
 2. Follow docs/DEPLOYMENT_GUIDE.md sections 1 to 3
 3. Verify the live site, including the dashboard data load
 4. Add the link to LinkedIn (guide sections 5 and 6)
+
+## Published 10 Nov 2026
+
+Live at https://ausfirdaus99af-spec.github.io/firdaus-portfolio/ (Pages from
+main, root). Dashboard verified live (KPIs, 5 charts, data JSON 200). LinkedIn:
+website added to Contact info and a Featured link card added. Remaining owner
+actions: Firdaus reads the methodology docs; decide on a resume PDF.

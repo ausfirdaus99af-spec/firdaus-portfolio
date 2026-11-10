@@ -363,6 +363,15 @@ img, svg { max-width: 100%; height: auto; }
 }
 .card:hover { border-color: var(--border); transform: translateY(-3px); }
 
+.project-card { display: flex; flex-direction: column; }
+.card-stack {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+  margin-top: auto;
+}
+.card-btn { margin-top: 1rem; align-self: flex-start; padding: 0.55rem 1.2rem; font-size: 0.9rem; }
+
 .card-kicker {
   font-size: 0.76rem;
   text-transform: uppercase;

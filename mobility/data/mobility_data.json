@@ -1,0 +1,1245 @@
+{
+ "meta": {
+  "project": "KL Mobility Lab",
+  "generated_at": "2026-11-10T01:07:15+00:00",
+  "observed_vs_modelled": "Everything in this file is observed public data except simulator_defaults, which are stated assumptions.",
+  "licences": [
+   {
+    "source": "data.gov.my ridership_headline",
+    "licence": "CC BY 4.0",
+    "attribution": "data.gov.my / Prasarana Malaysia / Ministry of Transport"
+   },
+   {
+    "source": "data.gov.my ridership_od_rapidrail_daily (2026)",
+    "licence": "CC BY 4.0",
+    "attribution": "data.gov.my / Prasarana Malaysia / Ministry of Transport"
+   },
+   {
+    "source": "data.gov.my GTFS static, Rapid Rail KL",
+    "licence": "CC BY 4.0",
+    "attribution": "data.gov.my / Prasarana Malaysia"
+   },
+   {
+    "source": "data.gov.my registration_transactions_car (2026)",
+    "licence": "CC BY 4.0",
+    "attribution": "data.gov.my / JPJ / Ministry of Transport"
+   },
+   {
+    "source": "data.gov.my population_district",
+    "licence": "CC BY 4.0",
+    "attribution": "data.gov.my / Department of Statistics Malaysia"
+   },
+   {
+    "source": "data.gov.my lfs_qtr_state",
+    "licence": "CC BY 4.0",
+    "attribution": "data.gov.my / Department of Statistics Malaysia"
+   },
+   {
+    "source": "DOSM Migration Survey Report Malaysia 2024",
+    "licence": "Copyright DOSM, all rights reserved",
+    "attribution": "Department of Statistics Malaysia"
+   },
+   {
+    "source": "TomTom Traffic Index 2025",
+    "licence": "Proprietary, headline figures citable with attribution",
+    "attribution": "TomTom Traffic Index 2025, retrieved 10 November 2026"
+   },
+   {
+    "source": "World Bank Malaysia Economic Monitor, June 2015",
+    "licence": "CC BY 3.0 IGO",
+    "attribution": "World Bank, DOI 10.1596/22038"
+   }
+  ],
+  "gaps": [
+   "No door-to-door commuting origin-destination matrix exists as open data; the rail OD matrix covers rail riders only, station to station, in a region where most commuting is by car.",
+   "No workplace location data below state level; employment is counted at the worker's state of residence, so the work half of the live-work question cannot be mapped.",
+   "No open time series of road traffic volumes or speeds for the Klang Valley; congestion outcomes exist only as TomTom's annual headline numbers and RTVM PDF reports.",
+   "No maintained open series of mode shares over time; morning-peak figures are scattered across SPAD-era reports with differing definitions.",
+   "No bus origin-destination matrix and no realised bus journey times; Prasarana publishes bus schedules and some ridership only.",
+   "Car registration data records transactions, not vehicle use, and the Rakan Niaga channel detaches most 2026 transactions from any state.",
+   "With open data alone the hypothesis can be explored but not conclusively tested; findings are descriptive evidence consistent with the hypothesis, not proof of it."
+  ]
+ },
+ "ridership": {
+  "source": "data.gov.my ridership_headline, CC BY 4.0",
+  "period": {
+   "start": "2019-01",
+   "end": "2026-08"
+  },
+  "monthly": [
+   {
+    "m": "2019-01",
+    "rail": 19447972,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-02",
+    "rail": 16154104,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-03",
+    "rail": 20157497,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-04",
+    "rail": 20055305,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-05",
+    "rail": 19295470,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-06",
+    "rail": 17619475,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-07",
+    "rail": 21036499,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-08",
+    "rail": 20420797,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-09",
+    "rail": 18631618,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-10",
+    "rail": 21429132,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-11",
+    "rail": 20938307,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2019-12",
+    "rail": 21107563,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-01",
+    "rail": 20077950,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-02",
+    "rail": 19194226,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-03",
+    "rail": 11314882,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-04",
+    "rail": 1253891,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-05",
+    "rail": 3800296,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-06",
+    "rail": 7597898,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-07",
+    "rail": 10919988,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-08",
+    "rail": 11031750,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-09",
+    "rail": 12309875,
+    "bus": null,
+    "ktmb": null
+   },
+   {
+    "m": "2020-10",
+    "rail": 8320896,
+    "bus": null,
+    "ktmb": 105383
+   },
+   {
+    "m": "2020-11",
+    "rail": 6717138,
+    "bus": null,
+    "ktmb": 145282
+   },
+   {
+    "m": "2020-12",
+    "rail": 7795826,
+    "bus": null,
+    "ktmb": 286266
+   },
+   {
+    "m": "2021-01",
+    "rail": 5667812,
+    "bus": null,
+    "ktmb": 173105
+   },
+   {
+    "m": "2021-02",
+    "rail": 5259755,
+    "bus": null,
+    "ktmb": 94131
+   },
+   {
+    "m": "2021-03",
+    "rail": 8573236,
+    "bus": null,
+    "ktmb": 192354
+   },
+   {
+    "m": "2021-04",
+    "rail": 9104944,
+    "bus": null,
+    "ktmb": 203922
+   },
+   {
+    "m": "2021-05",
+    "rail": 5548710,
+    "bus": null,
+    "ktmb": 109177
+   },
+   {
+    "m": "2021-06",
+    "rail": 2271348,
+    "bus": null,
+    "ktmb": 33226
+   },
+   {
+    "m": "2021-07",
+    "rail": 2473266,
+    "bus": null,
+    "ktmb": 48590
+   },
+   {
+    "m": "2021-08",
+    "rail": 3092748,
+    "bus": null,
+    "ktmb": 49604
+   },
+   {
+    "m": "2021-09",
+    "rail": 4761029,
+    "bus": null,
+    "ktmb": 70955
+   },
+   {
+    "m": "2021-10",
+    "rail": 6668368,
+    "bus": null,
+    "ktmb": 213802
+   },
+   {
+    "m": "2021-11",
+    "rail": 8133875,
+    "bus": null,
+    "ktmb": 347694
+   },
+   {
+    "m": "2021-12",
+    "rail": 9306835,
+    "bus": null,
+    "ktmb": 448820
+   },
+   {
+    "m": "2022-01",
+    "rail": 9612774,
+    "bus": 4277173,
+    "ktmb": 401611
+   },
+   {
+    "m": "2022-02",
+    "rail": 7277591,
+    "bus": 3547424,
+    "ktmb": 377026
+   },
+   {
+    "m": "2022-03",
+    "rail": 9083750,
+    "bus": 4018752,
+    "ktmb": 427625
+   },
+   {
+    "m": "2022-04",
+    "rail": 10561079,
+    "bus": 4354817,
+    "ktmb": 439281
+   },
+   {
+    "m": "2022-05",
+    "rail": 11833870,
+    "bus": 4765984,
+    "ktmb": 645692
+   },
+   {
+    "m": "2022-06",
+    "rail": 15573245,
+    "bus": 5158550,
+    "ktmb": 755096
+   },
+   {
+    "m": "2022-07",
+    "rail": 16042169,
+    "bus": 5400286,
+    "ktmb": 897746
+   },
+   {
+    "m": "2022-08",
+    "rail": 15905019,
+    "bus": 5765720,
+    "ktmb": 888978
+   },
+   {
+    "m": "2022-09",
+    "rail": 15894794,
+    "bus": 5328205,
+    "ktmb": 1018987
+   },
+   {
+    "m": "2022-10",
+    "rail": 16007576,
+    "bus": 5483515,
+    "ktmb": 1065292
+   },
+   {
+    "m": "2022-11",
+    "rail": 14383189,
+    "bus": 5470998,
+    "ktmb": 983633
+   },
+   {
+    "m": "2022-12",
+    "rail": 17155896,
+    "bus": 5448220,
+    "ktmb": 1172887
+   },
+   {
+    "m": "2023-01",
+    "rail": 16190342,
+    "bus": 5591677,
+    "ktmb": 1015776
+   },
+   {
+    "m": "2023-02",
+    "rail": 15212441,
+    "bus": 5551393,
+    "ktmb": 947398
+   },
+   {
+    "m": "2023-03",
+    "rail": 19941170,
+    "bus": 6980527,
+    "ktmb": 1090996
+   },
+   {
+    "m": "2023-04",
+    "rail": 17162168,
+    "bus": 6214387,
+    "ktmb": 1030618
+   },
+   {
+    "m": "2023-05",
+    "rail": 19589542,
+    "bus": 6664552,
+    "ktmb": 1062415
+   },
+   {
+    "m": "2023-06",
+    "rail": 19486463,
+    "bus": 6381856,
+    "ktmb": 1085727
+   },
+   {
+    "m": "2023-07",
+    "rail": 20382818,
+    "bus": 6668971,
+    "ktmb": 1080164
+   },
+   {
+    "m": "2023-08",
+    "rail": 21673035,
+    "bus": 6972799,
+    "ktmb": 1112143
+   },
+   {
+    "m": "2023-09",
+    "rail": 20805736,
+    "bus": 6761465,
+    "ktmb": 1198342
+   },
+   {
+    "m": "2023-10",
+    "rail": 22517618,
+    "bus": 7398732,
+    "ktmb": 2145829
+   },
+   {
+    "m": "2023-11",
+    "rail": 22340035,
+    "bus": 7334845,
+    "ktmb": 2232681
+   },
+   {
+    "m": "2023-12",
+    "rail": 23217735,
+    "bus": 7182528,
+    "ktmb": 2322892
+   },
+   {
+    "m": "2024-01",
+    "rail": 22935120,
+    "bus": 7470712,
+    "ktmb": 2226425
+   },
+   {
+    "m": "2024-02",
+    "rail": 21801693,
+    "bus": 6927673,
+    "ktmb": 2221655
+   },
+   {
+    "m": "2024-03",
+    "rail": 24138209,
+    "bus": 7489241,
+    "ktmb": 2126261
+   },
+   {
+    "m": "2024-04",
+    "rail": 22735163,
+    "bus": 7079215,
+    "ktmb": 2138530
+   },
+   {
+    "m": "2024-05",
+    "rail": 25577828,
+    "bus": 7721344,
+    "ktmb": 2290715
+   },
+   {
+    "m": "2024-06",
+    "rail": 23815845,
+    "bus": 7223333,
+    "ktmb": 2211551
+   },
+   {
+    "m": "2024-07",
+    "rail": 26616571,
+    "bus": 8079188,
+    "ktmb": 2218135
+   },
+   {
+    "m": "2024-08",
+    "rail": 27035976,
+    "bus": 8173192,
+    "ktmb": 2195503
+   },
+   {
+    "m": "2024-09",
+    "rail": 24926660,
+    "bus": 7785690,
+    "ktmb": 2157011
+   },
+   {
+    "m": "2024-10",
+    "rail": 27567805,
+    "bus": 8299352,
+    "ktmb": 2243851
+   },
+   {
+    "m": "2024-11",
+    "rail": 26735151,
+    "bus": 8100849,
+    "ktmb": 2172946
+   },
+   {
+    "m": "2024-12",
+    "rail": 27549687,
+    "bus": 7964669,
+    "ktmb": 2262299
+   },
+   {
+    "m": "2025-01",
+    "rail": 26395821,
+    "bus": 7871116,
+    "ktmb": 2179672
+   },
+   {
+    "m": "2025-02",
+    "rail": 25199183,
+    "bus": 7488590,
+    "ktmb": 2090753
+   },
+   {
+    "m": "2025-03",
+    "rail": 26011107,
+    "bus": 7922663,
+    "ktmb": 1825418
+   },
+   {
+    "m": "2025-04",
+    "rail": 26481503,
+    "bus": 8164937,
+    "ktmb": 2010307
+   },
+   {
+    "m": "2025-05",
+    "rail": 28060244,
+    "bus": 8365695,
+    "ktmb": 2084939
+   },
+   {
+    "m": "2025-06",
+    "rail": 26462631,
+    "bus": 8000933,
+    "ktmb": 2035494
+   },
+   {
+    "m": "2025-07",
+    "rail": 29878252,
+    "bus": 8420074,
+    "ktmb": 2079179
+   },
+   {
+    "m": "2025-08",
+    "rail": 29685549,
+    "bus": 8337126,
+    "ktmb": 2086872
+   },
+   {
+    "m": "2025-09",
+    "rail": 26539567,
+    "bus": 7430464,
+    "ktmb": 2046714
+   },
+   {
+    "m": "2025-10",
+    "rail": 28560311,
+    "bus": 8213135,
+    "ktmb": 2157453
+   },
+   {
+    "m": "2025-11",
+    "rail": 27620825,
+    "bus": 7939303,
+    "ktmb": 2009569
+   },
+   {
+    "m": "2025-12",
+    "rail": 29265715,
+    "bus": 8031979,
+    "ktmb": 2168309
+   },
+   {
+    "m": "2026-01",
+    "rail": 29059678,
+    "bus": 8229655,
+    "ktmb": 2227533
+   },
+   {
+    "m": "2026-02",
+    "rail": 24395470,
+    "bus": 7021941,
+    "ktmb": 2094109
+   },
+   {
+    "m": "2026-03",
+    "rail": 27462240,
+    "bus": 7629353,
+    "ktmb": 2141888
+   },
+   {
+    "m": "2026-04",
+    "rail": 29106828,
+    "bus": 8223595,
+    "ktmb": 2131853
+   },
+   {
+    "m": "2026-05",
+    "rail": 27922061,
+    "bus": 7853874,
+    "ktmb": 2195675
+   },
+   {
+    "m": "2026-06",
+    "rail": 27113333,
+    "bus": 7534484,
+    "ktmb": 2082014
+   },
+   {
+    "m": "2026-07",
+    "rail": 32341954,
+    "bus": 8452103,
+    "ktmb": 2129739
+   },
+   {
+    "m": "2026-08",
+    "rail": 30487767,
+    "bus": 8100629,
+    "ktmb": 2081318
+   }
+  ],
+  "weekday_profile_2026": [
+   {
+    "dow": "Mon",
+    "rail_avg": 1007061
+   },
+   {
+    "dow": "Tue",
+    "rail_avg": 1038809
+   },
+   {
+    "dow": "Wed",
+    "rail_avg": 1055819
+   },
+   {
+    "dow": "Thu",
+    "rail_avg": 1058838
+   },
+   {
+    "dow": "Fri",
+    "rail_avg": 1046362
+   },
+   {
+    "dow": "Sat",
+    "rail_avg": 726719
+   },
+   {
+    "dow": "Sun",
+    "rail_avg": 637361
+   }
+  ],
+  "notes": [
+   "trips not unique people; one commuter making two trips counts twice",
+   "rail is all Rapid Rail LRT, MRT and Monorail lines; bus is all Rapid Bus services (KL, Kuantan, Penang); ktmb is all KTMB services",
+   "bus series begins 2022-01, ktmb series begins 2020-10 (partial month); earlier months are null, not zero",
+   "LRT Shah Alam Line reports from 2026-04 with a gap in May 2026 as published",
+   "weekday profile covers observed 2026 days (January to August)",
+   "2020 to 2021 is distorted by movement control orders"
+  ]
+ },
+ "od": {
+  "source": "data.gov.my ridership_od_rapidrail_daily 2026, CC BY 4.0",
+  "period": {
+   "start": "2026-01-01",
+   "end": "2026-11-08",
+   "days_observed": 312
+  },
+  "top_pairs": [
+   {
+    "o": "Pasar Seni",
+    "d": "Bukit Bintang",
+    "avg_daily": 2409
+   },
+   {
+    "o": "KLCC",
+    "d": "Ampang Park",
+    "avg_daily": 2362
+   },
+   {
+    "o": "Bukit Bintang",
+    "d": "Maluri",
+    "avg_daily": 2201
+   },
+   {
+    "o": "Maluri",
+    "d": "Bukit Bintang",
+    "avg_daily": 2108
+   },
+   {
+    "o": "Tun Razak Exchange",
+    "d": "Bukit Bintang",
+    "avg_daily": 2097
+   },
+   {
+    "o": "Bukit Bintang",
+    "d": "Pasar Seni",
+    "avg_daily": 2096
+   },
+   {
+    "o": "Ampang Park",
+    "d": "KLCC",
+    "avg_daily": 2034
+   },
+   {
+    "o": "Bukit Bintang",
+    "d": "Tun Razak Exchange",
+    "avg_daily": 1914
+   },
+   {
+    "o": "Ampang Park",
+    "d": "Wangsa Maju",
+    "avg_daily": 1786
+   },
+   {
+    "o": "KL Sentral",
+    "d": "KLCC",
+    "avg_daily": 1674
+   },
+   {
+    "o": "Wangsa Maju",
+    "d": "Ampang Park",
+    "avg_daily": 1607
+   },
+   {
+    "o": "KL Sentral",
+    "d": "Bank Rakyat Bangsar",
+    "avg_daily": 1583
+   },
+   {
+    "o": "KLCC",
+    "d": "KL Sentral",
+    "avg_daily": 1549
+   },
+   {
+    "o": "KL Sentral",
+    "d": "Bukit Bintang",
+    "avg_daily": 1542
+   },
+   {
+    "o": "Bank Rakyat Bangsar",
+    "d": "KL Sentral",
+    "avg_daily": 1532
+   },
+   {
+    "o": "Abdullah Hukum",
+    "d": "KL Sentral",
+    "avg_daily": 1452
+   },
+   {
+    "o": "Bukit Nanas",
+    "d": "Bukit Bintang",
+    "avg_daily": 1418
+   },
+   {
+    "o": "Pasar Seni",
+    "d": "KL Sentral",
+    "avg_daily": 1399
+   },
+   {
+    "o": "Bukit Bintang",
+    "d": "KL Sentral",
+    "avg_daily": 1398
+   },
+   {
+    "o": "KL Sentral",
+    "d": "Abdullah Hukum",
+    "avg_daily": 1396
+   }
+  ],
+  "top_origins": [
+   {
+    "s": "Bukit Bintang",
+    "avg_daily": 34789
+   },
+   {
+    "s": "KL Sentral",
+    "avg_daily": 26631
+   },
+   {
+    "s": "KLCC",
+    "avg_daily": 21197
+   },
+   {
+    "s": "Pasar Seni",
+    "avg_daily": 19256
+   },
+   {
+    "s": "Ampang Park",
+    "avg_daily": 18308
+   },
+   {
+    "s": "Maluri",
+    "avg_daily": 17195
+   },
+   {
+    "s": "Masjid Jamek",
+    "avg_daily": 16072
+   },
+   {
+    "s": "Tun Razak Exchange",
+    "avg_daily": 15637
+   },
+   {
+    "s": "Abdullah Hukum",
+    "avg_daily": 13503
+   },
+   {
+    "s": "Bandar Utama",
+    "avg_daily": 11994
+   }
+  ],
+  "top_destinations": [
+   {
+    "s": "Bukit Bintang",
+    "avg_daily": 40388
+   },
+   {
+    "s": "KL Sentral",
+    "avg_daily": 26100
+   },
+   {
+    "s": "Tun Razak Exchange",
+    "avg_daily": 23641
+   },
+   {
+    "s": "Pasar Seni",
+    "avg_daily": 20904
+   },
+   {
+    "s": "KLCC",
+    "avg_daily": 20512
+   },
+   {
+    "s": "Maluri",
+    "avg_daily": 18934
+   },
+   {
+    "s": "Masjid Jamek",
+    "avg_daily": 16909
+   },
+   {
+    "s": "Bandar Utama",
+    "avg_daily": 14375
+   },
+   {
+    "s": "Abdullah Hukum",
+    "avg_daily": 13905
+   },
+   {
+    "s": "Ampang Park",
+    "avg_daily": 13118
+   }
+  ],
+  "total_avg_daily_trips": 604835,
+  "notes": [
+   "rail users only; car and bus trips are not in this data",
+   "station names normalised: line code prefixes stripped and interchange gate groups merged under one station name",
+   "published 'All Stations' marginal rows excluded; they reconcile exactly with the station-level total",
+   "destination detail is missing for 28 stations (mostly the Putrajaya Line) in the published file; their boardings are complete, their alightings are not separately identified",
+   "same-station journeys excluded from top lists",
+   "trips, not unique passengers; directional (A to B and B to A are separate pairs)"
+  ]
+ },
+ "registrations": {
+  "source": "data.gov.my registration_transactions_car 2026 (JPJ), CC BY 4.0",
+  "monthly": [
+   {
+    "m": "2026-01",
+    "selangor": 1077,
+    "kl": 2613,
+    "rakan_niaga": 60494,
+    "other": 3805
+   },
+   {
+    "m": "2026-02",
+    "selangor": 846,
+    "kl": 2182,
+    "rakan_niaga": 49676,
+    "other": 3979
+   },
+   {
+    "m": "2026-03",
+    "selangor": 1114,
+    "kl": 2984,
+    "rakan_niaga": 59038,
+    "other": 4687
+   },
+   {
+    "m": "2026-04",
+    "selangor": 1339,
+    "kl": 3544,
+    "rakan_niaga": 67776,
+    "other": 5160
+   },
+   {
+    "m": "2026-05",
+    "selangor": 1182,
+    "kl": 2787,
+    "rakan_niaga": 57546,
+    "other": 4538
+   },
+   {
+    "m": "2026-06",
+    "selangor": 1220,
+    "kl": 3034,
+    "rakan_niaga": 63797,
+    "other": 4892
+   },
+   {
+    "m": "2026-07",
+    "selangor": 1494,
+    "kl": 3421,
+    "rakan_niaga": 69471,
+    "other": 5644
+   },
+   {
+    "m": "2026-08",
+    "selangor": 1148,
+    "kl": 3015,
+    "rakan_niaga": 67911,
+    "other": 5202
+   },
+   {
+    "m": "2026-09",
+    "selangor": 1269,
+    "kl": 3374,
+    "rakan_niaga": 64085,
+    "other": 5531
+   }
+  ],
+  "notes": [
+   "registration transactions, not vehicles in traffic",
+   "Rakan Niaga is a sales channel, not a place; it holds most 2026 transactions, so state counts understate geographic demand",
+   "grain is one row per registration transaction, counted by registration date"
+  ]
+ },
+ "population": {
+  "source": "DOSM via data.gov.my, CC BY 4.0",
+  "annual": [
+   {
+    "y": 2020,
+    "selangor_k": 6994.3,
+    "kl_k": 1982.1
+   },
+   {
+    "y": 2021,
+    "selangor_k": 7014.6,
+    "kl_k": 1964.0
+   },
+   {
+    "y": 2022,
+    "selangor_k": 7050.3,
+    "kl_k": 1961.2
+   },
+   {
+    "y": 2023,
+    "selangor_k": 7209.7,
+    "kl_k": 2005.7
+   },
+   {
+    "y": 2024,
+    "selangor_k": 7362.7,
+    "kl_k": 2067.5
+   },
+   {
+    "y": 2025,
+    "selangor_k": 7408.8,
+    "kl_k": 2075.2
+   },
+   {
+    "y": 2026,
+    "selangor_k": 7454.3,
+    "kl_k": 2082.3
+   }
+  ]
+ },
+ "employment": {
+  "source": "DOSM Labour Force Survey via data.gov.my, CC BY 4.0",
+  "quarterly": [
+   {
+    "q": "2017-Q1",
+    "selangor_k": 3223.1,
+    "kl_k": 817.2
+   },
+   {
+    "q": "2017-Q2",
+    "selangor_k": 3284.2,
+    "kl_k": 852.7
+   },
+   {
+    "q": "2017-Q3",
+    "selangor_k": 3397.8,
+    "kl_k": 866.7
+   },
+   {
+    "q": "2017-Q4",
+    "selangor_k": 3411.4,
+    "kl_k": 852.8
+   },
+   {
+    "q": "2018-Q1",
+    "selangor_k": 3363.1,
+    "kl_k": 837.5
+   },
+   {
+    "q": "2018-Q2",
+    "selangor_k": 3429.4,
+    "kl_k": 805.4
+   },
+   {
+    "q": "2018-Q3",
+    "selangor_k": 3507.3,
+    "kl_k": 820.8
+   },
+   {
+    "q": "2018-Q4",
+    "selangor_k": 3399.8,
+    "kl_k": 801.2
+   },
+   {
+    "q": "2019-Q1",
+    "selangor_k": 3412.1,
+    "kl_k": 833.1
+   },
+   {
+    "q": "2019-Q2",
+    "selangor_k": 3407.6,
+    "kl_k": 848.2
+   },
+   {
+    "q": "2019-Q3",
+    "selangor_k": 3651.4,
+    "kl_k": 871.4
+   },
+   {
+    "q": "2019-Q4",
+    "selangor_k": 3559.9,
+    "kl_k": 813.6
+   },
+   {
+    "q": "2020-Q1",
+    "selangor_k": 3443.8,
+    "kl_k": 877.2
+   },
+   {
+    "q": "2020-Q2",
+    "selangor_k": 3367.7,
+    "kl_k": 850.7
+   },
+   {
+    "q": "2020-Q3",
+    "selangor_k": 3511.9,
+    "kl_k": 859.5
+   },
+   {
+    "q": "2020-Q4",
+    "selangor_k": 3707.0,
+    "kl_k": 848.7
+   },
+   {
+    "q": "2021-Q1",
+    "selangor_k": 3708.5,
+    "kl_k": 874.1
+   },
+   {
+    "q": "2021-Q2",
+    "selangor_k": 3550.5,
+    "kl_k": 875.0
+   },
+   {
+    "q": "2021-Q3",
+    "selangor_k": 3583.9,
+    "kl_k": 857.5
+   },
+   {
+    "q": "2021-Q4",
+    "selangor_k": 3553.3,
+    "kl_k": 872.6
+   },
+   {
+    "q": "2022-Q1",
+    "selangor_k": 3597.5,
+    "kl_k": 859.5
+   },
+   {
+    "q": "2022-Q2",
+    "selangor_k": 3649.7,
+    "kl_k": 859.9
+   },
+   {
+    "q": "2022-Q3",
+    "selangor_k": 3647.1,
+    "kl_k": 857.2
+   },
+   {
+    "q": "2022-Q4",
+    "selangor_k": 3697.4,
+    "kl_k": 831.6
+   },
+   {
+    "q": "2023-Q1",
+    "selangor_k": 3750.9,
+    "kl_k": 857.3
+   },
+   {
+    "q": "2023-Q2",
+    "selangor_k": 3791.3,
+    "kl_k": 844.4
+   },
+   {
+    "q": "2023-Q3",
+    "selangor_k": 3814.4,
+    "kl_k": 846.0
+   },
+   {
+    "q": "2023-Q4",
+    "selangor_k": 3813.2,
+    "kl_k": 845.8
+   },
+   {
+    "q": "2024-Q1",
+    "selangor_k": 3927.6,
+    "kl_k": 1134.4
+   },
+   {
+    "q": "2024-Q2",
+    "selangor_k": 3965.1,
+    "kl_k": 1155.8
+   },
+   {
+    "q": "2024-Q3",
+    "selangor_k": 4020.7,
+    "kl_k": 1154.7
+   },
+   {
+    "q": "2024-Q4",
+    "selangor_k": 4004.6,
+    "kl_k": 1159.3
+   },
+   {
+    "q": "2025-Q1",
+    "selangor_k": 3986.8,
+    "kl_k": 1158.5
+   },
+   {
+    "q": "2025-Q2",
+    "selangor_k": 3976.7,
+    "kl_k": 1155.8
+   },
+   {
+    "q": "2025-Q3",
+    "selangor_k": 3937.7,
+    "kl_k": 1174.2
+   },
+   {
+    "q": "2025-Q4",
+    "selangor_k": 4026.9,
+    "kl_k": 1163.7
+   },
+   {
+    "q": "2026-Q1",
+    "selangor_k": 4053.9,
+    "kl_k": 1169.6
+   },
+   {
+    "q": "2026-Q2",
+    "selangor_k": 4047.7,
+    "kl_k": 1168.7
+   }
+  ]
+ },
+ "citations": {
+  "migration": {
+   "source": "Department of Statistics Malaysia, Migration Survey Report Malaysia 2024, released 18 December 2025",
+   "licence": "Copyright DOSM, all rights reserved; figures quoted with attribution, tables not redistributed as open data",
+   "figures": {
+    "total_migrants_2024_thousand": 301.1,
+    "migration_rate_2024_pct": 0.9,
+    "internal_migration_share_pct": 63.5,
+    "selangor_in_migrants_thousand": 97.6,
+    "selangor_net_migration_thousand": 8.4,
+    "kl_net_migration_thousand": -7.6,
+    "kl_to_selangor_flow_thousand": 13.8,
+    "career_reason_share_pct": 17.2,
+    "selangor_intra_state_urban_to_urban_pct": 96.2,
+    "age_25_34_share_of_internal_pct": 47.7
+   },
+   "note": "Migration is a change of usual residence, not commuting; the survey does not record workplace."
+  },
+  "tomtom": {
+   "source": "TomTom Traffic Index 2025, Kuala Lumpur (city view)",
+   "retrieved": "2026-11-10",
+   "licence": "Proprietary; published headline figures citable with attribution to TomTom, no bulk reuse of underlying data",
+   "attribution_required": "TomTom Traffic Index 2025, retrieved 10 November 2026",
+   "figures": {
+    "avg_travel_time_per_10km": "17 min 55 s",
+    "avg_congestion_level_pct": 43.4,
+    "hours_lost_in_rush_hour_per_year": 84,
+    "world_rank": "172 of 492 cities",
+    "morning_peak_congestion_pct": 68.4,
+    "evening_peak_congestion_pct": 102.1,
+    "evening_peak_time_per_10km": "26 min 12 s",
+    "avg_speed_kmh": 33.5
+   }
+  },
+  "worldbank_2015": {
+   "source": "World Bank, Malaysia Economic Monitor, June 2015: Transforming Urban Transport, DOI 10.1596/22038",
+   "licence": "CC BY 3.0 IGO, attribution to the World Bank",
+   "figures": {
+    "kl_public_transport_commuter_share_pct": 17,
+    "singapore_share_pct": 62,
+    "hong_kong_share_pct": 89
+   },
+   "note": "Underlying surveys circa 2010 to 2014, before the MRT opened."
+  },
+  "spad_mode_share": {
+   "source": "SPAD, Greater KL / Klang Valley Land Public Transport Master Plan and annual reports (2011 to 2013 surveys)",
+   "licence": "Headline figures citable from published reports; the household travel survey microdata was never published",
+   "figures": {
+    "am_peak_public_transport_share_2010_pct": 17,
+    "am_peak_public_transport_share_2013_pct": 20.8,
+    "national_master_plan_2030_target_pct": 40
+   }
+  }
+ },
+ "simulator_defaults": {
+  "note": "assumptions for a hypothetical what-if model, not observations",
+  "car_commuters": 1500000,
+  "share_affected_pct": 20,
+  "one_way_km": 25,
+  "workdays_per_week": 5,
+  "remote_days_per_week": 0,
+  "pt_shift_pct": 0,
+  "car_occupancy": 1.2,
+  "fuel_l_per_100km": 7.5,
+  "co2_kg_per_l": 2.31,
+  "rationale": [
+   "employment in Selangor + KL is about 5.0 to 5.5 million (LFS above)",
+   "SPAD surveys put private vehicle AM-peak mode share around 80%",
+   "the 1.5 million default is an illustrative subset: car commuters on congested Klang Valley corridors",
+   "defaults are starting points; every value is adjustable"
+  ]
+ }
+}

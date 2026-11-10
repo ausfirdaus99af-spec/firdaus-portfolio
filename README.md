@@ -3,21 +3,32 @@
 Personal portfolio website of **Firdaus Zakaria**, a Chemical Engineering
 graduate from UiTM (Bachelor, Shah Alam; Diploma, Pasir Gudang), based in Kuala Lumpur.
 
-The site presents his education, verified skills and experience, and one complete,
-runnable featured project:
+The site presents his education, verified skills and experience, and four complete,
+runnable projects:
 
-> **EcoFlow - Industrial Wastewater Treatment Analytics**
-> A synthetic-data case study in environmental process monitoring.
-> See [`ecoflow/README.md`](ecoflow/README.md) for the full project write-up.
+> **01 - EcoFlow: Industrial Wastewater Treatment Analytics** - a synthetic-data
+> case study in environmental process monitoring ([`ecoflow/`](ecoflow/README.md))
+>
+> **02 - Synthetic Natural Gas Plant Design** - an educational process-design case
+> study with tested mass and energy balances ([`sng/`](sng/))
+>
+> **03 - Manufacturing Performance Analytics** - OEE, downtime Pareto and SQL
+> analysis on synthetic plant records ([`manufacturing/`](manufacturing/))
+>
+> **04 - KL Mobility Lab** - an open-data investigation of Klang Valley congestion
+> and commuting, with a clearly labelled what-if simulator ([`mobility/`](mobility/))
 
 ## What is in this repository
 
 | Path | Contents |
 |------|----------|
 | `index.html`, `css/`, `js/`, `assets/` | The portfolio website (static HTML, CSS and JavaScript) |
-| `ecoflow/` | The EcoFlow project: dashboard page, Python data pipeline, tests and documentation |
-| `docs/` | Deployment guide, publication checklist, QA/testing report, owner verification list |
-| `requirements.txt` | Python dependencies for regenerating the EcoFlow dataset |
+| `ecoflow/` | Project 01: dashboard, Python data pipeline, tests and documentation |
+| `sng/` | Project 02: process model, tests, design basis and dashboard |
+| `manufacturing/` | Project 03: data generator, KPI engine, SQLite + SQL, tests and dashboard |
+| `mobility/` | Project 04: source catalogue, data pipeline, SQL, tests, dashboard and simulator |
+| `docs/` | Deployment guide, checklists, testing and validation reports |
+| `requirements.txt` | Python dependencies for regenerating the datasets |
 
 ## Honesty and data policy
 
@@ -41,15 +52,21 @@ Then open http://localhost:8000 (the EcoFlow dashboard is at `/ecoflow/`).
 Opening `index.html` directly from disk works for the portfolio pages, but the
 dashboard loads its dataset with `fetch`, which requires HTTP.
 
-## Regenerating the EcoFlow dataset
+## Regenerating the datasets
 
 ```
 pip install -r requirements.txt
 python ecoflow/scripts/build_dashboard_data.py
+python sng/scripts/build_sng_data.py
+python manufacturing/scripts/build_mfg_data.py
+python mobility/scripts/fetch_sources.py
+python -I mobility/scripts/build_mobility_data.py
 ```
 
-The generator is deterministic (seed 42 by default), so the published dataset can be
-reproduced exactly. Tests live in `ecoflow/tests/` and run with `python -m pytest ecoflow/tests`.
+Every generator is deterministic (seeds documented in each project), so the
+published datasets reproduce exactly; the mobility pipeline additionally re-downloads
+its open-data sources. Each project's tests live in its `tests/` folder and run with
+`python -m pytest <project>/tests` (142 tests in total).
 
 ## Deployment
 
